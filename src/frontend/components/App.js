@@ -3,20 +3,24 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Navigation from './Navbar';
-import Home from './Home.js'
+import NavBar from './Navbar';
+import Home from './Marketplace.js'
+import LandingPage from './LandingPage.js'
 import Create from './Create.js'
+import Profile from './Profile.js'
 import MyListedItems from './MyListedItems.js'
 import MyPurchases from './MyPurchases.js'
 import MarketplaceAbi from '../contractsData/Marketplace.json'
 import MarketplaceAddress from '../contractsData/Marketplace-address.json'
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
+import createnft from './createnft'
 import { useState } from 'react'
 import { ethers } from "ethers"
 import { Spinner } from 'react-bootstrap'
-
-import './App.css';
+import Footer from './Footer';
+import { ToastContainer  } from 'react-toastify';
+import styles from './App.module.css';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -53,20 +57,23 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className={styles.main}>
         <>
-          <Navigation web3Handler={web3Handler} account={account} />
+          <NavBar web3Handler={web3Handler} account={account} />
         </>
-        <div>
-          {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-              <Spinner animation="border" style={{ display: 'flex' }} />
-              <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
-            </div>
-          ) : (
+        <main className={styles.main}>
+          {/* {loading ? (
+            // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+            //   <Spinner animation="border" style={{ display: 'flex' }} />
+            //   <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
+            // </div>
+          ) : ( */}
             <Routes>
               <Route path="/" element={
-                <Home marketplace={marketplace} nft={nft} />
+                <LandingPage />
+              } />
+              <Route path="/marketplace" element={
+                <Home connection={!loading} marketplace={marketplace} nft={nft} />
               } />
               <Route path="/create" element={
                 <Create marketplace={marketplace} nft={nft} />
@@ -77,9 +84,24 @@ function App() {
               <Route path="/my-purchases" element={
                 <MyPurchases marketplace={marketplace} nft={nft} account={account} />
               } />
+              <Route path="/profile" element={
+                <Profile account={account} />
+              }/>
+              <Route path="/createnft" element={
+                <createnft account={account} />
+              }
+              />
             </Routes>
-          )}
-        </div>
+          {/* )} */}
+          <ToastContainer
+            theme="dark"
+            position="bottom-right"
+            hideProgressBar={true}
+            closeOnClick
+            autoClose={2000}
+          />
+        </main>
+        <Footer/>
       </div>
     </BrowserRouter>
 

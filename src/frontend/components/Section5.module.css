@@ -1,0 +1,60 @@
+.Section{
+    margin: 15rem 0rem 0rem 0rem;
+    width: 100vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background-image: url("https://res.cloudinary.com/dkoxgwtku/image/upload/v1677947832/pattern_geometry_purple_glrdup.jpg");
+    background-color: var(--base-black);
+    background-blend-mode: multiply;
+}
+
+.Header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Heading{
+    padding: 3rem ;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--green);
+}
+
+.Content{
+    color: white;
+    font-size: 1.2rem;
+    width: 40vw;
+    text-align: center;
+    padding-bottom: 3rem;
+}
+
+
+.button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--green);
+    padding: 1rem;
+    color: var(--dark-base);
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.buttonText{
+    padding-right: 1rem;
+}
+
+.image{
+    width: 20rem;
+}
+.image2{
+    width: 20rem;
+    transform: scale(1.5);
+}

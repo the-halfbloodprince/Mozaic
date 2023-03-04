@@ -1,0 +1,16 @@
+form {
+    width: 100vw;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding-bottom: 2em;
+  }
+.container{
+    max-width: 50vw;
+    align-self: center;
+}
+input, textarea {
+    background-color: #0a0a23;
+    border: 1px solid #0a0a23;
+    color: #ffffff;
+  }

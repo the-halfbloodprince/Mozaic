@@ -1,0 +1,218 @@
+.overlay {
+     width: 100vw;
+     height: 40vh;
+     object-fit: cover;
+}
+
+.profileHeader {
+   /* background: #ffffff33; */
+   padding: 0 4rem;
+   color: white;
+
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.info {
+   width: 30vw;
+   /* background: #ffffff33; */
+   position: relative;
+   top: -10vh;
+}
+
+.info > img {
+   width: 14vw;
+   height: 14vw;
+   object-fit: cover;
+   margin-bottom: 2rem;
+   border-radius: 8px;
+   border: solid white 4px;
+   object-position: center;
+}
+
+.info__txt > * {
+   margin-bottom: 0.3rem;
+}
+
+.name {
+   font-weight: 600;
+   font-size: 2.5rem;
+}
+
+.walletAddress {
+   display: flex;
+   font-size: 1.2rem;
+   cursor: pointer;
+   width: fit-content;
+   border-radius: 10px;
+   padding-right: 0.7rem;
+   /* padding: 0.1rem 1rem; */
+}
+
+.walletAddress:hover {
+   background: #ffffff22;
+
+}
+
+.walletAddress__icon {
+   margin-right: 1rem;
+}
+
+.joined {
+   display: flex;
+   font-size: 1.2rem;
+   font-weight: 600;
+}
+
+.joined__icon {
+   margin-right: 1rem;
+}
+
+.website {
+   display: flex;
+   font-size: 1.1rem;
+}
+
+.website__icon {
+   margin-right: 1rem;
+}
+
+.website__txt {
+   text-decoration: underline;
+}
+
+.actions > * {
+   cursor: pointer;
+   font-size: 1.8rem;
+   margin-left: 1.3rem;
+}
+
+.actions > *:hover {
+   color: var(--green);
+}
+
+.rating_icons {
+   color: white;
+}
+
+.rating {
+   display: flex;
+}
+
+.rating_icons {
+   margin-left: 0.5rem;
+}
+
+.separator {
+   width: calc(96vw - 4rem);
+   margin: auto;
+   margin-bottom: 2rem;
+}
+
+/* toggle btns */
+
+.toggleBtns {
+   display: flex;
+   justify-content: center;
+   margin: 2rem 0;
+}
+
+.toggleBtn {
+   padding: 1rem 3em;
+   font-size: 1.3em;
+   color: white;
+   background: var(--dark-base);
+   border-radius: 0.5rem;
+   outline: none;
+   border: none;
+   cursor: pointer;
+}
+
+.toggleBtn:hover {
+   /* outline: solid 2px white; */
+   outline: solid 2px var(--green);
+}
+
+.toggleBtn:not(.toggleBtn:nth-child(1)) {
+   /* background: white; */
+   margin-left: 1rem;
+}
+
+.activeBtn {
+   background: var(--green);
+   color: black;
+   font-weight: 600;
+}
+
+/* Your NFT */
+.your_nfts {
+   padding: 0 4rem 2rem ;
+}
+
+.your_nfts__title {
+   font-size: 2rem;
+   color: white;
+}
+
+/* .your_nfts {
+   width: 100vw;
+   padding: 2rem;
+} */
+
+/* .profile {
+   position: relative;
+    width: 100vw; 
+    height: 40vh; 
+    position: relative; 
+ }
+ 
+ .coverphoto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+ }
+ 
+ .profilephoto {
+    width: 150px; 
+    height: 150px; 
+    position: absolute; 
+    bottom: -30%; 
+    left: 10%; 
+    transform: translateX(-50%); 
+    object-fit: cover; 
+ }
+ .profileLink{
+    padding: 5px;
+    margin-left: 5rem;
+ }
+ .profileLinks{
+    margin-top: 8rem;
+    color: white;
+ }
+ .profileName{
+   font-size: large;
+   padding: 5px;
+   margin-left: 3rem;
+ }
+ .icons{
+   position: absolute;
+   bottom: 0;
+   flex-direction: end;
+   display: flex;
+   flex-direction: row;
+   right: 0;
+ }
+ .icon {
+   margin-right: 1.3rem;
+   color: white;
+   font-size: 2rem;
+ }
+
+ .profilee{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   padding: 3rem;
+   
+ } */

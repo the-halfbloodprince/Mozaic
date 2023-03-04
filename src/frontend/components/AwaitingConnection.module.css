@@ -1,0 +1,20 @@
+.awaitingconnection__main {
+    width: 100vw;
+    height: 95vh;
+
+    color: var(--green);
+
+    display: grid;
+    place-items: center;
+
+    font-size: 4rem;
+}
+
+.awaitingconnection__message {
+    display: flex;
+    align-items: center;
+}
+
+.awaitingconnection__message > p {
+    margin-left: 4rem;
+}

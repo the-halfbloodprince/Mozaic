@@ -1,6 +1,7 @@
 import { render } from "react-dom";
-import 'bootstrap/dist/css/bootstrap.css'
 import App from './frontend/components/App';
+import './frontend/globals.css'
+import 'react-toastify/dist/ReactToastify.css';
 import * as serviceWorker from './serviceWorker';
 
 const rootElement = document.getElementById("root");

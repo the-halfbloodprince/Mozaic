@@ -1,0 +1,26 @@
+.section2{
+    background-color: var(--dark-base);
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.textSection{
+margin: 6rem;
+color: white;
+font-size: 1.4rem;
+width: 50vw;
+}
+
+.textSection span{
+    font-weight: 700;
+    color: var(--green);
+}
+
+.imageSection img{
+    width: 600px;
+    margin-right: 5rem;
+}
