@@ -1,85 +1,65 @@
-import { useState, useEffect } from 'react'
-import { ethers } from "ethers"
-import { Row, Col, Card, Button } from 'react-bootstrap'
+import { useState, useEffect } from "react";
+import { Row, Col, Card } from "react-bootstrap";
+import axios from "axios";
 
 const Home = ({ marketplace, nft }) => {
-  const [loading, setLoading] = useState(true)
-  const [items, setItems] = useState([])
+
+  const [items, setItems] = useState([]);
   const loadMarketplaceItems = async () => {
     // Load all unsold items
-    const itemCount = await marketplace.itemCount()
-    let items = []
+    const itemCount = await marketplace.itemCount();
+    console.log(itemCount.toNumber());
+    let items = [];
     for (let i = 1; i <= itemCount; i++) {
-      const item = await marketplace.items(i)
-      if (!item.sold) {
-        // get uri url from nft contract
-        const uri = await nft.tokenURI(item.tokenId)
-        // use uri to fetch the nft metadata stored on ipfs 
-        const response = await fetch(uri)
-        const metadata = await response.json()
-        // get total price of item (item price + fee)
-        const totalPrice = await marketplace.getTotalPrice(item.itemId)
-        // Add item to items array
-        items.push({
-          totalPrice,
-          itemId: item.itemId,
-          seller: item.seller,
+      const token = await marketplace.items(i);
+      // console.log(token);
+      // console.log(token.tokenId);
+      if (token.onSale) {
+        const tokenURI = await nft.tokenURI(token.tokenId);
+        // console.log(tokenURI);
+        let url = tokenURI.split("//");
+        // console.log(url[1]);
+        let axiosURL = "https://ipfs.io/ipfs/" + url[1];
+        // console.log(axiosURL);
+        let meta = await axios.get(axiosURL);
+        let metadata = meta.data;
+        console.log(metadata);
+
+        let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
+        
+        let item = {
+          itemId: token.itemId,
           name: metadata.name,
           description: metadata.description,
-          image: metadata.image
-        })
+          image: imageURL,
+          price : token.price
+        };
+        items.push(item);
       }
     }
-    setLoading(false)
-    setItems(items)
-  }
-
-  const buyMarketItem = async (item) => {
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
-    loadMarketplaceItems()
-  }
+   
+    setItems(items);
+  };
 
   useEffect(() => {
-    loadMarketplaceItems()
-  }, [])
-  if (loading) return (
-    <main style={{ padding: "1rem 0" }}>
-      <h2>Loading...</h2>
-    </main>
-  )
+    loadMarketplaceItems();
+  }, []);
   return (
-    <div className="flex justify-center">
-      {items.length > 0 ?
-        <div className="px-5 container">
-          <Row xs={1} md={2} lg={4} className="g-4 py-5">
-            {items.map((item, idx) => (
-              <Col key={idx} className="overflow-hidden">
-                <Card>
-                  <Card.Img variant="top" src={item.image} />
-                  <Card.Body color="secondary">
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>
-                      {item.description}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <div className='d-grid'>
-                      <Button onClick={() => buyMarketItem(item)} variant="primary" size="lg">
-                        Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
-                      </Button>
-                    </div>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
-        : (
-          <main style={{ padding: "1rem 0" }}>
-            <h2>No listed assets</h2>
-          </main>
-        )}
+    
+    <div>
+      <Row xs={1} md={2} lg={4} className="">
+        {items.map((item, idx) => (
+          <Col key={idx} className="">
+            <Card>
+              <Card.Img variant="top" src={item.image} />
+            
+              <h5>{item.name}</h5>
+              <h5>{item.price.toString()}</h5>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
-}
-export default Home
+};
+export default Home;

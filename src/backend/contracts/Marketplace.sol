@@ -20,19 +20,24 @@ contract Marketplace is ReentrancyGuard {
         uint tokenId;
         uint price;
         address payable seller;
-        bool sold;
+        bool onSale;
     }
 
     // itemId -> Item
     mapping(uint => Item) public items;
 
-    event Offered(
+    event Minted(
         uint itemId,
         address indexed nft,
         uint tokenId,
+        address indexed seller
+    );
+    event Offered(
+        uint itemId,
         uint price,
         address indexed seller
     );
+
     event Bought(
         uint itemId,
         address indexed nft,
@@ -48,8 +53,8 @@ contract Marketplace is ReentrancyGuard {
     }
 
     // Make item to offer on the marketplace
-    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
-        require(_price > 0, "Price must be greater than zero");
+    function makeItem(IERC721 _nft, uint _tokenId) external nonReentrant {
+        // require(_price >= 0, "Price must be greater >= zero");
         // increment itemCount
         itemCount ++;
         // transfer nft
@@ -59,15 +64,26 @@ contract Marketplace is ReentrancyGuard {
             itemCount,
             _nft,
             _tokenId,
-            _price,
+            0,
             payable(msg.sender),
             false
         );
         // emit Offered event
-        emit Offered(
+        emit Minted(
             itemCount,
             address(_nft),
             _tokenId,
+            msg.sender
+        );
+    }
+    function listItem(uint id, uint _price) external nonReentrant {
+        require(_price >= 0, "Price must be greater > zero");
+        items[id].price = _price;
+        items[id].onSale = true;
+
+        // emit Offered event
+        emit Offered(
+            id,
             _price,
             msg.sender
         );
@@ -78,12 +94,12 @@ contract Marketplace is ReentrancyGuard {
         Item storage item = items[_itemId];
         require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
         require(msg.value >= _totalPrice, "not enough ether to cover item price and market fee");
-        require(!item.sold, "item already sold");
+        // require(!item.sold, "item already sold");
         // pay seller and feeAccount
         item.seller.transfer(item.price);
         feeAccount.transfer(_totalPrice - item.price);
         // update item to sold
-        item.sold = true;
+        // item.sold = true;
         // transfer nft to buyer
         item.nft.transferFrom(address(this), msg.sender, item.tokenId);
         // emit Bought event

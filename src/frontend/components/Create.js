@@ -1,74 +1,121 @@
-import { useState } from 'react'
-import { ethers } from "ethers"
-import { Row, Form, Button } from 'react-bootstrap'
-import { create as ipfsHttpClient } from 'ipfs-http-client'
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
+import { useState } from "react";
+import { NFTStorage } from "nft.storage";
 
-const Create = ({ marketplace, nft }) => {
-  const [image, setImage] = useState('')
-  const [price, setPrice] = useState(null)
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const uploadToIPFS = async (event) => {
-    event.preventDefault()
-    const file = event.target.files[0]
-    if (typeof file !== 'undefined') {
-      try {
-        const result = await client.add(file)
-        console.log(result)
-        setImage(`https://ipfs.infura.io/ipfs/${result.path}`)
-      } catch (error){
-        console.log("ipfs image upload error: ", error)
-      }
+// read the API key from an environment variable. You'll need to set this before running the example!
+const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
+
+const ethers = require("ethers");
+
+const CreateNFT = ({ nft, marketplace }) => {
+  const [formParams, updateFormParams] = useState({
+    name: "",
+    description: "",
+  });
+
+  let file;
+  async function OnChangeFile(e) {
+    file = e.target.files[0];
+  }
+
+  //This function uploads the metadata to IPFS
+  async function uploadMetadataToIPFS() {
+    const { name, description } = formParams;
+    //Make sure that none of the fields are empty
+    if (!name || !description || !file) return;
+
+    const image = new File([file], file.name);
+    const nftJSON = {
+      name,
+      description,
+      image,
+    };
+
+    try {
+   
+      const client = new NFTStorage({ token: API_KEY });
+      const metadata = await client.store(nftJSON);
+
+      console.log("NFT data stored!");
+      console.log("Metadata URI: ", metadata.url);
+      return metadata.url;
+    } catch (e) {
+      console.log("error uploading JSON metadata:", e);
     }
   }
-  const createNFT = async () => {
-    if (!image || !price || !name || !description) return
-    try{
-      const result = await client.add(JSON.stringify({image, price, name, description}))
-      mintThenList(result)
-    } catch(error) {
-      console.log("ipfs uri upload error: ", error)
+
+  async function mintNFT(e) {
+    e.preventDefault();
+
+    //Upload data to IPFS
+    try {
+      const metadataURL = await uploadMetadataToIPFS();
+      console.log(metadataURL);
+      await (await nft.mint(metadataURL)).wait();
+      // approve marketplace to spend nft
+      await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+
+      const id = await nft.tokenCount();
+      
+      await (await marketplace.makeItem(nft.address, id)).wait();
+      alert("Successfully minted your NFT!");
+    } catch (e) {
+      alert("Upload error" + e);
     }
   }
-  const mintThenList = async (result) => {
-    const uri = `https://ipfs.infura.io/ipfs/${result.path}`
-    // mint nft 
-    await(await nft.mint(uri)).wait()
-    // get tokenId of new nft 
-    const id = await nft.tokenCount()
-    // approve marketplace to spend nft
-    await(await nft.setApprovalForAll(marketplace.address, true)).wait()
-    // add nft to marketplace
-    const listingPrice = ethers.utils.parseEther(price.toString())
-    await(await marketplace.makeItem(nft.address, id, listingPrice)).wait()
-  }
+
+  console.log("Working", process.env);
   return (
-    <div className="container-fluid mt-5">
-      <div className="row">
-        <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '1000px' }}>
-          <div className="content mx-auto">
-            <Row className="g-4">
-              <Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
-              <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
-                </Button>
-              </div>
-            </Row>
+    <div className="">
+      <div className="" id="nftForm">
+        <form className="">
+          <h3 className="">Upload your NFT to the marketplace</h3>
+          <div className="">
+            <label className="" htmlFor="name">
+              NFT Name
+            </label>
+            <input
+              className=""
+              id="name"
+              type="text"
+              // placeholder="Axie#4563"
+              onChange={(e) =>
+                updateFormParams({ ...formParams, name: e.target.value })
+              }
+              value={formParams.name}
+            ></input>
           </div>
-        </main>
+          <div className="mb-6">
+            <label className="" htmlFor="description">
+              NFT Description
+            </label>
+            <textarea
+              className=""
+              cols="40"
+              rows="5"
+              id="description"
+              type="text"
+              // placeholder="Axie Infinity Collection"
+              value={formParams.description}
+              onChange={(e) =>
+                updateFormParams({ ...formParams, description: e.target.value })
+              }
+            ></textarea>
+          </div>
+          <div>
+            <label className="" htmlFor="image">
+              Upload Image
+            </label>
+            <input type={"file"} onChange={OnChangeFile}></input>
+          </div>
+          <br></br>
+          {/* <div className="">{message}</div> */}
+          <button onClick={mintNFT} className="">
+            Mint NFT
+          </button>
+        </form>
       </div>
     </div>
   );
-}
+};
 
-export default Create
+export default CreateNFT;
