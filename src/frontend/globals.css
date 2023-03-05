@@ -16,6 +16,31 @@
     /* --toastify-text-color-dark: #000 !important; */
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    /* margin: 4px; */
+    background: var(--dark-base);
+}
+
+::-webkit-scrollbar-thumb {
+    /* width: 2px; */
+    /* border: white; */
+    /* background-clip: padding-box;
+    border-left: 4px white solid; */
+
+    border-radius: 5px;
+    /* height: 10px; */
+    /* background: white; */
+  background: var(--green);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-green);
+}
+
 body {
     background: var(--base-black);
 }

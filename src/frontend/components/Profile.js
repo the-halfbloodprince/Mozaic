@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import moment from 'moment'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-
+import NFTCard from './NFTCard';
 import { FaShareAlt as ShareIcon, FaEllipsisH as SeeMoreIcon } from 'react-icons/fa'
 import { MdContentCopy as CopyIcon, MdDateRange as CalendarIcon, MdModeEditOutline as EditIcon } from 'react-icons/md'
 import { BiLinkAlt as LinkIcon } from 'react-icons/bi'
@@ -28,15 +28,59 @@ const NoUserScreen = () => (
     </div>
 )
 
-const YourNFTs = () => (
+const YourNFTsData = [
+    {
+        name: "Hilale varade",
+        price: 0.007,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Mustafa Varade",
+        price: 0.003,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Jalalludin Varade",
+        price: 0.002,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Hitler Varade",
+        price: 0.005,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Lolita Varade",
+        price: 0.010,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Mia Varade",
+        price: 0.009,
+        img: "/images/card_image1.jpg"
+    },
+    {
+        name: "Sagar Khalifa",
+        price: 0.01,
+        img: "/images/card_image1.jpg"
+    },
+]
+
+
+
+const YourNFTs = ({ yourNFTList, showCount = 4 }) => (
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
                 Your NFTs
             </div>
         </div>
-        <div>
-
+        <div className={styles.your_nfts__cards}>
+            {
+                yourNFTList
+                    .slice(0, 4)
+                    .map((nft) => <NFTCard nft={nft} actionText='List for sale' />)
+            }
         </div>
     </div>
 )
@@ -48,7 +92,7 @@ const YourTransactions = () => (
 )
 
 const activeSections = {
-    "Your NFTs": <YourNFTs />,
+    "Your NFTs": <YourNFTs yourNFTList={YourNFTsData} />,
     "Your Transactions": <YourTransactions />,
 }
 

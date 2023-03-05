@@ -1,5 +1,4 @@
 .nav {
-    
     background: var(--dark-base);
     display: flex;
     flex-direction: row;
@@ -106,4 +105,5 @@
     width: 100%;
     /* border: solid 2px red; */
     background: #ffffff22;
+    color: var(--green);
 }

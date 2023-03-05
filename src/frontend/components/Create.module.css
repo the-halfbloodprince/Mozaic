@@ -1,16 +1,121 @@
-form {
-    width: 100vw;
-    max-width: 500px;
-    min-width: 300px;
-    margin: 0 auto;
-    padding-bottom: 2em;
-  }
+
 .container{
-    max-width: 50vw;
-    align-self: center;
+  display: grid;
+  place-items: center;
+  /* justify-content: center; */
+  /* margin: 100 rem; */
+  height: 80vh;
+  
 }
-input, textarea {
-    background-color: #0a0a23;
-    border: 1px solid #0a0a23;
+.row{
+  align-items: center;
+  padding: 2rem;
+  border: 2px solid gray;
+  max-width: 800px;
+  border-radius: 1rem;
+  color: white;
+    
+}
+.input {
+    border: 1px solid white;
     color: #ffffff;
-  }
+    padding: 0.2rem;
+    margin: 0.3rem 0 1rem 0;
+    outline: none;
+    background-color: var(--black-base);
+}
+.name{
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+.description{
+  padding: 0.2rem;
+  font-weight: 100;
+  font-size: 0.8rem;
+  color: #ffffff;
+  outline: none;
+  border-radius: 5px;
+  height: 100px;
+  width: 250px;
+  background-color: var(--black-base);
+  border: 1px solid white;
+  margin: 0.3rem 0;
+}
+
+.priceSection{
+  display: flex;
+}
+.price{
+  border-radius: 5px;
+  margin-right: 1rem;
+  background-color: var(--black-base);
+  border: 1px solid white;
+  color: white;
+  outline: none;
+}
+.buttonPrice{
+  padding: 0.5rem 1rem;
+  font-size: larger;
+  font-weight: 300;
+  border-radius: 5px;
+  background-color: var(--dark-base);
+}
+.buttonPrice:hover{
+  color: black;
+  background-color: var(--hover-green);
+  cursor: pointer;
+}
+.priceUnit{
+  color: white;
+  padding: 0 0.3rem;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: var(--black-base);
+}
+.fileinput {
+  padding-bottom :  1rem;
+  
+}
+.fileinput::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.fileinput::before {
+  content: 'Upload NFT Picture';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 12pt;
+}
+.fileinput:hover::before {
+  border-color: black;
+  color: black;
+  background-color: var(--hover-green);
+}
+.fileinput:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+.createButton{
+  background-color: var(--green);
+  padding: 0.4rem 0.8rem ;
+  color: var(--dark-base);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  align-items: center;
+  width: 100px;
+  text-align: center;
+}
+
+
+.description:focus, .input:focus, .price:focus{
+  background-color: #0a0a23;
+  border-color: transparent;
+}

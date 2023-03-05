@@ -58,7 +58,7 @@ const Home = ({ connection, marketplace, nft }) => {
     <h1>Connected</h1>
   )
 
-  return connection ? <Connected /> : <Loading loadingIcon={<LoaderAnim color="#B0F122" />} />
+  return connection ? <Connected /> : <Loading loadingText='Connect to Wallet for access' loadingIcon={<LoaderAnim color="#B0F122" />} />
         // connection ? (
         //   <h1>Awaiting Connection</h1>
         // ) : (

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { ethers } from "ethers"
-import { Row, Form, Button } from 'react-bootstrap'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import styles from './Create.module.css'
 import React from "react"
+import PriceModal from './PriceModal';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
@@ -46,14 +46,63 @@ const Create = ({ marketplace, nft }) => {
     const listingPrice = ethers.utils.parseEther(price.toString())
     await(await marketplace.makeItem(nft.address, id, listingPrice)).wait()
   }
+
+  //Modal functions
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = (price) => {
+    console.log(`Price submitted: ${price}`);
+    setIsModalOpen(false);
+  };
   
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <main role="main"  style={{ maxWidth: '500px' }}>
-          <div className={styles.content}>
-            <Row className={styles.formRow}>
-              <Form.Control
+        <label>
+          Title of NFT:
+          <br/>
+          <input className={`${styles.input} ${styles.name}`} type="text" placeholder="Title" required onChange={(e) => setName(e.target.value)}   />
+        </label>
+        <br/>
+        
+        
+        <label>
+          Description:
+          <br/>
+          <textarea  className={styles.description} type="paragraph" placeholder="Enter more details about the NFT" required onChange={(e) => setDescription(e.target.value)} />
+        </label>
+        <br/>
+        <div>
+      <button className={`${styles.buttonPrice} ${styles.price}`} onClick={handleOpenModal}>Enter Price</button>
+      <PriceModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmit}
+      />
+    </div>
+    <br/>
+        
+        <br/>
+        <input className={styles.fileinput} type="file" required name="file" onChange={uploadToIPFS}/>
+        <br/>
+        <div className={styles.createButton}><div onClick={createNFT} className={styles.button}>Submit</div></div>
+ 
+        
+        
+      </div>
+    </div>
+  );
+}
+/*
+<Form.Control
                 type="file"
                 required
                 name="file"
@@ -63,18 +112,9 @@ const Create = ({ marketplace, nft }) => {
               <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
               <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
               <div className={styles.button}>
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
-                </Button>
+              <Button onClick={console.log("Create NFT clicked")} variant="primary" size="lg">
+                Create & List NFT!
+              </Button>
               </div>
-            </Row>
-          </div>
-        </main>
-      </div>
-    </div>
-  );
-}
-/*
-
 */ 
 export default Create

@@ -152,7 +152,15 @@
 
 .your_nfts__title {
    font-size: 2rem;
+   font-weight: 600;
    color: white;
+}
+
+.your_nfts__cards {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   margin: 2rem 0;
 }
 
 /* .your_nfts {

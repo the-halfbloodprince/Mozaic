@@ -1,0 +1,82 @@
+.nftcard {
+
+    --border-radius: 10px;
+
+    width: 20vw;
+    position: relative;
+    border-radius: var(--border-radius);
+    /* overflow: hidden; */
+
+    transition: all .5s ease;
+
+    cursor: pointer;
+}
+
+.nftcard:hover {
+    transform: scale(1.05);
+}
+
+.img {
+    position: relative;
+    margin-bottom: 0 !important;
+    width: 100%;
+    border-radius: var(--border-radius);
+    /* height: 100%; */
+    object-fit: cover;
+    z-index: 2 !important;
+}
+
+.info {
+    background: #ffffffaa;
+    color: black;
+    z-index: 3 !important;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem 1rem;
+    position: absolute;
+    bottom: 0.3rem;
+    /* border: solid red 2px; */
+    /* transform: translateY(-100%); */
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.info > .name {
+    font-weight: 800;
+}
+
+.info > .price {
+    color: #616161;
+}
+
+.action {
+    text-align: center;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    /* z-index: 10; */
+    width: 20vw;
+    padding: .6rem 1rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    font-weight: 700;
+    background: var(--green);
+    color: black;
+    z-index: 1 !important;
+    /* opacity: 0; */
+    transform: translateY(-100%);
+    transition: all .3s ease;
+}
+
+.nftcard:hover .info {
+    border-radius: 0;
+}
+
+.nftcard:hover .img {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.nftcard:hover .action {
+    /* opacity: 1; */
+    transform: translateY(75%);
+}
