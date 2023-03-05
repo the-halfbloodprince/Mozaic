@@ -1,0 +1,14 @@
+.imageSection{
+    background-image: url("https://res.cloudinary.com/dkoxgwtku/image/upload/v1678038333/A_cover_art_of_A_shining_city_with_tall_technologi_1_hjdvst.jpg");
+    background-size: cover;
+    width: 100vw;
+    height: 30vh;
+}
+
+.Card{
+    width: 12rem;
+    height: 18rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px red;
+    
+}

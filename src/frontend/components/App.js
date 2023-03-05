@@ -62,12 +62,6 @@ function App() {
           <NavBar web3Handler={web3Handler} account={account} />
         </>
         <main className={styles.main}>
-          {/* {loading ? (
-            // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-            //   <Spinner animation="border" style={{ display: 'flex' }} />
-            //   <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
-            // </div>
-          ) : ( */}
             <Routes>
               <Route path="/" element={
                 <LandingPage />
@@ -85,7 +79,7 @@ function App() {
                 <MyPurchases marketplace={marketplace} nft={nft} account={account} />
               } />
               <Route path="/profile" element={
-                <Profile account={account} />
+                <Profile nft={nft} marketplace={marketplace} account={account} />
               }/>
               <Route path="/createnft" element={
                 <createnft account={account} />

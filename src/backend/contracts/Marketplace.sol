@@ -77,7 +77,7 @@ contract Marketplace is ReentrancyGuard {
         );
     }
     function listItem(uint id, uint _price) external nonReentrant {
-        require(_price >= 0, "Price must be greater > zero");
+        require(_price > 0, "Price must be greater > zero");
         items[id].price = _price;
         items[id].onSale = true;
 

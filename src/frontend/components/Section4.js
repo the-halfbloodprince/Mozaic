@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./Section4.module.css"
+import Tilt from 'react-tilt'
 
 function Section4() {
   return (
@@ -11,7 +12,7 @@ function Section4() {
         <div className={styles.Cards}>
             <div className={styles.Card1}>
                 <img src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677942841/A_very_distant_view_of_one_single_white_glowing_ma_boydbj.jpg" alt="Pyramids" />
-                <div className={styles.CardText}>
+                <div className= {styles.CardText}>
                     <div className={styles.CardHeading}>Pyramids</div>
                     <div className={styles.CardSub}>Places</div>
                     <div className={styles.CardOwner}>@Max_million</div>

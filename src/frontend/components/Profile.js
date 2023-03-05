@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.css';
 import {
     Link
@@ -12,6 +12,8 @@ import { BiLinkAlt as LinkIcon } from 'react-icons/bi'
 import Loading from './AwaitingConnection';
 import { PuffLoader as LoaderAnim } from 'react-spinners'
 import { toast } from 'react-toastify';
+import { ethers } from "ethers";
+import axios from "axios";
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
 
@@ -28,47 +30,47 @@ const NoUserScreen = () => (
     </div>
 )
 
-const YourNFTsData = [
-    {
-        name: "Hilale varade",
-        price: 0.007,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Mustafa Varade",
-        price: 0.003,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Jalalludin Varade",
-        price: 0.002,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Hitler Varade",
-        price: 0.005,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Lolita Varade",
-        price: 0.010,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Mia Varade",
-        price: 0.009,
-        img: "/images/card_image1.jpg"
-    },
-    {
-        name: "Sagar Khalifa",
-        price: 0.01,
-        img: "/images/card_image1.jpg"
-    },
-]
+// const YourNFTsData = [
+//     {
+//         name: "Hilale varade",
+//         price: 0.007,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Mustafa Varade",
+//         price: 0.003,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Jalalludin Varade",
+//         price: 0.002,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Hitler Varade",
+//         price: 0.005,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Lolita Varade",
+//         price: 0.010,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Mia Varade",
+//         price: 0.009,
+//         img: "/images/card_image1.jpg"
+//     },
+//     {
+//         name: "Sagar Khalifa",
+//         price: 0.01,
+//         img: "/images/card_image1.jpg"
+//     },
+// ]
 
 
 
-const YourNFTs = ({ yourNFTList, showCount = 4 }) => (
+const YourNFTs = ({ tokens: yourNFTList, showCount = 4 }) => (
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
@@ -78,8 +80,8 @@ const YourNFTs = ({ yourNFTList, showCount = 4 }) => (
         <div className={styles.your_nfts__cards}>
             {
                 yourNFTList
-                    .slice(0, 4)
-                    .map((nft) => <NFTCard nft={nft} actionText='List for sale' />)
+                    // .slice(0, 4)
+                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' />)
             }
         </div>
     </div>
@@ -91,12 +93,72 @@ const YourTransactions = () => (
     </div>
 )
 
-const activeSections = {
-    "Your NFTs": <YourNFTs yourNFTList={YourNFTsData} />,
-    "Your Transactions": <YourTransactions />,
-}
+// const activeSections = {
+//     "Your NFTs": <YourNFTs yourNFTList={YourNFTsData} />,
+//     "Your Transactions": <YourTransactions />,
+// }
 
-const Profile = ({ account }) => {
+const ProfilePage = ({ nft, marketplace, account}) => {
+
+    const [tokens, setTokens] = useState([]);
+
+    const loadTokens = async () => {
+        // Load all sold items that the user listed
+        const itemCount = await marketplace.itemCount();
+        // console.log(itemCount.toNumber());
+        let myItems = [];
+        // let soldItems = [];
+        for (let indx = 1; indx <= itemCount; indx++) {
+        const i = await marketplace.items(indx);
+        //   console.log(i);
+        if (i.seller.toLowerCase() === account) {
+            // get uri url from nft contract
+            const tokenURI = await nft.tokenURI(i.tokenId);
+            console.log(tokenURI);
+            let url = tokenURI.split("//");
+            console.log(url[1]);
+            let axiosURL = "https://ipfs.io/ipfs/" + url[1];
+            console.log(axiosURL);
+            let meta = await axios.get(axiosURL);
+            let metadata = meta.data;
+            console.log(metadata);
+
+            let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
+        
+            let item = {
+            itemId: i.itemId,
+            name: metadata.name,
+            description: metadata.description,
+            image: imageURL,
+            price:i.price,
+            onSale : i.onSale,
+            };
+            myItems.push(item);
+            // console.log()
+        }
+        }
+        
+        setTokens(myItems);
+        // console.log(tokens);
+    };
+    useEffect(() => {
+        loadTokens();
+        
+    }, []);
+    
+
+    const listNFT = async (itemId) => {
+        try {
+        // const id = await nft.tokenCount();
+        const listingPrice = ethers.utils.parseEther("1");
+        await (await marketplace.listItem(itemId, listingPrice)).wait();
+        alert("Successfully listed your NFT!");
+        } catch (e) {
+        alert("Upload error" + e);
+        }
+    };
+
+    // --------------------
 
     const [activeSection, setActiveSection] = useState('Your NFTs')
 
@@ -108,7 +170,7 @@ const Profile = ({ account }) => {
 
     const rating = 4
 
-    return account ? (
+    return (
         <div>
             <img className={styles.overlay} src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677944863/cinematic_1_m9jygb.jpg"/>
             <div className={styles.profileHeader}>
@@ -156,9 +218,19 @@ const Profile = ({ account }) => {
                 <div className={`${styles.toggleBtn} ${activeSection === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveSection('Your Transactions')}>Your Transactions</div>
             </div>
 
-            { activeSections[activeSection] }
+            {/* { activeSections[activeSection] } */}
+
+            { (activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} /> }
             
         </div>
+    )
+
+}
+
+const Profile = ({ nft, marketplace, account }) => {
+
+    return account ? (
+        <ProfilePage nft={nft} marketplace={marketplace} account={account} />        
     ) : <Loading loadingText='Login to see your profile' loadingIcon={<LoaderAnim color='#B0F122'/>} />
   }
   

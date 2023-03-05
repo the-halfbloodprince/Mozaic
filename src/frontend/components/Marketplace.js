@@ -54,11 +54,26 @@ const Home = ({ connection, marketplace, nft }) => {
 
   
 
-  const Connected = () => (
-    <h1>Connected</h1>
-  )
+  const MarketPlaceMain = () => {
+    return <div>
+      <div className= {styles.imgSection}>
+        <div className= {styles.Card}>
+          <div className= {styles.Card__number}>30+</div>
+          <div className= {styles.Card__heading}>users</div>
+        </div>
+        <div className= {styles.Card}>
+          <div className= {styles.Card__number}>30+</div>
+          <div className= {styles.Card__heading}>users</div>
+        </div>
+        <div className= {styles.Card}>
+          <div className= {styles.Card__number}>30+</div>
+          <div className= {styles.Card__heading}>users</div>
+        </div>
+      </div>
+    </div>
+  }
 
-  return connection ? <Connected /> : <Loading loadingText='Connect to Wallet for access' loadingIcon={<LoaderAnim color="#B0F122" />} />
+  return connection ? <MarketPlaceMain /> : <Loading loadingText='Connect to Wallet for access' loadingIcon={<LoaderAnim color="#B0F122" />} />
         // connection ? (
         //   <h1>Awaiting Connection</h1>
         // ) : (

@@ -1,120 +1,121 @@
-import { useState } from 'react'
-import { ethers } from "ethers"
-import { create as ipfsHttpClient } from 'ipfs-http-client'
+import { useState } from "react";
+import { NFTStorage } from "nft.storage";
 import styles from './Create.module.css'
-import React from "react"
-import PriceModal from './PriceModal';
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
+// read the API key from an environment variable. You'll need to set this before running the example!
+const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
 
-const Create = ({ marketplace, nft }) => {
-  const [image, setImage] = useState('')
-  const [price, setPrice] = useState(null)
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const uploadToIPFS = async (event) => {
-    event.preventDefault()
-    const file = event.target.files[0]
-    if (typeof file !== 'undefined') {
-      try {
-        const result = await client.add(file)
-        console.log(result)
-        setImage(`https://ipfs.infura.io/ipfs/${result.path}`)
-      } catch (error){
-        console.log("ipfs image upload error: ", error)
-      }
+const ethers = require("ethers");
+
+const CreateNFT = ({ nft, marketplace }) => {
+  const [formParams, updateFormParams] = useState({
+    name: "",
+    description: "",
+  });
+
+  let file;
+  async function OnChangeFile(e) {
+    file = e.target.files[0];
+  }
+
+  //This function uploads the metadata to IPFS
+  async function uploadMetadataToIPFS() {
+    const { name, description } = formParams;
+    //Make sure that none of the fields are empty
+    if (!name || !description || !file) return;
+
+    const image = new File([file], file.name);
+    const nftJSON = {
+      name,
+      description,
+      image,
+    };
+
+    try {
+   
+      const client = new NFTStorage({ token: API_KEY });
+      const metadata = await client.store(nftJSON);
+
+      console.log("NFT data stored!");
+      console.log("Metadata URI: ", metadata.url);
+      return metadata.url;
+    } catch (e) {
+      console.log("error uploading JSON metadata:", e);
     }
   }
-  const createNFT = async () => {
-    if (!image || !price || !name || !description) return
-    try{
-      const result = await client.add(JSON.stringify({image, price, name, description}))
-      mintThenList(result)
-    } catch(error) {
-      console.log("ipfs uri upload error: ", error)
+
+  async function mintNFT(e) {
+    e.preventDefault();
+
+    //Upload data to IPFS
+    try {
+      const metadataURL = await uploadMetadataToIPFS();
+      console.log(metadataURL);
+      await (await nft.mint(metadataURL)).wait();
+      // approve marketplace to spend nft
+      await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+
+      const id = await nft.tokenCount();
+      
+      await (await marketplace.makeItem(nft.address, id)).wait();
+      alert("Successfully minted your NFT!");
+    } catch (e) {
+      alert("Upload error" + e);
     }
   }
-  const mintThenList = async (result) => {
-    const uri = `https://ipfs.infura.io/ipfs/${result.path}`
-    // mint nft 
-    await(await nft.mint(uri)).wait()
-    // get tokenId of new nft 
-    const id = await nft.tokenCount()
-    // approve marketplace to spend nft
-    await(await nft.setApprovalForAll(marketplace.address, true)).wait()
-    // add nft to marketplace
-    const listingPrice = ethers.utils.parseEther(price.toString())
-    await(await marketplace.makeItem(nft.address, id, listingPrice)).wait()
-  }
 
-  //Modal functions
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSubmit = (price) => {
-    console.log(`Price submitted: ${price}`);
-    setIsModalOpen(false);
-  };
+  // console.log("Working", process.env);
   
   return (
     <div className={styles.container}>
-      <div className={styles.row}>
-        <label>
-          Title of NFT:
-          <br/>
-          <input className={`${styles.input} ${styles.name}`} type="text" placeholder="Title" required onChange={(e) => setName(e.target.value)}   />
-        </label>
-        <br/>
         
+        {/* name */}
+        <div className={styles.name}>
+          <p className={styles.name__label}>Name of NFT</p>
+          <input 
+            className={styles.name__input} 
+            type="text" 
+            placeholder="name" 
+            value={formParams.name} 
+            required 
+            onChange={(e) => updateFormParams({ ...formParams, name: e.target.value })} 
+          />
+        </div>
         
-        <label>
-          Description:
-          <br/>
-          <textarea  className={styles.description} type="paragraph" placeholder="Enter more details about the NFT" required onChange={(e) => setDescription(e.target.value)} />
-        </label>
-        <br/>
-        <div>
-      <button className={`${styles.buttonPrice} ${styles.price}`} onClick={handleOpenModal}>Enter Price</button>
-      <PriceModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleSubmit}
-      />
-    </div>
-    <br/>
+        {/* descr */}
+        <div className={styles.descr}>
+          <p className={styles.descr__label}>Desciption</p>
+          <textarea 
+            className={styles.descr__input} 
+            type="text" 
+            placeholder="This is an awesome NFT!" 
+            required 
+            value={formParams.description}
+            onChange={(e) =>
+              updateFormParams({ ...formParams, description: e.target.value })
+            } 
+          />
+        </div>
         
-        <br/>
-        <input className={styles.fileinput} type="file" required name="file" onChange={uploadToIPFS}/>
-        <br/>
-        <div className={styles.createButton}><div onClick={createNFT} className={styles.button}>Submit</div></div>
- 
-        
-        
-      </div>
+        {/* file */}
+        <div className={styles.file}>
+          <p className={styles.file__label}>Upload file</p>
+          <input 
+            className={styles.file__input} 
+            type="file" 
+            required 
+            onChange={OnChangeFile}
+          />
+        </div>
+
+        {/* submit button */}
+        <button
+          onClick={mintNFT}
+        >
+          Create NFT
+        </button>
+
     </div>
   );
 }
-/*
-<Form.Control
-                type="file"
-                required
-                name="file"
-                onChange={uploadToIPFS}
-              />
-              <Form.Control onChange={(e) => setName(e.target.value)} size="lg" required type="text" placeholder="Name" />
-              <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
-              <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
-              <div className={styles.button}>
-              <Button onClick={console.log("Create NFT clicked")} variant="primary" size="lg">
-                Create & List NFT!
-              </Button>
-              </div>
-*/ 
-export default Create
+export default CreateNFT
