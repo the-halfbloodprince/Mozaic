@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./Section4.module.css"
-import Tilt from 'react-tilt'
+// import Tilt from 'react-tilt'
 
 function Section4() {
   return (

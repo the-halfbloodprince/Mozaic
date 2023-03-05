@@ -70,7 +70,7 @@ const NoUserScreen = () => (
 
 
 
-const YourNFTs = ({ tokens: yourNFTList, showCount = 4 }) => (
+const YourNFTs = ({ tokens: yourNFTList, showCount = 4 ,listFunc}) => (
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
@@ -81,7 +81,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4 }) => (
             {
                 yourNFTList
                     // .slice(0, 4)
-                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' />)
+                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' actionFunc={ listFunc} />)
             }
         </div>
     </div>
@@ -220,7 +220,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
 
             {/* { activeSections[activeSection] } */}
 
-            { (activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} /> }
+            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ listNFT} /> }
             
         </div>
     )
