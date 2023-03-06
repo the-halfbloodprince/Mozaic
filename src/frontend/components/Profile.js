@@ -72,7 +72,7 @@ const NoUserScreen = () => (
 
 
 
-const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc}) => (
+const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = null}) => (
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
@@ -83,7 +83,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc}) => (
             {
                 yourNFTList
                     // .slice(0, 4)
-                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => alert('Unlist feature not available yet')) : (() => listFunc(nft.itemId)) } />)
+                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
             }
         </div>
     </div>
@@ -184,6 +184,16 @@ const ProfilePage = ({ nft, marketplace, account}) => {
         }
     };
 
+    const unlistNFT = async (itemId)=>{
+        try {
+            
+            await (await marketplace.unlistItem(itemId)).wait();
+            alert("Successfully unlisted your NFT!");
+        } catch (e) {
+            alert("Upload error" + e);
+        }
+    }
+
     // --------------------
 
     const [activeSection, setActiveSection] = useState('Your NFTs')
@@ -253,7 +263,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
 
             {/* { activeSections[activeSection] } */}
 
-            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ handleListForSale } /> }
+            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
             
         </div>
     )
