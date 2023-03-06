@@ -53,9 +53,11 @@ const CreateNFT = ({ nft, marketplace }) => {
       console.log(metadataURL);
       await (await nft.mint(metadataURL)).wait();
       // approve marketplace to spend nft
-      await (await nft.setApprovalForAll(marketplace.address, true)).wait();
-
+      // await (await nft.setApprovalForAll(marketplace.address, true)).wait();
       const id = await nft.tokenCount();
+      await (await nft.approve(marketplace.address, id)).wait();
+
+      
       
       await (await marketplace.makeItem(nft.address, id)).wait();
       alert("Successfully minted your NFT!");
