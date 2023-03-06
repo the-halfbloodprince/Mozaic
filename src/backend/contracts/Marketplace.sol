@@ -37,6 +37,10 @@ contract Marketplace is ReentrancyGuard {
         uint price,
         address indexed seller
     );
+    event Unlisted(
+        uint itemId,
+        address indexed seller
+    );
 
     event Bought(
         uint itemId,
@@ -78,6 +82,7 @@ contract Marketplace is ReentrancyGuard {
     }
     function listItem(uint id, uint _price) external nonReentrant {
         require(_price > 0, "Price must be greater > zero");
+        require(items[id].seller == msg.sender , "You don't own this nft");
         items[id].price = _price;
         items[id].onSale = true;
 
@@ -85,6 +90,17 @@ contract Marketplace is ReentrancyGuard {
         emit Offered(
             id,
             _price,
+            msg.sender
+        );
+    }
+
+    function unlistItem(uint _tokenId) external nonReentrant {
+        require(msg.sender == items[_tokenId].seller,"You don't own this nft");
+        items[_tokenId].price = 0;
+        items[_tokenId].onSale = false;
+        // emit Offered event
+        emit Unlisted(
+            _tokenId,
             msg.sender
         );
     }
