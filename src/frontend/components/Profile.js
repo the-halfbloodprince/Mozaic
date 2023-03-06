@@ -175,6 +175,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
         try {
         // const id = await nft.tokenCount();
         const listingPrice = ethers.utils.parseEther(price.toString());
+        console.log(listingPrice)
         await (await marketplace.listItem(itemId, listingPrice)).wait();
         alert("Successfully listed your NFT!");
         } catch (e) {

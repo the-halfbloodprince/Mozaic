@@ -1,7 +1,10 @@
 import React from 'react'
 import styles from './NFTCard.module.css'
 
-const NFTCard = ({ nft: {name, image, price, onSale}, actionText = null, actionFunc = null }) => (
+const NFTCard = ({ nft: {name, image, price, onSale}, actionText = null, actionFunc = null }) => {
+console.log(price);
+
+    return (
     <div className={styles.nftcard}>
         { actionText && <div className={styles.action} onClick={actionFunc} > {actionText} </div> }
         <img className={styles.img} src={image} alt={name} />
@@ -9,7 +12,8 @@ const NFTCard = ({ nft: {name, image, price, onSale}, actionText = null, actionF
             <p className={styles.name}> {name} </p>
             <p className={styles.price}> {onSale ? `${price} ETH` : 'Unlisted'} </p>
         </div>
-    </div>
-)
+    </div>)
+}
+
 
 export default NFTCard

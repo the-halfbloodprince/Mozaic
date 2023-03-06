@@ -38,7 +38,8 @@ const Home = ({ connection, marketplace, nft }) => {
           name: metadata.name,
           description: metadata.description,
           image: imageURL,
-          price : token.price
+          price : token.price,
+          onSale:token.onSale
         };
         items.push(item);
       }
