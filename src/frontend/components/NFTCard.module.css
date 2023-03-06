@@ -80,4 +80,5 @@
 .nftcard:hover .action {
     /* opacity: 1; */
     transform: translateY(100%);
+    z-index: 2; /*added by kai*/
 }

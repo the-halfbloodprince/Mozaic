@@ -126,13 +126,14 @@ const ProfilePage = ({ nft, marketplace, account}) => {
             console.log(metadata);
 
             let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
+            const totalPrice = await marketplace.getTotalPrice(i.itemId);
         
             let item = {
             itemId: i.itemId,
             name: metadata.name,
             description: metadata.description,
             image: imageURL,
-            price:i.price,
+            totalPrice,
             onSale : i.onSale,
             };
             myItems.push(item);

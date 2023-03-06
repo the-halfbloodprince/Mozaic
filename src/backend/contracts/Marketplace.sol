@@ -90,14 +90,18 @@ contract Marketplace is ReentrancyGuard {
     }
 
     function purchaseItem(uint _itemId) external payable nonReentrant {
+        
         uint _totalPrice = getTotalPrice(_itemId);
         Item storage item = items[_itemId];
         require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
         require(msg.value >= _totalPrice, "not enough ether to cover item price and market fee");
+        require(msg.sender != item.seller,"You already own the nft!");
         // require(!item.sold, "item already sold");
         // pay seller and feeAccount
         item.seller.transfer(item.price);
         feeAccount.transfer(_totalPrice - item.price);
+        items[_itemId].seller = payable(msg.sender);
+        items[_itemId].onSale = false;
         // update item to sold
         // item.sold = true;
         // transfer nft to buyer
