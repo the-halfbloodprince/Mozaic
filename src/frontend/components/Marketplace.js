@@ -3,56 +3,53 @@ import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
 import Loading from './AwaitingConnection'
 import { HashLoader as LoaderAnim } from 'react-spinners'
+import axios from "axios";
 
 import styles from './marketplace.module.css'
+import NFTCard from './NFTCard'
 
 const Home = ({ connection, marketplace, nft }) => {
-  const [loading, setLoading] = useState(true)
-  const [items, setItems] = useState([])
+
+  const [items, setItems] = useState([]);
   const loadMarketplaceItems = async () => {
     // Load all unsold items
-    const itemCount = await marketplace.itemCount()
-    let items = []
+    const itemCount = await marketplace.itemCount();
+    console.log(itemCount.toNumber());
+    let items = [];
     for (let i = 1; i <= itemCount; i++) {
-      const item = await marketplace.items(i)
-      if (!item.sold) {
-        // get uri url from nft contract
-        const uri = await nft.tokenURI(item.tokenId)
-        // use uri to fetch the nft metadata stored on ipfs 
-        const response = await fetch(uri)
-        const metadata = await response.json()
-        // get total price of item (item price + fee)
-        const totalPrice = await marketplace.getTotalPrice(item.itemId)
-        // Add item to items array
-        items.push({
-          totalPrice,
-          itemId: item.itemId,
-          seller: item.seller,
+      const token = await marketplace.items(i);
+      // console.log(token);
+      // console.log(token.tokenId);
+      if (token.onSale) {
+        const tokenURI = await nft.tokenURI(token.tokenId);
+        // console.log(tokenURI);
+        let url = tokenURI.split("//");
+        // console.log(url[1]);
+        let axiosURL = "https://ipfs.io/ipfs/" + url[1];
+        // console.log(axiosURL);
+        let meta = await axios.get(axiosURL);
+        let metadata = meta.data;
+        console.log(metadata);
+
+        let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
+        
+        let item = {
+          itemId: token.itemId,
           name: metadata.name,
           description: metadata.description,
-          image: metadata.image
-        })
+          image: imageURL,
+          price : token.price
+        };
+        items.push(item);
       }
     }
-    setLoading(false)
-    setItems(items)
-  }
-
-  const buyMarketItem = async (item) => {
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
-    loadMarketplaceItems()
-  }
+   
+    setItems(items);
+  };
 
   useEffect(() => {
-    loadMarketplaceItems()
-  }, [])
-  // if (loading) return (
-  //   <main style={{ padding: "100rem 0" }}>
-  //     <h2>Loading...</h2>
-  //   </main>
-  // )
-
-  
+    loadMarketplaceItems();
+  }, []);
 
   const MarketPlaceMain = () => {
     return <div>
@@ -70,6 +67,14 @@ const Home = ({ connection, marketplace, nft }) => {
           <div className= {styles.Card__heading}>users</div>
         </div>
       </div>
+
+      {/* tags */}
+
+      {/* cards */}
+      {
+        items.map((nft) => (<NFTCard nft={nft} />))
+      }
+
     </div>
   }
 

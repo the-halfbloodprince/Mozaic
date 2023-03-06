@@ -2,10 +2,11 @@ import { render } from "react-dom";
 import App from './frontend/components/App';
 import './frontend/globals.css'
 import 'react-toastify/dist/ReactToastify.css';
+import { MantineProvider } from '@mantine/core';
 import * as serviceWorker from './serviceWorker';
 
 const rootElement = document.getElementById("root");
-render( <App />, rootElement);
+render( <MantineProvider> <App /> </MantineProvider>, rootElement);
 
 
 // If you want your app to work offline and load faster, you can change

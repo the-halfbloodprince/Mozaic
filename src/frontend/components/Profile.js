@@ -14,6 +14,8 @@ import { PuffLoader as LoaderAnim } from 'react-spinners'
 import { toast } from 'react-toastify';
 import { ethers } from "ethers";
 import axios from "axios";
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
 
@@ -70,7 +72,7 @@ const NoUserScreen = () => (
 
 
 
-const YourNFTs = ({ tokens: yourNFTList, showCount = 4 ,listFunc}) => (
+const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc}) => (
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
@@ -81,7 +83,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4 ,listFunc}) => (
             {
                 yourNFTList
                     // .slice(0, 4)
-                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' actionFunc={ listFunc} />)
+                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' actionFunc={ () => listFunc(nft.itemId) } />)
             }
         </div>
     </div>
@@ -145,12 +147,34 @@ const ProfilePage = ({ nft, marketplace, account}) => {
         loadTokens();
         
     }, []);
-    
 
-    const listNFT = async (itemId) => {
+    const [opened, { open, close }] = useDisclosure(false);
+    const [price, setPrice]  = useState(1000)
+
+    const [nftId, setNftId] = useState(null)
+
+    const handleListForSale = (itemId, ) => {
+        open()
+        setNftId(itemId)
+    }
+
+    const handlePriceSubmit = () => {
+        close()
+        // TODO: show loading
+        listNFT(price, nftId)
+    }
+
+    const listNFT = async (price, itemId) => {
+
+    console.log(`${itemId} listed for sale`)
+
+        // show modal
+
+        // get price
+
         try {
         // const id = await nft.tokenCount();
-        const listingPrice = ethers.utils.parseEther("1");
+        const listingPrice = ethers.utils.parseEther(price.toString());
         await (await marketplace.listItem(itemId, listingPrice)).wait();
         alert("Successfully listed your NFT!");
         } catch (e) {
@@ -170,8 +194,15 @@ const ProfilePage = ({ nft, marketplace, account}) => {
 
     const rating = 4
 
+
     return (
         <div>
+            <Modal opened={opened} onClose={close} title="List NFT for Sale">
+                {/* Modal content */}
+                Yo, how much you wanna sell it for?
+                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+                <button onClick={handlePriceSubmit}>List</button>
+            </Modal>
             <img className={styles.overlay} src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677944863/cinematic_1_m9jygb.jpg"/>
             <div className={styles.profileHeader}>
                 <div className={styles.info}>
@@ -220,7 +251,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
 
             {/* { activeSections[activeSection] } */}
 
-            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ listNFT} /> }
+            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ handleListForSale } /> }
             
         </div>
     )
