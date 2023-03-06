@@ -83,7 +83,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc}) => (
             {
                 yourNFTList
                     // .slice(0, 4)
-                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText='List for sale' actionFunc={ () => listFunc(nft.itemId) } />)
+                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => alert('Unlist feature not available yet')) : (() => listFunc(nft.itemId)) } />)
             }
         </div>
     </div>

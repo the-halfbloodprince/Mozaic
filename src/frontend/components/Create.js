@@ -62,7 +62,8 @@ const CreateNFT = ({ nft, marketplace }) => {
       await (await marketplace.makeItem(nft.address, id)).wait();
       alert("Successfully minted your NFT!");
     } catch (e) {
-      alert("Upload error" + e);
+      console.log(e)
+      alert("Upload error");
     }
   }
 
