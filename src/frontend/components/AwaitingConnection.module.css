@@ -1,7 +1,7 @@
 .awaitingconnection__main {
     width: 100vw;
     /* height: calc(100vh - 8vh - (1.2rem * 2)); */
-    height: calc(100vh - 5vh - 8vh - 2.4rem - 2rem);
+    height: calc(100vh - 5vh - 8vh - 2.4rem);
 
     color: var(--green);
 

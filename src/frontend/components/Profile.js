@@ -16,7 +16,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Text, Title } from '@mantine/core';
-import { accountContext, marketplaceContext, nftContext, NFTsContext } from '../contexts/accountContext';
+import { notifications } from '@mantine/notifications';
+import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext } from '../contexts/contexts';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
@@ -74,22 +75,28 @@ const NoUserScreen = () => (
 
 
 
-const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = null}) => (
-    <div className={styles.your_nfts}>
-        <div className={styles.your_nfts__heading}>
-            <div className={styles.your_nfts__title}>
-                My NFTs
+const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = null}) => {
+
+    const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
+
+    return (
+        <div className={styles.your_nfts}>
+            <div className={styles.your_nfts__heading}>
+                <div className={styles.your_nfts__title}>
+                    My NFTs
+                </div>
+            </div>
+            <div className={styles.your_nfts__cards}>
+                {
+                    myNFTs
+                        // .slice(0, 4)
+                        .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
+                }
             </div>
         </div>
-        <div className={styles.your_nfts__cards}>
-            {
-                yourNFTList
-                    // .slice(0, 4)
-                    .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
-            }
-        </div>
-    </div>
-)
+    )
+
+}
 
 const YourTransactions = () => (
     <div>
@@ -108,51 +115,14 @@ const ProfilePage = () => {
     const [nft, setnft] = useContext(nftContext);
     const [marketplace, setMarketplace] = useContext(marketplaceContext);
     const [account, setAccount] = useContext(accountContext);
+    const [needRefresh, setNeedRefresh] = useContext(needrefreshContext);
 
-    const loadTokens = async () => {
-        // Load all sold items that the user listed
-        const itemCount = await marketplace.itemCount();
-        // console.log(itemCount.toNumber());
-        let myItems = [];
-        // let soldItems = [];
-        for (let indx = 1; indx <= itemCount; indx++) {
-        const i = await marketplace.items(indx);
-        //   console.log(i);
-        if (i.seller.toLowerCase() === account) {
-            // get uri url from nft contract
-            const tokenURI = await nft.tokenURI(i.tokenId);
-            console.log(tokenURI);
-            let url = tokenURI.split("//");
-            console.log(url[1]);
-            let axiosURL = "https://ipfs.io/ipfs/" + url[1];
-            console.log(axiosURL);
-            let meta = await axios.get(axiosURL);
-            let metadata = meta.data;
-            console.log(metadata);
 
-            let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
-            const totalPrice = await marketplace.getTotalPrice(i.itemId);
+    
+    // useEffect(() => {
+    //     loadTokens();
         
-            let item = {
-            itemId: i.itemId,
-            name: metadata.name,
-            description: metadata.description,
-            image: imageURL,
-            totalPrice,
-            onSale : i.onSale,
-            };
-            myItems.push(item);
-            // console.log()
-        }
-        }
-        
-        setNFTs(myItems);
-        // console.log(tokens);
-    };
-    useEffect(() => {
-        loadTokens();
-        
-    }, []);
+    // }, []);
 
     const [opened, { open, close }] = useDisclosure(false);
     const [price, setPrice]  = useState(0.12)
@@ -183,8 +153,12 @@ const ProfilePage = () => {
         const listingPrice = ethers.utils.parseEther(price.toString());
         console.log(listingPrice)
         await (await marketplace.listItem(itemId, listingPrice)).wait();
-        alert("Successfully listed your NFT!");
-        } catch (e) {
+        setNeedRefresh(true)
+        notifications.show({
+            title: 'NFT Listed',
+            message: 'Successfully listed your NFT!'
+          })
+    } catch (e) {
         alert("Upload error" + e);
         }
     };
@@ -193,7 +167,11 @@ const ProfilePage = () => {
         try {
             
             await (await marketplace.unlistItem(itemId)).wait();
-            alert("Successfully unlisted your NFT!");
+            setNeedRefresh(true)
+            notifications.show({
+                title: 'NFT Unlisted',
+                message: 'Successfully unlisted your NFT!'
+              })
         } catch (e) {
             alert("Upload error" + e);
         }

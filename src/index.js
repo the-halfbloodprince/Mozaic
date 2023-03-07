@@ -4,8 +4,9 @@ import './frontend/globals.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { MantineProvider } from '@mantine/core';
 import * as serviceWorker from './serviceWorker';
-import { accountContext,  NFTsContext, nftContext, marketplaceContext } from './frontend/contexts/accountContext'
+import { accountContext,  NFTsContext, nftContext, marketplaceContext, myNFTsContext, needrefreshContext } from './frontend/contexts/contexts'
 import React, { useState } from 'react'
+import { Notifications } from '@mantine/notifications';
 
 const rootElement = document.getElementById("root");
 
@@ -15,19 +16,26 @@ const MainApp = () => {
     const [NFTs, setNFTs] = useState([])
     const [nft, setnft] = useState({})
     const [marketplace, setMarketplace] = useState({})
+    const [myNFTs, setMyNFTs] = useState([])
+    const [needRefresh, setNeedRefresh] = useState(false)
 
     return (
+        <needrefreshContext.Provider value={[needRefresh, setNeedRefresh]}>
         <accountContext.Provider value={[account, setAccount]}>
-            <NFTsContext.Provider value={[NFTs, setNFTs]}>
+            <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
                 <nftContext.Provider value={[nft, setnft]}>
-                    <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
-                        <MantineProvider>
-                        <App />
-                    </MantineProvider>
-                    </marketplaceContext.Provider>
+                    <NFTsContext.Provider value={[NFTs, setNFTs]}>
+                        <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
+                            <MantineProvider>
+                                <Notifications />
+                                <App />
+                            </MantineProvider>
+                        </myNFTsContext.Provider>
+                    </NFTsContext.Provider>
                 </nftContext.Provider>
-            </NFTsContext.Provider>
+            </marketplaceContext.Provider>
         </accountContext.Provider>
+        </needrefreshContext.Provider>
     )
 }
 

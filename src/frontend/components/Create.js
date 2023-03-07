@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { NFTStorage } from "nft.storage";
 import styles from './Create.module.css'
-import { accountContext } from "../contexts/accountContext";
+import { accountContext, needrefreshContext } from "../contexts/contexts";
 import Loading from "./AwaitingConnection";
 import { HashLoader } from "react-spinners";
+import { notifications } from '@mantine/notifications';
 
 // read the API key from an environment variable. You'll need to set this before running the example!
 const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
@@ -22,6 +23,8 @@ const CreateNFT = ({ nft, marketplace }) => {
 export default CreateNFT
 
 function CreateSignedIn({ nft, marketplace }) {
+    
+    const [needRefresh, setNeedRefresh] = useContext(needrefreshContext) 
 
     const [formParams, updateFormParams] = useState({
       name: "",
@@ -75,7 +78,12 @@ function CreateSignedIn({ nft, marketplace }) {
         
         
         await (await marketplace.makeItem(nft.address, id)).wait();
-        alert("Successfully minted your NFT!");
+        setNeedRefresh(true)
+        // alert("Successfully minted your NFT!");
+        notifications.show({
+          title: 'NFT Minted',
+          message: 'Successfully minted your NFT!'
+        })
       } catch (e) {
         console.log(e)
         alert("Upload error");

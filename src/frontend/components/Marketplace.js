@@ -3,14 +3,14 @@ import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import Loading from "./AwaitingConnection";
 import { HashLoader as LoaderAnim } from "react-spinners";
-import axios from "axios";
 
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
-import { accountContext, marketplaceContext, nftContext } from "../contexts/accountContext";
+import { accountContext, marketplaceContext, nftContext, NFTsContext } from "../contexts/contexts";
 
 const MarketPlaceMain = () => {
 
+  const [account, setAccount] = useContext(accountContext)
   const [marketplace, setMarketplace] = useContext(marketplaceContext)
   const [nft, setnft] = useContext(nftContext)
 
@@ -18,57 +18,21 @@ const MarketPlaceMain = () => {
   // const [nfts, setnft] = useContext(nftContext)
   // const [account, setAccount] = useContext(accountContext)
 
-  const [items, setItems] = useState([]);
-  const loadMarketplaceItems = async () => {
-    // Load all unsold items
-    const itemCount = await marketplace.itemCount();
-    console.log(itemCount.toNumber());
-    let items = [];
-    for (let i = 1; i <= itemCount; i++) {
-      const token = await marketplace.items(i);
-      // console.log(token);
-      // console.log(token.tokenId);
-      if (token.onSale) {
-        const tokenURI = await nft.tokenURI(token.tokenId);
-        // console.log(tokenURI);
-        let url = tokenURI.split("//");
-        // console.log(url[1]);
-        let axiosURL = "https://ipfs.io/ipfs/" + url[1];
-        // console.log(axiosURL);
-        let meta = await axios.get(axiosURL);
-        let metadata = meta.data;
-        console.log(metadata);
-
-        let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
-
-        const totalPrice = await marketplace.getTotalPrice(token.itemId);
-
-        let item = {
-          itemId: token.itemId,
-          name: metadata.name,
-          description: metadata.description,
-          image: imageURL,
-          price: token.price,
-          onSale: token.onSale,
-          totalPrice,
-        };
-        items.push(item);
-      }
-    }
-
-    setItems(items);
-  };
+  const [NFTs, setNFTs] = useContext(NFTsContext);
+  
 
   const buyItem = async (item) => {
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
-    loadMarketplaceItems();
+    // TODO: loadMarketplaceItems();
   };
 
-  useEffect(() => {
-    loadMarketplaceItems();
-  }, []);
+  // useEffect(() => {
+
+
+
+  // }, []);
 
   return (
     <div>
@@ -87,17 +51,21 @@ const MarketPlaceMain = () => {
         </div>
       </div>
 
-      {/* tags */}
+      {
+          NFTs['loading'] ? <p>Loading marketplace items...</p> : (
+            /* tags */
 
-      {/* cards */}
-      {items.map((nft) => (
-        <NFTCard
-          // key={nft.}
-          nft={nft}
-          actionText="Buy"
-          actionFunc={() => buyItem(nft)}
-        />
-      ))}
+            /* cards */
+            NFTs.map((nft) => (
+              <NFTCard
+                // key={nft.}
+                nft={nft}
+                actionText={nft.seller.toLowerCase() != account ? "Buy" : null}
+                actionFunc={nft.seller.toLowerCase() != account ? () => buyItem(nft) : null}
+              />
+            ))
+          )
+      }
     </div>
   );
 };
