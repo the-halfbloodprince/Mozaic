@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './NFTCard.module.css'
 import { ethers } from "ethers";
 
-const NFTCard = ({ nft: {name, image, totalPrice, onSale}, actionText = null, actionFunc = null }) => {
+const NFTCard = ({ nft: {name, image, totalPrice, onSale,category}, actionText = null, actionFunc = null }) => {
 // console.log(price);
 
     return (
@@ -11,6 +11,7 @@ const NFTCard = ({ nft: {name, image, totalPrice, onSale}, actionText = null, ac
         <img className={styles.img} src={image} alt={name} />
         <div className={styles.info}>
             <p className={styles.name}> {name} </p>
+            <p className=""> {category} </p>
             <p className={styles.price}> {onSale ? `${ethers.utils.formatEther(totalPrice)} ETH` : 'Unlisted'} </p>
         </div>
     </div>)

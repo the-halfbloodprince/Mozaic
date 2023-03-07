@@ -84,8 +84,6 @@ contract Marketplace is ReentrancyGuard {
         require(msg.sender == items[id].seller,"You don't own the nft");
         items[id].price = _price;
         items[id].onSale = true;
-
-        // emit Offered event
         emit Offered(
             id,
             _price,

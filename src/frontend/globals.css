@@ -85,3 +85,28 @@ a {
    flex-direction: column;
    /* color: white; */
 }
+
+.mantine-Radio-label{
+  color: white;
+  cursor: pointer;
+}
+.mantine-Radio-labelWrapper{
+  color: white;
+}
+.mantine-Radio-inner{
+  outline: none;
+  border-radius: 7px;
+}
+.mantine-Radio-radio{
+  background-color: transparent;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.mantine-Radio-radio:checked{
+  background-color: var(--green);
+  outline: none;
+  border: solid white 1px;
+}
+.mantine-Radio-icon{
+  color: transparent;
+}
