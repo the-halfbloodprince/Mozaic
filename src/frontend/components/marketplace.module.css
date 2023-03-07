@@ -3,15 +3,35 @@
     background-size: cover;
     width: 100vw;
     height: 50vh;
-
+    align-items: center;
     display: flex;
     justify-content: space-evenly;
+    padding: 0rem 14rem;
+    box-sizing: border-box;
 }
 
 .Card {
-    width: 12rem;
-    height: 18rem;
+    width: 14rem;
+    height: 16rem;
     background-color: rgba(255, 255, 255, 0.2);
-    border: 2px red;
-    
+    border: 1px solid White;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.Card__number{
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: 4.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.Card__heading{
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: 2rem;
+    font-weight: 600;
+    color: white;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import Loading from "./AwaitingConnection";
@@ -7,8 +7,17 @@ import axios from "axios";
 
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
+import { accountContext, marketplaceContext, nftContext } from "../contexts/accountContext";
 
-const Home = ({ connection, marketplace, nft }) => {
+const MarketPlaceMain = () => {
+
+  const [marketplace, setMarketplace] = useContext(marketplaceContext)
+  const [nft, setnft] = useContext(nftContext)
+
+  console.log(marketplace)
+  // const [nfts, setnft] = useContext(nftContext)
+  // const [account, setAccount] = useContext(accountContext)
+
   const [items, setItems] = useState([]);
   const loadMarketplaceItems = async () => {
     // Load all unsold items
@@ -61,39 +70,43 @@ const Home = ({ connection, marketplace, nft }) => {
     loadMarketplaceItems();
   }, []);
 
-  const MarketPlaceMain = () => {
-    return (
-      <div>
-        <div className={styles.imgSection}>
-          <div className={styles.Card}>
-            <div className={styles.Card__number}>30+</div>
-            <div className={styles.Card__heading}>users</div>
-          </div>
-          <div className={styles.Card}>
-            <div className={styles.Card__number}>30+</div>
-            <div className={styles.Card__heading}>users</div>
-          </div>
-          <div className={styles.Card}>
-            <div className={styles.Card__number}>30+</div>
-            <div className={styles.Card__heading}>users</div>
-          </div>
+  return (
+    <div>
+      <div className={styles.imgSection}>
+        <div className={styles.Card}>
+          <div className={styles.Card__number}>30+</div>
+          <div className={styles.Card__heading}>Users</div>
         </div>
-
-        {/* tags */}
-
-        {/* cards */}
-        {items.map((nft) => (
-          <NFTCard
-            nft={nft}
-            actionText="Buy"
-            actionFunc={() => buyItem(nft)}
-          />
-        ))}
+        <div className={styles.Card}>
+          <div className={styles.Card__number}>150+</div>
+          <div className={styles.Card__heading}>NFTs</div>
+        </div>
+        <div className={styles.Card}>
+          <div className={styles.Card__number}>30+</div>
+          <div className={styles.Card__heading}>Sellers</div>
+        </div>
       </div>
-    );
-  };
 
-  return connection ? (
+      {/* tags */}
+
+      {/* cards */}
+      {items.map((nft) => (
+        <NFTCard
+          // key={nft.}
+          nft={nft}
+          actionText="Buy"
+          actionFunc={() => buyItem(nft)}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Marketplace = () => {
+
+  const [account, setAccount] = useContext(accountContext)
+  
+  return account ? (
     <MarketPlaceMain />
   ) : (
     <Loading
@@ -139,4 +152,4 @@ const Home = ({ connection, marketplace, nft }) => {
   // )
 };
 
-export default Home;
+export default Marketplace;

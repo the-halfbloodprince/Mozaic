@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './Profile.module.css';
 import {
     Link
@@ -15,7 +15,9 @@ import { toast } from 'react-toastify';
 import { ethers } from "ethers";
 import axios from "axios";
 import { useDisclosure } from '@mantine/hooks';
-import { Modal } from '@mantine/core';
+import { Modal, Text, Title } from '@mantine/core';
+import { accountContext, marketplaceContext, nftContext, NFTsContext } from '../contexts/accountContext';
+// import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
 
@@ -76,7 +78,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = nu
     <div className={styles.your_nfts}>
         <div className={styles.your_nfts__heading}>
             <div className={styles.your_nfts__title}>
-                Your NFTs
+                My NFTs
             </div>
         </div>
         <div className={styles.your_nfts__cards}>
@@ -100,9 +102,12 @@ const YourTransactions = () => (
 //     "Your Transactions": <YourTransactions />,
 // }
 
-const ProfilePage = ({ nft, marketplace, account}) => {
+const ProfilePage = () => {
 
-    const [tokens, setTokens] = useState([]);
+    const [NFTs, setNFTs] = useState([]);
+    const [nft, setnft] = useContext(nftContext);
+    const [marketplace, setMarketplace] = useContext(marketplaceContext);
+    const [account, setAccount] = useContext(accountContext);
 
     const loadTokens = async () => {
         // Load all sold items that the user listed
@@ -141,7 +146,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
         }
         }
         
-        setTokens(myItems);
+        setNFTs(myItems);
         // console.log(tokens);
     };
     useEffect(() => {
@@ -150,7 +155,7 @@ const ProfilePage = ({ nft, marketplace, account}) => {
     }, []);
 
     const [opened, { open, close }] = useDisclosure(false);
-    const [price, setPrice]  = useState(1000)
+    const [price, setPrice]  = useState(0.12)
 
     const [nftId, setNftId] = useState(null)
 
@@ -209,11 +214,18 @@ const ProfilePage = ({ nft, marketplace, account}) => {
 
     return (
         <div>
-            <Modal opened={opened} onClose={close} title="List NFT for Sale">
-                {/* Modal content */}
-                Yo, how much you wanna sell it for?
-                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-                <button onClick={handlePriceSubmit}>List</button>
+            <Modal className={styles.Floating} opened={opened} onClose={close} title="List NFT for Sale" centered >
+                <div className={styles.modalContainer}>
+                    <Title order={1} color="white">American Boy</Title>
+                    <div className={styles.modaldescription}>
+                    Captain America is the best avenger. He is the fricking American Boy...
+                    </div>
+                    <input className={styles.modalinput} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <div className={styles.modaldescription2}>
+                    Recommended price is <strong> 0.12 ETH</strong>
+                    </div>
+                    <button className={styles.modalbutton} onClick={handlePriceSubmit}>Place For Sale!</button>
+                </div>
             </Modal>
             <img className={styles.overlay} src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677944863/cinematic_1_m9jygb.jpg"/>
             <div className={styles.profileHeader}>
@@ -257,13 +269,13 @@ const ProfilePage = ({ nft, marketplace, account}) => {
             {/* <div className={styles.separator}></div> */}
 
             <div className={styles.toggleBtns}>
-                <button className={`${styles.toggleBtn} ${activeSection === 'Your NFTs' && styles.activeBtn}`} onClick={() => setActiveSection('Your NFTs')}>Your NFTs</button>
-                <div className={`${styles.toggleBtn} ${activeSection === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveSection('Your Transactions')}>Your Transactions</div>
+                <button className={`${styles.toggleBtn} ${activeSection === 'Your NFTs' && styles.activeBtn}`} onClick={() => setActiveSection('Your NFTs')}>My NFTs</button>
+                <div className={`${styles.toggleBtn} ${activeSection === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveSection('Your Transactions')}>My Transactions</div>
             </div>
 
             {/* { activeSections[activeSection] } */}
 
-            {(activeSection === 'Your NFTs') && <YourNFTs tokens={tokens} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
+            {(activeSection === 'Your NFTs') && <YourNFTs tokens={NFTs} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
             
         </div>
     )

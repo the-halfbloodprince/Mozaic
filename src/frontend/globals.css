@@ -64,3 +64,24 @@ a {
     cursor: not-allowed;
     pointer-events: none;
 }
+
+.mantine-Modal-title{
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.mantine-Modal-header{
+  background-color: var(--dark-base);
+  /* color: white; */
+
+}
+
+.mantine-Modal-body{
+  background-color: var(--dark-base);
+   /* width: 70vw; */
+   height: 50vh;
+   display: flex;
+   flex-direction: column;
+   /* color: white; */
+}

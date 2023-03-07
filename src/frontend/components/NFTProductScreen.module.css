@@ -1,0 +1,73 @@
+.Page{
+    width: 100vw;
+    height: calc(100vh - 5vh - 8vh - 2.4rem - 2rem);
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+.ImageContainer{
+    width: 35vw;
+    height: calc(100vh - 5vh - 8vh - 2.4rem );
+    /* background-color: aqua; */
+}
+
+.Image{
+    width: 35vw;
+    height: calc(100vh - 5vh - 8vh - 2.4rem );
+    /* background-color: red; */
+    object-fit: cover;
+}
+
+.TextContainer{
+    padding: 5rem;
+}
+
+.Heading{
+    color: var(--green);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.Price{
+    color: var(--green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1rem 0rem;
+}
+
+.Button{
+    color: var(--base-black);
+    background-color: var(--green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: fit-content;
+    margin: 1rem 0rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.CartIcon{
+    color: var(--base-black);
+    font-size: 2rem;
+    /* color: aqua; */
+}
+
+.Heading2{
+    color: var(--green);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 1rem 0rem;
+}
+
+.Details{
+    font-size: 1.2rem;
+    margin: 0.2rem 0rem;
+}
