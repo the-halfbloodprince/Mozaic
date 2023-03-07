@@ -133,7 +133,8 @@ const ProfilePage = ({ nft, marketplace, account}) => {
             name: metadata.name,
             description: metadata.description,
             image: imageURL,
-            totalPrice,
+                totalPrice,
+            category : metadata.category,
             onSale : i.onSale,
             };
             myItems.push(item);

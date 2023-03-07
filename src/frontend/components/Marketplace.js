@@ -41,6 +41,7 @@ const Home = ({ connection, marketplace, nft }) => {
           image: imageURL,
           price: token.price,
           onSale: token.onSale,
+          category : metadata.category,
           totalPrice,
         };
         items.push(item);
@@ -84,6 +85,7 @@ const Home = ({ connection, marketplace, nft }) => {
         {/* cards */}
         {items.map((nft) => (
           <NFTCard
+            key= {nft.itemId}
             nft={nft}
             actionText="Buy"
             actionFunc={() => buyItem(nft)}
