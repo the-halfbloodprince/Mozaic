@@ -155,11 +155,18 @@ const ProfilePage = () => {
         await (await marketplace.listItem(itemId, listingPrice)).wait();
         setNeedRefresh(true)
         notifications.show({
+            withCloseButton: true,
+            loading: false,
+            color: 'lime',
             title: 'NFT Listed',
             message: 'Successfully listed your NFT!'
           })
     } catch (e) {
-        alert("Upload error" + e);
+        notifications.show({
+            color: 'red',
+            title: 'Upload error',
+            message: e
+          })
         }
     };
 
@@ -169,11 +176,18 @@ const ProfilePage = () => {
             await (await marketplace.unlistItem(itemId)).wait();
             setNeedRefresh(true)
             notifications.show({
+                withCloseButton: true,
+                loading: false,
+                color: 'lime',
                 title: 'NFT Unlisted',
                 message: 'Successfully unlisted your NFT!'
               })
         } catch (e) {
-            alert("Upload error" + e);
+            notifications.show({
+                color: 'red',
+                title: 'Upload error',
+                message: e
+              })
         }
     }
 

@@ -7,6 +7,7 @@ import { HashLoader } from "react-spinners";
 import { notifications } from '@mantine/notifications';
 // import styles from "./Create.module.css";
 import { Radio } from "@mantine/core";
+import { useNavigate } from 'react-router-dom'
 
 // read the API key from an environment variable. You'll need to set this before running the example!
 const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
@@ -27,6 +28,8 @@ const CreateNFT = ({ nft, marketplace }) => {
 // export default CreateNFT
 
 function CreateSignedIn({ nft, marketplace }) {
+
+    const navigate = useNavigate()
     
     const [needRefresh, setNeedRefresh] = useContext(needrefreshContext) 
 
@@ -187,6 +190,9 @@ function CreateSignedIn({ nft, marketplace }) {
       const metadata = await client.store(nftJSON);
 
       notifications.show({
+        withCloseButton: true,
+        loading: false,
+        color: 'lime',
         title: 'NFT Data stored',
         message: 'NFT Data stored'
       })
@@ -206,6 +212,14 @@ function CreateSignedIn({ nft, marketplace }) {
     e.preventDefault();
     console.log(formParams)
 
+    notifications.show({
+      withCloseButton: true,
+      loading: true,
+      color: 'lime',
+      title: 'Creating your NFT!',
+      message: 'Creating your NFT!'
+    })
+
     //Upload data to IPFS
     try {
       const metadataURL = await uploadMetadataToIPFS();
@@ -217,9 +231,12 @@ function CreateSignedIn({ nft, marketplace }) {
 
       await (await marketplace.makeItem(nft.address, id)).wait();
       setNeedRefresh(true)
+      navigate('/profile')
 //         // alert("Successfully minted your NFT!");
       notifications.show({
-        color: 'green',
+        withCloseButton: true,
+        loading: false,
+        color: 'lime',
         title: 'NFT Minted',
         message: 'Successfully minted your NFT!'
       })
@@ -227,7 +244,9 @@ function CreateSignedIn({ nft, marketplace }) {
       console.log(e);
       // alert("Upload error");
       notifications.show({
-        color: 'red',
+        withCloseButton: true,
+        loading: false,
+        color: 'lime',
         title: 'Upload error',
         message: e
       })

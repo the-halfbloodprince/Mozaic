@@ -26,7 +26,7 @@ const MainApp = () => {
                 <nftContext.Provider value={[nft, setnft]}>
                     <NFTsContext.Provider value={[NFTs, setNFTs]}>
                         <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
-                            <MantineProvider>
+                            <MantineProvider theme={{ colorScheme: 'dark' }}>
                                 <Notifications />
                                 <App />
                             </MantineProvider>
