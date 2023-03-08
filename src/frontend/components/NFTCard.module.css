@@ -1,22 +1,19 @@
 .nftcard {
-
     --border-radius: 10px;
-
-    width: 20vw;
-    height: 30vw;
+    width: 14vw;
+    height: 21vw;
     position: relative;
     border-radius: var(--border-radius);
     /* overflow: hidden; */
-
-    transition: all .5s ease;
-
+    transition: all .3s ease;
     cursor: pointer;
+    margin-bottom: 3rem;
+    /* display: flex;
+    flex-wrap: wrap; */
 }
-
 .nftcard:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
-
 .img {
     position: relative;
     margin-bottom: 0 !important;
@@ -26,7 +23,6 @@
     object-fit: cover;
     z-index: 2 !important;
 }
-
 .info {
     background: #ffffffaa;
     color: black;
@@ -42,22 +38,23 @@
     font-weight: 600;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
-
 .info > .name {
     font-weight: 800;
 }
-
 .info > .price {
     color: #616161;
+    width: 100%;
 }
-
+.price{
+    font-size: 1rem;
+}
 .action {
     text-align: center;
     box-sizing: border-box;
     position: absolute;
     bottom: 0;
     /* z-index: 10; */
-    width: 20vw;
+    width: 100%;
     padding: .6rem 1rem;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     font-weight: 700;
@@ -68,15 +65,12 @@
     transform: translateY(-100%);
     transition: all .3s ease;
 }
-
 .nftcard:hover .info {
     border-radius: 0;
 }
-
 .nftcard:hover .img {
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
-
 .nftcard:hover .action {
     /* opacity: 1; */
     transform: translateY(100%);

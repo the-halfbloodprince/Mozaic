@@ -313,7 +313,6 @@ function CreateSignedIn({ nft, marketplace }) {
             value={selectedCategory}
             onChange={handleOptionChange}
             name="Category"
-            label="Choose your category"
             >
             {
                 categories.map(categ => (
