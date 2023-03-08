@@ -7,6 +7,7 @@ import NavBar from './Navbar';
 import Marketplace from './Marketplace.js'
 import LandingPage from './LandingPage.js'
 import Create from './Create.js'
+import Transactions from './Transactions.js'
 import Profile from './Profile.js'
 import MyListedItems from './MyListedItems.js'
 import MyPurchases from './MyPurchases.js'
@@ -21,7 +22,7 @@ import { Spinner } from 'react-bootstrap'
 import Footer from './Footer';
 import { ToastContainer  } from 'react-toastify';
 import styles from './App.module.css';
-import { accountContext, marketplaceContext, nftContext, NFTsContext, myNFTsContext, needrefreshContext } from "../contexts/contexts";
+import { accountContext, marketplaceContext, nftContext, NFTsContext, myNFTsContext, needrefreshContext, transactionsContext } from "../contexts/contexts";
 import NFTProductScreen from "./NFTProductScreen";
 import Loading from "./AwaitingConnection";
 import axios from "axios";
@@ -35,6 +36,7 @@ function App() {
 
   const [NFTs, setNFTs] = useContext(NFTsContext)
   const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
+  const [transactions, setTransactions] = useContext(transactionsContext);
 
   // MetaMask Login/Connect
   const web3Handler = async () => {
@@ -74,116 +76,88 @@ function App() {
 
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
+    
     console.log(itemCount.toNumber());
+    
     let items = [];
     let myItems = []
+    
 
     for (let i = 1; i <= itemCount; i++) {
       const token = await marketplace.items(i);
       // console.log(token);
       // console.log(token.tokenId);
-      if (token.seller.toLowerCase() === account) {
-          // get uri url from nft contract
-          const tokenURI = await nft.tokenURI(token.tokenId);
-          console.log(tokenURI);
-          let url = tokenURI.split("//");
-          console.log(url[1]);
-          let axiosURL = "https://ipfs.io/ipfs/" + url[1];
-          console.log(axiosURL);
-          let meta = await axios.get(axiosURL);
-          let metadata = meta.data;
-          console.log(metadata);
+      const tokenURI = await nft.tokenURI(token.tokenId);
+      // console.log(tokenURI);
+      let url = tokenURI.split("//");
+      console.log(url[1]);
+      let axiosURL = "https://ipfs.io/ipfs/" + url[1];
+      console.log(axiosURL);
+      let meta = await axios.get(axiosURL);
+      let metadata = meta.data;
+      console.log(metadata);
 
-          let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
-          const totalPrice = await marketplace.getTotalPrice(token.itemId);
-      
-          let item = {
-            itemId: token.itemId,
-            name: metadata.name,
-            description: metadata.description,
-            image: imageURL,
-            category: metadata.category,
-            totalPrice,
-            onSale : token.onSale,
-          };
-          console.log(item);
-          myItems.push(item);
+      let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
+      const totalPrice = await marketplace.getTotalPrice(token.itemId);
+      let item = {
+        itemId: token.itemId,
+        seller: token.seller,
+        name: metadata.name,
+        description: metadata.description,
+        image: imageURL,
+        price: token.price,
+        onSale: token.onSale,
+        totalPrice,
+      };
+      if (token.seller.toLowerCase() === account) {
+    
+        console.log(item);
+        myItems.push(item);
       }
 
       if (token.onSale) {
-        const tokenURI = await nft.tokenURI(token.tokenId);
-        // console.log(tokenURI);
-        let url = tokenURI.split("//");
-        // console.log(url[1]);
-        let axiosURL = "https://ipfs.io/ipfs/" + url[1];
-        // console.log(axiosURL);
-        let meta = await axios.get(axiosURL);
-        let metadata = meta.data;
-        console.log(metadata);
-
-        let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
-
-        const totalPrice = await marketplace.getTotalPrice(token.itemId);
-
-        let item = {
-          itemId: token.itemId,
-          seller: token.seller,
-          name: metadata.name,
-          description: metadata.description,
-          image: imageURL,
-          category: metadata.category,
-          price: token.price,
-          onSale: token.onSale,
-          totalPrice,
-        };
+        
         items.push(item);
       }
     }
 
     setNFTs(items);
     setMyNFTs(myItems);
+
+
+    const transactionCount = await marketplace.transactionCount();
+    console.log(transactionCount.toNumber());
+    let transactionItems = [];
+
+    for (let i = 1; i <= transactionCount; i++){
+      const currentTransaction = await marketplace.transactions(i);
+      // console.log(token);
+      // console.log(token.tokenId);
+      const tokenURI = await nft.tokenURI(currentTransaction.tokenId);
+      // console.log(tokenURI);
+      let url = tokenURI.split("//");
+      console.log(url[1]);
+      let axiosURL = "https://ipfs.io/ipfs/" + url[1];
+      console.log(axiosURL);
+      let meta = await axios.get(axiosURL);
+      let metadata = meta.data;
+      // console.log(metadata);
+
+      let tsc = {
+        transactionId: currentTransaction.transactionCount,
+        from: currentTransaction.from,
+        to: currentTransaction.to,
+        amount : currentTransaction.amount,
+        timestamp: currentTransaction.timestamp,
+        nftName:metadata.name,
+        
+      }
+      transactionItems.push(tsc);
+    }
+    setTransactions(transactionItems);
   };
 
-  // const loadTokens = async () => {
-  //     // Load all sold items that the user listed
-  //     const itemCount = NFTs.length();
-  //     // console.log(itemCount.toNumber());
-  //     let myItems = [];
-  //     // let soldItems = [];
-  //     for (let indx = 1; indx <= itemCount; indx++) {
-  //     const i = NFTs[indx];
-  //     //   console.log(i);
-  //     if (i.seller.toLowerCase() === account) {
-  //         // get uri url from nft contract
-  //         const tokenURI = await nft.tokenURI(i.tokenId);
-  //         console.log(tokenURI);
-  //         let url = tokenURI.split("//");
-  //         console.log(url[1]);
-  //         let axiosURL = "https://ipfs.io/ipfs/" + url[1];
-  //         console.log(axiosURL);
-  //         let meta = await axios.get(axiosURL);
-  //         let metadata = meta.data;
-  //         console.log(metadata);
-
-  //         let imageURL = "https://ipfs.io/ipfs/" + metadata.image.split("//")[1];
-  //         const totalPrice = await marketplace.getTotalPrice(i.itemId);
-      
-  //         let item = {
-  //         itemId: i.itemId,
-  //         name: metadata.name,
-  //         description: metadata.description,
-  //         image: imageURL,
-  //         totalPrice,
-  //         onSale : i.onSale,
-  //         };
-  //         myItems.push(item);
-  //         // console.log()
-  //     }
-  //     }
-      
-  //     setNFTs(myItems);
-  //     // console.log(tokens);
-  // };
+  
 
   useEffect(() => {
 
@@ -234,8 +208,10 @@ function App() {
                 }/>
                 <Route path="/createnft" element={
                   <createnft account={account} />
-                }
-                />
+                }/>
+                <Route path="/transactions" element={
+                  <Transactions />
+                }/>
               </Routes>
             {/* )} */}
             <ToastContainer
