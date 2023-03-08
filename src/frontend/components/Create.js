@@ -3,7 +3,7 @@ import { NFTStorage } from "nft.storage";
 import styles from './Create.module.css'
 import { accountContext, needrefreshContext } from "../contexts/contexts";
 import Loading from "./AwaitingConnection";
-import { HashLoader } from "react-spinners";
+import { HashLoader, PuffLoader, PulseLoader } from "react-spinners";
 import { notifications } from '@mantine/notifications';
 import { categories } from "../globals/variables";
 import { Radio } from "@mantine/core";
@@ -149,6 +149,9 @@ function CreateSignedIn({ nft, marketplace }) {
 //       </div>
 //     )
 // }
+
+  const [loading, setLoading] = useState(false)
+
   // form params
   const [formParams, updateFormParams] = useState({
     name: "",
@@ -189,13 +192,14 @@ function CreateSignedIn({ nft, marketplace }) {
       const client = new NFTStorage({ token: API_KEY });
       const metadata = await client.store(nftJSON);
 
-      notifications.show({
-        withCloseButton: true,
-        loading: false,
-        color: 'lime',
-        title: 'NFT Data stored',
-        message: 'NFT Data stored'
-      })
+      // notifications.show({
+      //   withCloseButton: true,
+      //   loading: false,
+      //   color: 'lime',
+      //   title: 'NFT Data stored',
+      //   message: 'NFT Data stored'
+      // })
+      console.log("NFT Data Stored");
       console.log("Metadata URI: ", metadata.url);
       return metadata.url;
     } catch (e) {
@@ -210,6 +214,7 @@ function CreateSignedIn({ nft, marketplace }) {
 
   async function mintNFT(e) {
     e.preventDefault();
+    setLoading(true)
     console.log(formParams)
 
     notifications.show({
@@ -231,14 +236,15 @@ function CreateSignedIn({ nft, marketplace }) {
 
       await (await marketplace.makeItem(nft.address, id)).wait();
       setNeedRefresh(true)
-      navigate('/profile')
+      setLoading(false)
+      setTimeout(() => navigate('/profile'), 3000)
 //         // alert("Successfully minted your NFT!");
       notifications.show({
         withCloseButton: true,
         loading: false,
         color: 'lime',
         title: 'NFT Minted',
-        message: 'Successfully minted your NFT!'
+        message: 'Successfully minted your NFT. You will be redirected to your profile page in 3 seconds'
       })
     } catch (e) {
       console.log(e);
@@ -342,8 +348,9 @@ function CreateSignedIn({ nft, marketplace }) {
         </div>
         {/* submit button */}
         <div className={styles.center}>
-          <button className={styles.createButton} onClick={mintNFT}>
-            Create NFT
+          <button className={styles.createButton} onClick={mintNFT} disabled={loading}>
+            <p>{ loading && <PulseLoader size={10} className={styles.loadingIcon} /> }</p>
+            <p>{ loading ? 'Creating NFT' : 'Create NFT'}</p>
           </button>
         </div>
       </div>

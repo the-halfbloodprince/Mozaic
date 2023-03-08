@@ -102,7 +102,23 @@
   width: 100%;
   text-align: center;
   border: solid 1px var(--black-base);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
+
+.createButton:disabled {
+  cursor: not-allowed;
+  background: #666;
+}
+
+.createButton:disabled:hover {
+  background: #666;
+  pointer-events: none;
+}
+
 .createButton:hover{
   background-color: var(--hover-green);
 }
