@@ -6,13 +6,14 @@ import { HashLoader as LoaderAnim } from "react-spinners";
 
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
-import { accountContext, marketplaceContext, nftContext, NFTsContext } from "../contexts/contexts";
+import { accountContext, marketplaceContext, needrefreshContext, nftContext, NFTsContext } from "../contexts/contexts";
 
 const MarketPlaceMain = () => {
 
   const [account, setAccount] = useContext(accountContext)
   const [marketplace, setMarketplace] = useContext(marketplaceContext)
   const [nft, setnft] = useContext(nftContext)
+  const [needRefresh, setNeedRefresh] = useContext(needrefreshContext)
 
   console.log(marketplace)
   // const [nfts, setnft] = useContext(nftContext)
@@ -22,17 +23,13 @@ const MarketPlaceMain = () => {
   
 
   const buyItem = async (item) => {
+    
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
-    // TODO: loadMarketplaceItems();
+
+    setNeedRefresh(true)
   };
-
-  // useEffect(() => {
-
-
-
-  // }, []);
 
   return (
     <div>
