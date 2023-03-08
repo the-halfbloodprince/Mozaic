@@ -50,17 +50,20 @@ const MarketPlaceMain = () => {
       </div>
 
       <div className={styles.marketplaceContent}>
+          
+          <div className={styles.marketplaceCategories}>
+            {/* tags */}
+              <div className={styles.toggleBtns}>
+                {
+                    allCategories.map((categ) => (
+                      <button className={`${styles.toggleBtn} ${activeCategory === categ && styles.activeBtn}`} onClick={() => setActiveCategory(categ)}> { categ } </button>
+                    ))
+                }
+                  {/* <div className={`${styles.toggleBtn} ${activeCategory === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveCategory('Your Transactions')}>My Transactions</div> */}
+              </div>
+
+
           <div className={styles.marketplaceNFTs}>
-              {/* tags */}
-              <div>
-                <div className={styles.toggleBtns}>
-                  {
-                      allCategories.map((categ) => (
-                        <button className={`${styles.toggleBtn} ${activeCategory === categ && styles.activeBtn}`} onClick={() => setActiveCategory(categ)}> { categ } </button>
-                      ))
-                  }
-                    {/* <div className={`${styles.toggleBtn} ${activeCategory === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveCategory('Your Transactions')}>My Transactions</div> */}
-                </div>
                 {/* cards */}
               {NFTs.map((nft) => (
                 <NFTCard

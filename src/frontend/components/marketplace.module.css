@@ -38,11 +38,11 @@
     padding: 0 6rem 3rem;
     gap: 1rem;
 }
-.marketplaceCategories{
+/* .marketplaceCategories{
     display: flex;
     flex-direction: row;
     color: white;
-}
+} */
 .marketplaceNFTs{
     display: flex;
     flex-direction: row;
@@ -57,8 +57,8 @@
     display: flex;
     justify-content: start;
     margin: 2rem 0;
-    position: relative;
-    margin-bottom: -7vh;
+    /* position: relative;
+    margin-bottom: -7vh; */
  }
  
  .toggleBtn {

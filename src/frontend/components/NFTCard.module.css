@@ -1,7 +1,8 @@
 .nftcard {
     --border-radius: 10px;
-    width: 14vw;
-    height: 21vw;
+    width: 12rem;
+    height: 18rem;
+    margin-right: 0.6rem;
     position: relative;
     border-radius: var(--border-radius);
     /* overflow: hidden; */
