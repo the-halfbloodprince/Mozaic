@@ -104,6 +104,7 @@ function App() {
         seller: token.seller,
         name: metadata.name,
         description: metadata.description,
+        category: metadata.category,
         image: imageURL,
         price: token.price,
         onSale: token.onSale,
