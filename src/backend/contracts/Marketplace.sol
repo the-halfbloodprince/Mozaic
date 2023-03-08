@@ -13,6 +13,7 @@ contract Marketplace is ReentrancyGuard {
     address payable public immutable feeAccount; // the account that receives fees
     uint public immutable feePercent; // the fee percentage on sales 
     uint public itemCount; 
+    uint public transactionCount;
 
     struct Item {
         uint itemId;
@@ -23,8 +24,17 @@ contract Marketplace is ReentrancyGuard {
         bool onSale;
     }
 
+    struct Transaction {
+        uint transactionCount;
+        address from;
+        address to;
+        uint amount;
+        uint tokenId;
+        uint timestamp;
+    }
     // itemId -> Item
     mapping(uint => Item) public items;
+    mapping(uint => Transaction) public transactions;
 
     event Minted(
         uint itemId,
@@ -109,6 +119,18 @@ contract Marketplace is ReentrancyGuard {
         require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
         require(msg.value >= _totalPrice, "not enough ether to cover item price and market fee");
         require(msg.sender != item.seller,"You already own the nft!");
+
+
+        transactionCount++;
+        transactions[transactionCount] = Transaction(
+            transactionCount,
+            item.seller,
+            msg.sender,
+            _totalPrice,
+            _itemId,
+            block.timestamp
+
+        );
         // require(!item.sold, "item already sold");
         // pay seller and feeAccount
         item.seller.transfer(item.price);
@@ -120,6 +142,8 @@ contract Marketplace is ReentrancyGuard {
         // transfer nft to buyer
         item.nft.transferFrom(address(this), msg.sender, item.tokenId);
         // emit Bought event
+
+        
         emit Bought(
             _itemId,
             address(item.nft),
