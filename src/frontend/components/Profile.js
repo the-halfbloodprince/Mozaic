@@ -90,7 +90,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = nu
                 {
                     myNFTs
                         // .slice(0, 4)
-                        .map((nft, idx) => <NFTCard key={idx} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
+                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
                 }
             </div>
         </div>

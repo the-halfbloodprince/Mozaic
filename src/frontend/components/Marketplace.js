@@ -71,7 +71,7 @@ const MarketPlaceMain = () => {
                             .filter(n => (activeCategory === 'All' || activeCategory === n.category))
                             .map((nft) => (
                               <NFTCard
-                                // key={nft.}
+                                key={nft.itemId}
                                 nft={nft}
                                 actionText={nft.seller.toLowerCase() != account ? "Buy" : "See your NFT"}
                                 actionFunc={

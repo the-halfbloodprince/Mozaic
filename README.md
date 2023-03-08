@@ -46,3 +46,17 @@ License
 ----
 MIT
 
+### Data storing in state:
+```js
+let item = {
+        itemId: token.itemId,
+        seller: token.seller,
+        name: metadata.name,
+        description: metadata.description,
+        category: metadata.category,
+        image: imageURL,
+        price: token.price,
+        onSale: token.onSale,
+        totalPrice,
+      };
+```
