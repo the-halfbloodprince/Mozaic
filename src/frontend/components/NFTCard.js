@@ -9,9 +9,9 @@ const NFTCard = ({ nft: {name, image, totalPrice, onSale, category}, actionText 
     <div className={styles.nftcard}>
         { actionText && <div className={styles.action} onClick={actionFunc} > {actionText} </div> }
         <img className={styles.img} src={image} alt={name} />
+        <p className={styles.category}> {category} </p>
         <div className={styles.info}>
             <p className={styles.name}> {name} </p>
-            <p className=""> {category} </p>
             <p className={styles.price}> {onSale ? `${ethers.utils.formatEther(totalPrice)} ETH` : 'Unlisted'} </p>
         </div>
     </div>)

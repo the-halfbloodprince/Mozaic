@@ -43,11 +43,24 @@
     font-weight: 800;
 }
 .info > .price {
+    font-size: 1rem;
     color: #616161;
     width: 100%;
 }
-.price{
-    font-size: 1rem;
+.category {
+    font-size: 0.8rem;
+    font-weight: 800;
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    z-index: 5;
+    color: black;
+    background: var(--green);
+    width: fit-content;
+    /* padding: 0.5rem; */
+    border-radius: 1rem;
+    padding: 0 0.5rem;
+    /* width: 100%; */
 }
 .action {
     text-align: center;
