@@ -26,6 +26,7 @@ import { accountContext, marketplaceContext, nftContext, NFTsContext, myNFTsCont
 import NFTProductScreen from "./NFTProductScreen";
 import Loading from "./AwaitingConnection";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
 function App() {
 
@@ -170,10 +171,28 @@ function App() {
   //   loadTokens()
   // })
 
-  if (needRefresh) {
-
-      loadMarketplaceItems()
+  const refresh = async () => {
+      notifications.show({
+        id: 'fetching-nfts',
+        color: 'lime',
+        title: 'Fetching NFTs',
+        message: 'Fetching NFTs',
+        loading: true
+      })
       setNeedRefresh(false)
+      await loadMarketplaceItems()
+      notifications.hide('fetching-nfts')
+      notifications.show({
+        color: 'lime',
+        title: 'Fetched NFTs',
+        message: 'Fetched NFTs',
+        // loading: true
+      })
+
+  }
+
+  if (needRefresh) {
+      refresh()
   }
 
   return (
