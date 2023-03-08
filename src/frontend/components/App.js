@@ -102,6 +102,7 @@ function App() {
             name: metadata.name,
             description: metadata.description,
             image: imageURL,
+            category: metadata.category,
             totalPrice,
             onSale : token.onSale,
           };
@@ -130,6 +131,7 @@ function App() {
           name: metadata.name,
           description: metadata.description,
           image: imageURL,
+          category: metadata.category,
           price: token.price,
           onSale: token.onSale,
           totalPrice,

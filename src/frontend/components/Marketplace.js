@@ -62,22 +62,29 @@ const MarketPlaceMain = () => {
                   {/* <div className={`${styles.toggleBtn} ${activeCategory === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveCategory('Your Transactions')}>My Transactions</div> */}
               </div>
 
-
-          <div className={styles.marketplaceNFTs}>
-                {/* cards */}
-              {NFTs.map((nft) => (
-                <NFTCard
-                  // key={nft.}
-                  nft={nft}
-                  actionText={nft.seller.toLowerCase() != account ? "Buy" : "See your NFT"}
-                  actionFunc={
-                    nft.seller.toLowerCase() != account
-                      ? () => buyItem(nft)
-                      : null
-                  }
-                />
-              ))}
+              <div className={styles.NFTGroup}>
+                <p className={styles.selectedCat}> {activeCategory} NFTs </p>
+                  <div className={styles.marketplaceNFTs}>
+                        {/* cards */}
+                      {
+                          NFTs
+                            .filter(n => (activeCategory === 'All' || activeCategory === n.category))
+                            .map((nft) => (
+                              <NFTCard
+                                // key={nft.}
+                                nft={nft}
+                                actionText={nft.seller.toLowerCase() != account ? "Buy" : "See your NFT"}
+                                actionFunc={
+                                  nft.seller.toLowerCase() != account
+                                    ? () => buyItem(nft)
+                                    : null
+                                }
+                              />
+                            ))
+                      }
+                    </div>
               </div>
+              
           </div>
         </div>
 

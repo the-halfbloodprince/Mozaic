@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './NFTCard.module.css'
 import { ethers } from "ethers";
 
-const NFTCard = ({ nft: {name, image, totalPrice, onSale,category}, actionText = null, actionFunc = null }) => {
+const NFTCard = ({ nft: {name, image, totalPrice, onSale, category}, actionText = null, actionFunc = null }) => {
 // console.log(price);
 
     return (
