@@ -35,3 +35,41 @@
     font-weight: 600;
     color: white;
 }
+
+/* toggle btns */
+
+.toggleBtns {
+    display: flex;
+    justify-content: start;
+    margin: 2rem 0;
+    position: relative;
+    margin-bottom: -7vh;
+ }
+ 
+ .toggleBtn {
+    padding: 0.6rem 2em;
+    font-size: 1.1em;
+    /* font-weight: 600; */
+    color: white;
+    background: var(--dark-base);
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+ }
+ 
+ .toggleBtn:hover {
+    /* outline: solid 2px white; */
+    outline: solid 2px var(--green);
+ }
+ 
+ .toggleBtn:not(.toggleBtn:nth-child(1)) {
+    /* background: white; */
+    margin-left: 1rem;
+ }
+ 
+ .activeBtn {
+    background: var(--green);
+    color: black;
+    font-weight: 600;
+ }

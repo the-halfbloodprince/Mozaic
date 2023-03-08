@@ -5,7 +5,7 @@ import { accountContext, needrefreshContext } from "../contexts/contexts";
 import Loading from "./AwaitingConnection";
 import { HashLoader } from "react-spinners";
 import { notifications } from '@mantine/notifications';
-// import styles from "./Create.module.css";
+import { categories } from "../globals/variables";
 import { Radio } from "@mantine/core";
 import { useNavigate } from 'react-router-dom'
 
@@ -307,7 +307,7 @@ function CreateSignedIn({ nft, marketplace }) {
         <div className={styles.radio}>
           <p className={`${styles.radio__label} ${styles.label}`}>Category:</p>
           <p className={styles.label__info}>
-            Choose atleast 2 of the categories which depict your NFT
+            Choose any 1 of the categories which depict your NFT the best
           </p>
           <Radio.Group
             value={selectedCategory}
@@ -315,12 +315,16 @@ function CreateSignedIn({ nft, marketplace }) {
             name="Category"
             label="Choose your category"
             >
-            <Radio
-              className={styles.radio__input}
-              value="3D Art"
-              label="3D Art"
-            />
-            <Radio
+            {
+                categories.map(categ => (
+                  <Radio
+                    className = { styles.radio__input }
+                    value = { categ }
+                    label = { categ }
+                  />
+                ))
+            }
+            {/* <Radio
               className={styles.radio__input}
               value="History"
               label="History"
@@ -334,7 +338,7 @@ function CreateSignedIn({ nft, marketplace }) {
               className={styles.radio__input}
               value="Aesthetics"
               label="Aesthetics"
-            />
+            /> */}
           </Radio.Group>
         </div>
         {/* submit button */}

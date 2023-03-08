@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import Loading from "./AwaitingConnection";
 import { HashLoader as LoaderAnim } from "react-spinners";
-
+import { categories } from '../globals/variables'
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
 import { accountContext, marketplaceContext, needrefreshContext, nftContext, NFTsContext } from "../contexts/contexts";
@@ -15,12 +15,13 @@ const MarketPlaceMain = () => {
   const [nft, setnft] = useContext(nftContext)
   const [needRefresh, setNeedRefresh] = useContext(needrefreshContext)
 
-  console.log(marketplace)
-  // const [nfts, setnft] = useContext(nftContext)
-  // const [account, setAccount] = useContext(accountContext)
+  const  [activeCategory, setActiveCategory] = useState('All')
+
+  const allCategories = ['All', ...categories]
 
   const [NFTs, setNFTs] = useContext(NFTsContext);
-  
+
+  const NFTsToShow = NFTs.filter((n) => (activeCategory === 'All' || activeCategory === n.category))
 
   const buyItem = async (item) => {
     
@@ -50,17 +51,26 @@ const MarketPlaceMain = () => {
 
       {
           NFTs['loading'] ? <p>Loading marketplace items...</p> : (
-            /* tags */
-
-            /* cards */
-            NFTs.map((nft) => (
-              <NFTCard
-                // key={nft.}
-                nft={nft}
-                actionText={nft.seller.toLowerCase() != account ? "Buy" : null}
-                actionFunc={nft.seller.toLowerCase() != account ? () => buyItem(nft) : null}
-              />
-            ))
+            <div>
+              {/* tags */}
+              <div className={styles.toggleBtns}>
+                {
+                    allCategories.map((categ) => (
+                      <button className={`${styles.toggleBtn} ${activeCategory === categ && styles.activeBtn}`} onClick={() => setActiveCategory(categ)}> { categ } </button>
+                    ))
+                }
+                  {/* <div className={`${styles.toggleBtn} ${activeCategory === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveCategory('Your Transactions')}>My Transactions</div> */}
+              </div>
+              {/* cards */}
+              {NFTs.map((nft) => (
+                <NFTCard
+                  // key={nft.}
+                  nft={nft}
+                  actionText={nft.seller.toLowerCase() != account ? "Buy" : null}
+                  actionFunc={nft.seller.toLowerCase() != account ? () => buyItem(nft) : null}
+                />
+              ))}
+            </div>
           )
       }
     </div>
