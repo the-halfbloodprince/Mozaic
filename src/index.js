@@ -7,6 +7,8 @@ import * as serviceWorker from './serviceWorker';
 import { accountContext,  NFTsContext, nftContext, marketplaceContext, myNFTsContext, needrefreshContext,transactionsContext } from './frontend/contexts/contexts'
 import React, { useState } from 'react'
 import { Notifications } from '@mantine/notifications';
+import { store } from "./frontend/redux/store";
+import { Provider } from "react-redux";
 
 const rootElement = document.getElementById("root");
 
@@ -21,24 +23,26 @@ const MainApp = () => {
     const [transactions, setTransactions] = useState([])
 
     return (
-        <needrefreshContext.Provider value={[needRefresh, setNeedRefresh]}>
-        <accountContext.Provider value={[account, setAccount]}>
-            <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
-                <nftContext.Provider value={[nft, setnft]}>
-                    <NFTsContext.Provider value={[NFTs, setNFTs]}>
-                        <transactionsContext.Provider value = {[transactions, setTransactions]}>
-                            <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
-                                <MantineProvider theme={{ colorScheme: 'dark' }}>
-                                    <Notifications />
-                                    <App />
-                                </MantineProvider>
-                            </myNFTsContext.Provider>
-                        </transactionsContext.Provider>
-                    </NFTsContext.Provider>
-                </nftContext.Provider>
-            </marketplaceContext.Provider>
-        </accountContext.Provider>
-        </needrefreshContext.Provider>
+        <Provider store={store}>
+            <needrefreshContext.Provider value={[needRefresh, setNeedRefresh]}>
+                <accountContext.Provider value={[account, setAccount]}>
+                    <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
+                        <nftContext.Provider value={[nft, setnft]}>
+                            <NFTsContext.Provider value={[NFTs, setNFTs]}>
+                                <transactionsContext.Provider value = {[transactions, setTransactions]}>
+                                    <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
+                                        <MantineProvider theme={{ colorScheme: 'dark' }}>
+                                            <Notifications />
+                                            <App />
+                                        </MantineProvider>
+                                    </myNFTsContext.Provider>
+                                </transactionsContext.Provider>
+                            </NFTsContext.Provider>
+                        </nftContext.Provider>
+                    </marketplaceContext.Provider>
+                </accountContext.Provider>
+            </needrefreshContext.Provider>
+        </Provider>
     )
 }
 
