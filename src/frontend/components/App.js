@@ -29,6 +29,7 @@ import Loading from "./AwaitingConnection";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import CreatePage from "./CreatePage2";
+import SomethingWentWrong from "./SomethingWentWrong";
 
 function App() {
 
@@ -227,6 +228,9 @@ function App() {
                 }/>
                 <Route path="/nft" element={
                   <NFTProductScreen />
+                }/>
+                <Route path="/something-went-wrong" element={
+                  <SomethingWentWrong />
                 }/>
                 {/* <Route path="/createnft" element={
                   <createnft account={account} />

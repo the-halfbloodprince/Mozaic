@@ -257,15 +257,18 @@ function CreateSignedIn({ nft, marketplace }) {
         message: 'Successfully minted your NFT. You will be redirected to your profile page in 3 seconds'
       })
     } catch (e) {
+      navigate('/something-went-wrong')
+      // e.preventDefault()
       console.log(e);
-      // alert("Upload error");
-      notifications.show({
-        withCloseButton: true,
-        loading: false,
-        color: 'lime',
-        title: 'Upload error',
-        message: e
-      })
+      // // alert("Upload error");
+      // notifications.show({
+      //   withCloseButton: true,
+      //   loading: false,
+      //   color: 'lime',
+      //   title: 'Upload error',
+      //   message: e
+      // })
+      // setLoading(false)
     }
   }
 
