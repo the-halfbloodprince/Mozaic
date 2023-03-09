@@ -8,6 +8,7 @@ import Marketplace from './Marketplace.js'
 import LandingPage from './LandingPage.js'
 import Create from './Create.js'
 import Transactions from './Transactions.js'
+import UpdateProfile from "./UpdateProfile";
 import Profile from './Profile.js'
 import MyListedItems from './MyListedItems.js'
 import MyPurchases from './MyPurchases.js'
@@ -233,8 +234,8 @@ function App() {
                 <Route path="/transactions" element={
                   <Transactions />
                 }/>
-                <Route path="/create-2" element={
-                  <CreatePage />
+                <Route path="/updateProfile" element={
+                  <UpdateProfile account={account} />
                 }/>
               </Routes>
             {/* )} */}
