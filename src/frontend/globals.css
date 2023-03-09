@@ -91,8 +91,10 @@ a {
 }
 
 .mantine-Radio-label{
-  color: white;
+  font-size: 1.2rem;
+  color: gray;
   cursor: pointer;
+  transition: all .5s ease;
 }
 .mantine-Radio-labelWrapper{
   color: white;
@@ -105,6 +107,7 @@ a {
   background-color: transparent;
   border-radius: 7px;
   cursor: pointer;
+  transition: all .5s ease;
 }
 .mantine-Radio-radio:checked{
   background-color: var(--green);
@@ -113,4 +116,16 @@ a {
 }
 .mantine-Radio-icon{
   color: transparent;
+}
+
+.activeRadio .mantine-Radio-label {
+  color: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  transition: background-color 5000s ease-in-out 0s;
+    /* background: var(--dark-base); */
 }

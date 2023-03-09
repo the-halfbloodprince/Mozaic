@@ -27,6 +27,7 @@ import NFTProductScreen from "./NFTProductScreen";
 import Loading from "./AwaitingConnection";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import CreatePage from "./CreatePage2";
 
 function App() {
 
@@ -214,23 +215,26 @@ function App() {
                 <Route path="/create" element={
                   <Create marketplace={marketplace} nft={nft} />
                 } />
-                <Route path="/my-listed-items" element={
+                {/* <Route path="/my-listed-items" element={
                   <MyListedItems marketplace={marketplace} nft={nft} account={account} />
-                } />
-                <Route path="/my-purchases" element={
+                } /> */}
+                {/* <Route path="/my-purchases" element={
                   <MyPurchases marketplace={marketplace} nft={nft} account={account} />
-                } />
+                } /> */}
                 <Route path="/profile" element={
                   <Profile nft={nft} marketplace={marketplace} account={account} />
                 }/>
                 <Route path="/nft" element={
                   <NFTProductScreen />
                 }/>
-                <Route path="/createnft" element={
+                {/* <Route path="/createnft" element={
                   <createnft account={account} />
-                }/>
+                }/> */}
                 <Route path="/transactions" element={
                   <Transactions />
+                }/>
+                <Route path="/create-2" element={
+                  <CreatePage />
                 }/>
               </Routes>
             {/* )} */}

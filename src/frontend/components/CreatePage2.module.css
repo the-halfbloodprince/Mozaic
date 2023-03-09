@@ -1,0 +1,66 @@
+.container {
+    height: calc(100vh - 2.4rem - 13vh);
+    /* background: green; */
+    display: grid;
+    place-items: center;
+}
+
+.main {
+    /* border: solid slateblue 2px; */
+    display: flex;
+    width: 70%;
+    gap: 3rem;
+}
+
+.image {
+    background: url('https://res.cloudinary.com/dkoxgwtku/image/upload/v1677942841/hitler_as_a_modern_hipster_evsecp.jpg');
+    /* background: #555; */
+    width: 22rem;
+    height: 33rem;
+    background-size: cover;
+    
+    filter: grayscale(1);
+    border-radius: 3rem;
+}
+
+.form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.form :is(input, textarea) {
+    /* background: var(--dark-base); */
+    background: transparent;
+    outline: none;
+    /* outline-color: transparent; */
+    color: white;
+    border: none;
+}
+
+textarea {
+    font-size: 1.1rem;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.description {
+    width: 100%;
+}
+
+.priceBox {
+    display: flex;
+    color: white;
+    font-size: 2rem;
+    gap: 1rem;
+}
+
+.price {
+    text-align: right;
+    width: 10rem;
+    font-size: 2rem;
+
+}

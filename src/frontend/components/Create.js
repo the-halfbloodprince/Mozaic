@@ -8,6 +8,8 @@ import { notifications } from '@mantine/notifications';
 import { categories } from "../globals/variables";
 import { Radio } from "@mantine/core";
 import { useNavigate } from 'react-router-dom'
+import { Dropzone } from '@mantine/dropzone'
+import { MdOutlineImage as ImageIcon } from 'react-icons/md'
 
 // read the API key from an environment variable. You'll need to set this before running the example!
 const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
@@ -28,6 +30,8 @@ const CreateNFT = ({ nft, marketplace }) => {
 // export default CreateNFT
 
 function CreateSignedIn({ nft, marketplace }) {
+
+    const [uploadedImageURL, setUploadedImageURL] = useState(null)
 
     const navigate = useNavigate()
     
@@ -160,8 +164,14 @@ function CreateSignedIn({ nft, marketplace }) {
   });
 
   // file handler
-  function OnChangeFile(e) {
-    file = e.target.files[0];
+  // function OnChangeFile(e) {
+  //   file = e.target.files[0];
+  // }
+  function OnChangeFile(newfiles) {
+    file = newfiles[0];
+    console.log('file recieved')
+    console.log(file)
+    setUploadedImageURL(URL.createObjectURL(file))
   }
 
   // category handler
@@ -262,7 +272,7 @@ function CreateSignedIn({ nft, marketplace }) {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <h2>Create your NFT</h2>
+        <h2 className={styles.page_title}>Create your NFT</h2>
         {/* name */}
         <div className={styles.name}>
           <p className={`${styles.name__label} ${styles.label}`}>Name:</p>
@@ -278,73 +288,79 @@ function CreateSignedIn({ nft, marketplace }) {
           />
         </div>
         {/* descr */}
-        <div className={styles.descr}>
-          <p className={`${styles.descr__label} ${styles.label}`}>
-            Description
-          </p>
-          <p className={styles.label__info}>
-            The description will be included on the item's detail page
-            underneath its image.{" "}
-          </p>
-          <textarea
-            className={styles.descr__input}
-            type="text"
-            placeholder="This is an awesome NFT!"
-            required
-            value={formParams.description}
-            onChange={(e) =>
-              updateFormParams({ ...formParams, description: e.target.value })
-            }
-          />
-        </div>
-        {/* file */}
-        <div className={styles.file}>
-          <p className={styles.file__label}>Upload file</p>
-          <p className={styles.label__info}>
-            For Best representation use JPG Format with 2:3 ratio
-          </p>
-          <input
-            className={styles.file__input}
-            type="file"
-            required
-            onChange={OnChangeFile}
+          <div className={styles.descr}>
+            <p className={`${styles.descr__label} ${styles.label}`}>
+              Description
+            </p>
+            <p className={styles.label__info}>
+              The description will be included on the item's detail page
+              underneath its image.{" "}
+            </p>
+            <textarea
+              className={styles.descr__input}
+              type="text"
+              placeholder="This is an awesome NFT!"
+              required
+              value={formParams.description}
+              onChange={(e) =>
+                updateFormParams({ ...formParams, description: e.target.value })
+              }
             />
-        </div>
-        <div className={styles.radio}>
-          <p className={`${styles.radio__label} ${styles.label}`}>Category:</p>
-          <p className={styles.label__info}>
-            Choose any 1 of the categories which depict your NFT the best
-          </p>
-          <Radio.Group
-            value={selectedCategory}
-            onChange={handleOptionChange}
-            name="Category"
-            >
-            {
-                categories.map(categ => (
-                  <Radio
-                    className = { styles.radio__input }
-                    value = { categ }
-                    label = { categ }
-                  />
-                ))
-            }
-            {/* <Radio
-              className={styles.radio__input}
-              value="History"
-              label="History"
-            />
-            <Radio
-              className={styles.radio__input}
-              value="Technology"
-              label="Technology"
-            />
-            <Radio
-              className={styles.radio__input}
-              value="Aesthetics"
-              label="Aesthetics"
-            /> */}
-          </Radio.Group>
+          </div>
+        <div className={styles.row3}>
+              
+              <div className={styles.upload}>
+                  <p className={styles.file__label}>Upload file</p>
+                  <p className={styles.label__info}>
+                    For Best representation use JPG Format with 2:3 ratio
+                  </p>
+                  <div className={styles.uploadFileSection}>
+                    <Dropzone style={{ background: `url(${uploadedImageURL})` }} className={styles.dropzone} onDrop={OnChangeFile}>
+                        <div className={styles.dropzone__main}>
+                            <ImageIcon className={styles.dropzone__icon} />
+                            <div className={styles.dropzone__text}>
+                                <p className={styles.dropzone__line1}>Drag images here or click to upload</p>
+                                {/* <p>Drag images here or click to upload</p> */}
+                            </div>
+                        </div>
+                    </Dropzone>
+                    {/* {
+                        hasFile && (
+                            <img src={URL.createObjectURL(file)} alt="" />
+                        )
+                    } */}
+                    {/* <div className={styles.file}>
+                      <input
+                        className={styles.file__input}
+                        type="file"
+                        required
+                        onChange={OnChangeFile}
+                        />
+                    </div> */}
+                </div>
+              </div>
+                    
+              <div className={styles.radio}>
+                <p className={`${styles.radio__label} ${styles.label}`}>Category:</p>
+                <p className={styles.label__info}>
+                  Choose any 1 of the categories which depict your NFT the best
+                </p>
+                <Radio.Group
+                  value={selectedCategory}
+                  onChange={handleOptionChange}
+                  name="Category"
+                  >
+                  {
+                      categories.map(categ => (
+                        <Radio
+                          className = { `${styles.radio__input} ${(categ === selectedCategory) && 'activeRadio'}` }
+                          value = { categ }
+                          label = { categ }
+                        />
+                      ))
+                  }
+                </Radio.Group>
+              </div>
         </div>
         {/* submit button */}
         <div className={styles.center}>
