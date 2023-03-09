@@ -278,11 +278,11 @@ function CreateSignedIn({ nft, marketplace }) {
         <h2 className={styles.page_title}>Create your NFT</h2>
         {/* name */}
         <div className={styles.name}>
-          <p className={`${styles.name__label} ${styles.label}`}>Name:</p>
+          <p className={`${styles.name__label} ${styles.label}`}>Name</p>
           <input
             className={styles.name__input}
             type="text"
-            placeholder="name"
+            placeholder="Anything cool works!"
             value={formParams.name}
             required
             onChange={(e) =>
@@ -344,7 +344,7 @@ function CreateSignedIn({ nft, marketplace }) {
               </div>
                     
               <div className={styles.radio}>
-                <p className={`${styles.radio__label} ${styles.label}`}>Category:</p>
+                <p className={`${styles.radio__label} ${styles.label}`}>Category</p>
                 <p className={styles.label__info}>
                   Choose any 1 of the categories which depict your NFT the best
                 </p>

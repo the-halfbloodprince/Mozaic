@@ -59,7 +59,7 @@ function App() {
       await web3Handler()
     })
     await loadContracts(signer)
-    // loadMarketplaceItems()
+    // await loadMarketplaceItems()
     setAccount(accounts[0])
   }
 
@@ -120,10 +120,10 @@ function App() {
         myItems.push(item);
       }
 
-      if (token.onSale) {
+      // if (token.onSale) {
         
-        items.push(item);
-      }
+        // }
+      items.push(item);
     }
 
     setNFTs(items);
@@ -226,7 +226,7 @@ function App() {
                 <Route path="/profile" element={
                   <Profile nft={nft} marketplace={marketplace} account={account} />
                 }/>
-                <Route path="/nft" element={
+                <Route path="/nft/:itemId" element={
                   <NFTProductScreen />
                 }/>
                 <Route path="/something-went-wrong" element={

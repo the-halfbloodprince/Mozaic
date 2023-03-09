@@ -129,3 +129,11 @@ input:-webkit-autofill:active{
   transition: background-color 5000s ease-in-out 0s;
     /* background: var(--dark-base); */
 }
+
+/* .mantine-Dropzone-root {
+  background: var(--dark-base);
+}
+
+.mantine-Dropzone-inner {
+  background: var(--dark-base);
+} */

@@ -3,7 +3,8 @@
   place-items: center;
 }
 .page_title {
-  font-size: 3rem;
+  font-size: 2.2rem;
+  font-weight: 600;
   text-decoration: underline;
   text-decoration-color: var(--green);
 }
@@ -32,6 +33,7 @@
     outline: none;
     border: none;
     background-color: var(--dark-base);
+    font-family: monospace;
     padding: 0.7rem;
     border-radius: 5px;
     font-weight: 500;
@@ -162,9 +164,11 @@ textarea {
 }
 
 .dropzone {
-    width: 20rem;
-    height: 20rem;
+    width: 18rem;
+    height: 21rem;
     /* color: gray; */
+    /* background: var(--dark-base); */
+    border: solid 2px gray;
 
     display: grid;
     place-items: center;
@@ -184,13 +188,17 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 2rem;
+  gap: 1rem;
+  /* background: var(--dark-base); */
+
 }
 
 .dropzone__icon {
-  font-size: 8rem;
+  font-size: 5rem;
 }
 
 .dropzone__line1 {
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   text-align: center;
 }

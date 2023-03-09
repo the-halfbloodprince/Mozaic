@@ -7,8 +7,11 @@ import { categories } from '../globals/variables'
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
 import { accountContext, marketplaceContext, needrefreshContext, nftContext, NFTsContext } from "../contexts/contexts";
+import { useNavigate } from "react-router";
 
 const MarketPlaceMain = () => {
+
+  const navigate = useNavigate()
 
   const [account, setAccount] = useContext(accountContext)
   const [marketplace, setMarketplace] = useContext(marketplaceContext)
@@ -68,6 +71,7 @@ const MarketPlaceMain = () => {
                         {/* cards */}
                       {
                           NFTs
+                            .filter(n => n.onSale)
                             .filter(n => (activeCategory === 'All' || activeCategory === n.category))
                             .map((nft) => (
                               <NFTCard
@@ -77,7 +81,7 @@ const MarketPlaceMain = () => {
                                 actionFunc={
                                   nft.seller.toLowerCase() != account
                                     ? () => buyItem(nft)
-                                    : null
+                                    : () => navigate(`/nft/${nft.itemId}`)
                                 }
                               />
                             ))
