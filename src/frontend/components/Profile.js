@@ -34,47 +34,6 @@ const NoUserScreen = () => (
         Please log in to see your profile
     </div>
 )
-
-// const YourNFTsData = [
-//     {
-//         name: "Hilale varade",
-//         price: 0.007,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Mustafa Varade",
-//         price: 0.003,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Jalalludin Varade",
-//         price: 0.002,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Hitler Varade",
-//         price: 0.005,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Lolita Varade",
-//         price: 0.010,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Mia Varade",
-//         price: 0.009,
-//         img: "/images/card_image1.jpg"
-//     },
-//     {
-//         name: "Sagar Khalifa",
-//         price: 0.01,
-//         img: "/images/card_image1.jpg"
-//     },
-// ]
-
-
-
 const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = null}) => {
 
     const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
@@ -90,7 +49,7 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = nu
                 {
                     myNFTs
                         // .slice(0, 4)
-                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft.itemId)) } />)
+                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
                 }
             </div>
         </div>
@@ -112,6 +71,11 @@ const YourTransactions = () => (
 const ProfilePage = () => {
 
     const [NFTs, setNFTs] = useState([]);
+    // let selectedNFT = 
+    const [selectedNFT, setSelectedNFT] = useState({
+        name: '',
+        description: ''
+    })
     const [nft, setnft] = useContext(nftContext);
     const [marketplace, setMarketplace] = useContext(marketplaceContext);
     const [account, setAccount] = useContext(accountContext);
@@ -129,9 +93,10 @@ const ProfilePage = () => {
 
     const [nftId, setNftId] = useState(null)
 
-    const handleListForSale = (itemId, ) => {
+    const handleListForSale = (nft) => {
+        setSelectedNFT(nft)
         open()
-        setNftId(itemId)
+        setNftId(nft.itemId)
     }
 
     const handlePriceSubmit = () => {
@@ -208,9 +173,9 @@ const ProfilePage = () => {
         <div>
             <Modal className={styles.Floating} opened={opened} onClose={close} title="List NFT for Sale" centered >
                 <div className={styles.modalContainer}>
-                    <Title order={1} color="white">American Boy</Title>
+                    <Title order={1} color="white">{ selectedNFT ? selectedNFT.name : 'NFT' }</Title>
                     <div className={styles.modaldescription}>
-                    Captain America is the best avenger. He is the fricking American Boy...
+                    { selectedNFT ? selectedNFT.description : 'Captain America is the best avenger. He is the fricking American Boy...' }
                     </div>
                     <input className={styles.modalinput} type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
                     <div className={styles.modaldescription2}>

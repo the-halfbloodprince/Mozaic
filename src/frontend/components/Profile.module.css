@@ -203,6 +203,7 @@
    font-weight: 600;
    color: var(--dark-base);
    border-radius: 0.5rem;
+   cursor: pointer;
 }
 
 .modaldescription2{
