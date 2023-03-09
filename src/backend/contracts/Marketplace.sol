@@ -10,10 +10,14 @@ import "hardhat/console.sol";
 contract Marketplace is ReentrancyGuard {
 
     // Variables
-    address payable public immutable feeAccount; // the account that receives fees
-    uint public immutable feePercent; // the fee percentage on sales 
-    uint public itemCount; 
-    uint public transactionCount;
+    // address payable public immutable feeAccount; // the account that receives fees
+    address payable private immutable feeAccount;
+    // uint public immutable feePercent; // the fee percentage on sales 
+    uint private immutable feePercent; // the fee percentage on sales 
+    // uint public itemCount; 
+    // uint public transactionCount;
+    uint private itemCount; 
+    uint private transactionCount;
 
     struct Item {
         uint itemId;
@@ -33,8 +37,10 @@ contract Marketplace is ReentrancyGuard {
         uint timestamp;
     }
     // itemId -> Item
-    mapping(uint => Item) public items;
-    mapping(uint => Transaction) public transactions;
+    // mapping(uint => Item) public items;
+    // mapping(uint => Transaction) public transactions;
+    mapping(uint => Item) private items;
+    mapping(uint => Transaction) private transactions;
 
     event Minted(
         uint itemId,
@@ -156,4 +162,33 @@ contract Marketplace is ReentrancyGuard {
     function getTotalPrice(uint _itemId) view public returns(uint){
         return((items[_itemId].price*(100 + feePercent))/100);
     }
+
+    function getItemCount() view public returns(uint){
+        return(itemCount);
+    }
+    function getTransactionCount() view public returns(uint){
+        return(transactionCount);
+    }
+
+    function getAllNFTs() public view returns (Item[] memory) {
+        uint nftCount = itemCount;
+        Item[] memory tokens = new Item[](nftCount);
+        for(uint i=0;i<nftCount;i++)
+        { 
+           tokens[i] = items[i+1];  
+        }
+        //the array 'tokens' has the list of all NFTs in the marketplace
+        return tokens;
+    }
+
+    function getAllTransactions() public view returns (Transaction[] memory) {
+        uint tCount = transactionCount;
+        Transaction[] memory transactionArray = new Transaction[](tCount);
+        for(uint i=0;i<tCount;i++)
+        { 
+           transactionArray[i] = transactions[i+1];  
+        }
+        return transactionArray;
+    }
+    
 }
