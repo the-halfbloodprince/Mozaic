@@ -63,11 +63,11 @@ function App() {
     await loadContracts(signer)
     try {
 
-      const recievedProfile = await axios.post(`${SERVER_URL}/login`, {
-          walletAddress: accounts[0]
-      })
+      // const recievedProfile = await axios.post(`${SERVER_URL}/login`, {
+      //     walletAddress: accounts[0]
+      // })
 
-      setProfile(recievedProfile)
+      // setProfile(recievedProfile)
       // await loadMarketplaceItems()
       setAccount(accounts[0])
 
