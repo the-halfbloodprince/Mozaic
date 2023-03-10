@@ -24,18 +24,31 @@
     cursor: pointer;
 }
 
-.navSearch{
+.search__input{
     outline: none;
     border: none;
     width: 200px;
     height: 30px;
-    padding: 0.5rem 1rem ;
-    border-radius: 8px;
     font-weight: 600;
     font-size: 1.1rem;
 }
 
+.search {
+    padding: 0.5rem 1rem ;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    /* padding: 0 1rem; */
+    box-sizing: border-box;
+}
 
+.search__icon {
+    font-size: 1.5rem;
+    color: black;
+    cursor: pointer;
+}
 
 .navLinks{
     font-size: 1.1rem;

@@ -5,6 +5,7 @@ import {
 import { useState ,useContext} from "react";
 import axios from "axios";
 import { NFTsContext } from "../contexts/contexts";
+import { FaSearchDollar as SearchIcon } from 'react-icons/fa'
 
 import styles from "./Navbar.module.css";
 
@@ -47,13 +48,12 @@ const NavBar = ({ web3Handler, account }) => {
         
     }
 
-
     return (
         <div className={styles.nav}>
             <Link to='/'><div className={styles.navLogo}>Moziac</div></Link>
-            <div>
-                <input className={styles.navSearch} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
-                <button onClick={handleSearch}>Search</button>
+            <div className={styles.search}>
+                <input className={styles.search__input} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
+                <div className={styles.search__icon} onClick={handleSearch}><SearchIcon /></div>
             </div>
             <div className={styles.navLinks}>
                 <div className={`${styles.navLink} ${pathname === '/' && styles.activeNavLink}`}><Link to='/'> Home </Link></div>
