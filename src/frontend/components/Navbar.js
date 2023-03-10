@@ -42,6 +42,8 @@ const NavBar = ({ web3Handler, account }) => {
             const foundNFTs = NFTs.filter((nft) => nft.name.includes(term));
             setMatchedNFTs(foundNFTs);
             console.log(foundNFTs);
+
+            // navigate to search page with the states possibly
         } catch (e) {
             console.log(e);
         }
@@ -54,6 +56,31 @@ const NavBar = ({ web3Handler, account }) => {
             <div className={styles.search}>
                 <input className={styles.search__input} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
                 <div className={styles.search__icon} onClick={handleSearch}><SearchIcon /></div>
+            
+                <div className={styles.searchResults}>
+                    <div className={styles.searchResults__users}>
+                        {
+                            matchedUsers
+                                .map(u => (
+                                    <div className={styles.result}>
+                                        { u.name }
+                                    </div>
+                                ))
+                        }   
+                    </div>
+                    <hr />
+                    <div className={styles.searchResults__nfts}>
+                        {
+                            matchedNFTs
+                                .map(n => (
+                                    <div className={styles.result}>
+                                        { n.nftName }
+                                    </div>
+                                ))
+                        }   
+                    </div>
+                </div>
+            
             </div>
             <div className={styles.navLinks}>
                 <div className={`${styles.navLink} ${pathname === '/' && styles.activeNavLink}`}><Link to='/'> Home </Link></div>
