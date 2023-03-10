@@ -40,9 +40,10 @@ const NoUserScreen = () => (
         Please log in to see your profile
     </div>
 )
-const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = null}) => {
+const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unlistFunc = null}) => {
 
     const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
+    const [NFTs, setNFTs] = useContext(NFTsContext)
 
     return (
         <div className={styles.your_nfts}>
@@ -53,7 +54,10 @@ const YourNFTs = ({ tokens: yourNFTList, showCount = 4, listFunc,unlistFunc = nu
             </div>
             <div className={styles.your_nfts__cards}>
                 {
-                    myNFTs
+                    // myNFTs
+                    NFTs
+                        .filter(n => n.seller.toLowerCase() === profileId)
+                        // .filter(n => n.)
                         // .slice(0, 4)
                         .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
                 }
@@ -242,7 +246,7 @@ const ProfilePage = () => {
 
             {/* { activeSections[activeSection] } */}
 
-            {(activeSection === 'Your NFTs') && <YourNFTs tokens={NFTs} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
+            {(activeSection === 'Your NFTs') && <YourNFTs tokens={NFTs} profileId={profileId ? profileId : account} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
             
         </div>
     )

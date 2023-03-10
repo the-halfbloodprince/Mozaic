@@ -25,11 +25,11 @@ const CreateNFT = ({ nft, marketplace }) => {
 
   // console.log("Working", process.env);
   
-  return account ? <CreateSignedIn nft={nft} marketplace={marketplace} /> : <Loading loadingText="Sign in to launch your NFT!" loadingIcon={HashLoader} />;
+  return account ? <CreateSignedIn account={account} nft={nft} marketplace={marketplace} /> : <Loading loadingText="Sign in to launch your NFT!" loadingIcon={HashLoader} />;
 }
 // export default CreateNFT
 
-function CreateSignedIn({ nft, marketplace }) {
+function CreateSignedIn({ nft, marketplace, account }) {
 
     const [uploadedImageURL, setUploadedImageURL] = useState(null)
 
@@ -247,7 +247,7 @@ function CreateSignedIn({ nft, marketplace }) {
       await (await marketplace.makeItem(nft.address, id)).wait();
       setNeedRefresh(true)
       setLoading(false)
-      setTimeout(() => navigate('/profile'), 3000)
+      setTimeout(() => navigate(`/profile/${account}`), 3000)
 //         // alert("Successfully minted your NFT!");
       notifications.show({
         withCloseButton: true,
