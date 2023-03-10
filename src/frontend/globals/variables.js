@@ -7,4 +7,5 @@ export const categories = [
     'Gaming'
 ]
 
+export const HOST = process.env.REACT_APP_PUBLIC_URL
 export const SERVER_URL = process.env.SERVER_URL

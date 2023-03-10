@@ -14,11 +14,13 @@ import { PuffLoader as LoaderAnim } from 'react-spinners'
 import { toast } from 'react-toastify';
 import { ethers } from "ethers";
 import axios from "axios";
-import { useDisclosure } from '@mantine/hooks';
+import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { Modal, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useParams } from 'react-router-dom'
 import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext } from '../contexts/contexts';
+import Transactions from './Transactions';
+import { HOST } from '../globals/variables';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
@@ -67,10 +69,8 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
 
 }
 
-const YourTransactions = () => (
-    <div>
-        Transactions
-    </div>
+const YourTransactions = ({which}) => (
+    <Transactions which={which} />
 )
 
 // const activeSections = {
@@ -172,6 +172,18 @@ const ProfilePage = () => {
 
     // --------------------
 
+    const clipboard = useClipboard()
+    // const clipboard = useClipboard()
+
+    const copyProfileLink = () => {
+        clipboard.copy(`${HOST}/profile/${profileId}`)
+        notifications.show({
+            title: 'Profile Link Copied!',
+            title: 'Profile link copied to your clipboard',
+            color: 'lime'
+        })
+    }
+
     const [activeSection, setActiveSection] = useState('Your NFTs')
 
     const name = 'Sagar Hitler Varade'
@@ -222,7 +234,7 @@ const ProfilePage = () => {
                 </div>
                 <div className={styles.options}>
                     <div className={styles.actions}>
-                        <ShareIcon />
+                        <ShareIcon onClick={copyProfileLink} />
                         <SeeMoreIcon />
                         <EditIcon className='disabled' />
                     </div>
@@ -246,7 +258,7 @@ const ProfilePage = () => {
 
             {/* { activeSections[activeSection] } */}
 
-            {(activeSection === 'Your NFTs') && <YourNFTs tokens={NFTs} profileId={profileId ? profileId : account} listFunc={ handleListForSale } unlistFunc = {unlistNFT} /> }
+            {(activeSection === 'Your NFTs') ? (<YourNFTs tokens={NFTs} profileId={profileId ? profileId : account} listFunc={ handleListForSale } unlistFunc = {unlistNFT} />) : (<Transactions which={profileId === account ? 'mine' : profileId} />)}
             
         </div>
     )

@@ -46,22 +46,28 @@
    font-size: 1.2rem;
    cursor: pointer;
    width: fit-content;
-   border-radius: 10px;
-   padding-right: 0.7rem;
-   /* padding: 0.1rem 1rem; */
+   align-items: center;
+   /* padding-right: 0.7rem; */
+   /* padding-right: 0.7rem; */
 }
 
-.walletAddress:hover {
+.walletAddress:hover .walletAddress__addr {
    background: #ffffff22;
-
 }
 
+.walletAddress__addr {
+   border-radius: 10px;
+   /* margin-right: 1rem; */
+   padding: 0.2rem 1rem 0.2rem 0.2rem;
+}
 .walletAddress__icon {
    margin-right: 1rem;
 }
 
+
 .joined {
    display: flex;
+   align-items: center;
    font-size: 1.2rem;
    font-weight: 600;
 }
@@ -72,6 +78,7 @@
 
 .website {
    display: flex;
+   align-items: center;
    font-size: 1.1rem;
 }
 

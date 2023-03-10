@@ -35,13 +35,12 @@
 .tname{
     width: 15rem;
 }
-.myTransactions{
+.transactions{
     display: flex;
     flex-direction: column;
+    margin: 3rem 0;
 }
- .myTransactions{
-    margin-bottom: 3rem;
- }
+
  .transactionCard{
     display: flex;
     flex-direction: row;
