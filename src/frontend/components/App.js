@@ -110,7 +110,7 @@ function App() {
         description: metadata.description,
         category: metadata.category,
         image: imageURL,
-        price: token.price,
+        price: token.price / 1e18,
         onSale: token.onSale,
         totalPrice,
       };

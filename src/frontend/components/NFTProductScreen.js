@@ -5,7 +5,9 @@ import { useMatches, useLoaderData, useParams } from 'react-router-dom';
 import { NFTsContext } from '../contexts/contexts'
 
 function NFTProduct ({ currentNFT }) {
+  
   const img = "https://res.cloudinary.com/dkoxgwtku/image/upload/v1677942841/A_cute_adorable_baby_engineer_robot_made_of_crysta_zcel22.jpg";
+  
   return (
     <div className= {styles.Page}>
           <div className={styles.ImageContainer}>
@@ -17,10 +19,11 @@ function NFTProduct ({ currentNFT }) {
               <div className= {styles.Price}>Current price: {currentNFT.price.toString()} ETH</div>
               <div className= {styles.Button}>Buy Now <CartIcon className={styles.CartIcon} /></div>
               <div className= {styles.Heading2}>Details</div>
-              <div className= {styles.Details}>{currentNFT.itemId.toString()}</div>
+              <div className= {styles.Details}>ID: {currentNFT.itemId.toString()}</div>
               <div className= {styles.Details}><strong>Category: {currentNFT.category} </strong></div>
               {/* <div className= {styles.Details}><strong>Creator:</strong> {currentNFTseller} </div> */}
               {/* <div className= {styles.Details}><strong>Current Owner:</strong> {currentNFT} </div> */}
+              <div className= {styles.Details}><strong>Seller:</strong> {currentNFT.seller} </div>
               <div className= {styles.Details}><strong>Created on:</strong> 04-03-2022</div>
           </div>
       </div>
