@@ -79,16 +79,16 @@ function App() {
     // setNFTs(...NFTs, { loading: true })
 
     // Load all unsold items
-    const itemCount = await marketplace.itemCount();
+    // const itemCount = await marketplace.itemCount();
     
-    console.log(itemCount.toNumber());
     
     let items = [];
     let myItems = []
     
-
-    for (let i = 1; i <= itemCount; i++) {
-      const token = await marketplace.items(i);
+    const nftArray = await marketplace.getAllNFTs();
+    const itemCount = nftArray.length;
+    for (let i = 0; i < itemCount; i++) {
+      const token = nftArray[i];
       // console.log(token);
       // console.log(token.tokenId);
       const tokenURI = await nft.tokenURI(token.tokenId);
@@ -130,12 +130,14 @@ function App() {
     setMyNFTs(myItems);
 
 
-    const transactionCount = await marketplace.transactionCount();
-    console.log(transactionCount.toNumber());
+    // const transactionCount = await marketplace.transactionCount();
+    // console.log(transactionCount.toNumber());
+    const transactionArray = await marketplace.getAllTransactions();
+    const transactionCount = transactionArray.length;
     let transactionItems = [];
 
-    for (let i = 1; i <= transactionCount; i++){
-      const currentTransaction = await marketplace.transactions(i);
+    for (let i = 0; i < transactionCount; i++){
+      const currentTransaction = transactionArray[i];
       // console.log(token);
       // console.log(token.tokenId);
       const tokenURI = await nft.tokenURI(currentTransaction.tokenId);

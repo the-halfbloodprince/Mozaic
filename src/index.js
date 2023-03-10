@@ -9,6 +9,9 @@ import React, { useState } from 'react'
 import { Notifications } from '@mantine/notifications';
 import { store } from "./frontend/redux/store";
 import { Provider } from "react-redux";
+import axios from "axios";
+
+// axios.defaults.headers.common["x_client_token"] = "PEACE";
 
 const rootElement = document.getElementById("root");
 

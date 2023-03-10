@@ -134,12 +134,44 @@
     },
     {
       "inputs": [],
-      "name": "feeAccount",
+      "name": "getAllNFTs",
       "outputs": [
         {
-          "internalType": "address payable",
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "itemId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "contract IERC721",
+              "name": "nft",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address payable",
+              "name": "seller",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "onSale",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct Marketplace.Item[]",
           "name": "",
-          "type": "address"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
@@ -147,7 +179,52 @@
     },
     {
       "inputs": [],
-      "name": "feePercent",
+      "name": "getAllTransactions",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "transactionCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Marketplace.Transaction[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getItemCount",
       "outputs": [
         {
           "internalType": "uint256",
@@ -179,56 +256,12 @@
     },
     {
       "inputs": [],
-      "name": "itemCount",
+      "name": "getTransactionCount",
       "outputs": [
         {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "items",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "itemId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "contract IERC721",
-          "name": "nft",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address payable",
-          "name": "seller",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "onSale",
-          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -281,63 +314,6 @@
       "name": "purchaseItem",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "transactionCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "transactions",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "transactionCount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "timestamp",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
