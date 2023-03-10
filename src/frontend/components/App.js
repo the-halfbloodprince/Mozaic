@@ -223,7 +223,7 @@ function App() {
                 {/* <Route path="/my-purchases" element={
                   <MyPurchases marketplace={marketplace} nft={nft} account={account} />
                 } /> */}
-                <Route path="/profile" element={
+                <Route path="/profile/:profileId" element={
                   <Profile nft={nft} marketplace={marketplace} account={account} />
                 }/>
                 <Route path="/nft/:itemId" element={

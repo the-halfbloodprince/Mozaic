@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import styles from "./NFTProductScreen.module.css"
 import { BiCartDownload as CartIcon } from "react-icons/bi";
-import { useMatches, useLoaderData, useParams } from 'react-router-dom';
+import { useMatches, useLoaderData, useParams, Link } from 'react-router-dom';
 import { NFTsContext } from '../contexts/contexts'
 
 function NFTProduct ({ currentNFT }) {
@@ -23,7 +23,7 @@ function NFTProduct ({ currentNFT }) {
               <div className= {styles.Details}><strong>Category: {currentNFT.category} </strong></div>
               {/* <div className= {styles.Details}><strong>Creator:</strong> {currentNFTseller} </div> */}
               {/* <div className= {styles.Details}><strong>Current Owner:</strong> {currentNFT} </div> */}
-              <div className= {styles.Details}><strong>Seller:</strong> {currentNFT.seller} </div>
+              <Link to={`/profile/${currentNFT.seller}`}><div className= {styles.Details}><strong>Seller:</strong> {currentNFT.seller} </div></Link>
               <div className= {styles.Details}><strong>Created on:</strong> 04-03-2022</div>
           </div>
       </div>

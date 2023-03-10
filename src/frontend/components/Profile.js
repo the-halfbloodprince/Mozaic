@@ -17,16 +17,22 @@ import axios from "axios";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useParams } from 'react-router-dom'
 import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext } from '../contexts/contexts';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
 
 const MAX_LEN = 20
-const MAX_RATING = 5
+// const MAX_RATING = 5
 
 const trim = (str, len) => {
-    return str.substr(0, MAX_LEN - 1) + '...'
+
+    if (!str) {
+        return ''
+    }
+
+    return str.length <= len ? str : (str.substr(0, len - 1) + '...')
 }
 
 const NoUserScreen = () => (
@@ -76,6 +82,10 @@ const ProfilePage = () => {
         name: '',
         description: ''
     })
+
+    const { profileId } = useParams()
+    // console.log('profileId: ', profileId)
+
     const [nft, setnft] = useContext(nftContext);
     const [marketplace, setMarketplace] = useContext(marketplaceContext);
     const [account, setAccount] = useContext(accountContext);
@@ -161,7 +171,7 @@ const ProfilePage = () => {
     const [activeSection, setActiveSection] = useState('Your NFTs')
 
     const name = 'Sagar Hitler Varade'
-    const walletAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+    const walletAddress = profileId
 
     const joined = moment(new Date())
     const website = 'https://sexystuff.io'
@@ -193,7 +203,7 @@ const ProfilePage = () => {
                         <CopyToClipboard text={walletAddress} onCopy={() => toast('Public Key copied to the clipboard')} >
                             <div className={styles.walletAddress}>
                                 <div className={styles.walletAddress__icon}><CopyIcon /></div>
-                                <div className={styles.walletAddress__addr}> { trim(walletAddress) } </div>
+                                <div className={styles.walletAddress__addr}> { trim(walletAddress, MAX_LEN) } </div>
                             </div>
                         </CopyToClipboard>
                         <div className={styles.joined}>
