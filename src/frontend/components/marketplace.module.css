@@ -51,11 +51,12 @@
     color: white;
 } */
 .marketplaceNFTs{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: start;
-    gap: 1rem;
+    display: grid;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    /* justify-content: start; */
+    grid-template-columns: repeat(auto-fill, 12rem);
+    gap: 2rem;
 }
 
 /* toggle btns */
