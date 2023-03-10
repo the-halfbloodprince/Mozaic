@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initState = false
+const initialState = false
 
 export const needRefreshSlice = createSlice({
     name: 'needRefresh',
-    initState,
+    initialState,
     reducers: {
-        setNeedRefresh: (_, action) => { state = action.payload }
+        setNeedRefresh: (state, action) => { state = action.payload }
     }
 })
 

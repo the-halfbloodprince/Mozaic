@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initState = []
+const initialState = []
 
 export const NFTsSlice = createSlice({
     name: 'NFTs',
-    initState,
+    initialState,
     reducers: {
-        setNFTs: (_, action) => { state = action.payload }
+        setNFTs: (state, action) => { state = action.payload }
     }
 })
 

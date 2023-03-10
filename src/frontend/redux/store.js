@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import accountReducer from './slices/accountSlice'
-import marketplaceReducer from './slices/maretplaceSlice'
+import marketplaceReducer from './slices/marketplaceSlice'
 import nftReducer from './slices/nftSlice'
 import NFTsReducer from './slices/NFTsSlice'
 import myNFTsReducer from './slices/myNFTsSlice'

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initState = null
+const initialState = null
 
 export const accountSlice = createSlice({
     name: 'account',
-    initState,
+    initialState,
     reducers: {
-        setAccount: (_, action) => { state = action.payload }
+        setAccount: (state, action) => { state = action.payload }
     }
 })
 

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initState = null
+const initialState = null
 
 export const marketplaceSlice = createSlice({
     name: 'marketplace',
-    initState,
+    initialState,
     reducers: {
-        setMarketplace: (_, action) => { state = action.payload }
+        setMarketplace: (state, action) => { state = action.payload }
     }
 })
 

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initState = []
+const initialState = []
 
 export const transactionsSlice = createSlice({
     name: 'transactions',
-    initState,
+    initialState,
     reducers: {
-        setTransactions: (_, action) => { state = action.payload }
+        setTransactions: (state, action) => { state = action.payload }
     }
 })
 
