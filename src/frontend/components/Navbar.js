@@ -30,6 +30,7 @@ const NavBar = ({ web3Handler, account }) => {
             <div className={styles.navLinks}>
                 <div className={`${styles.navLink} ${pathname === '/' && styles.activeNavLink}`}><Link to='/'> Home </Link></div>
                 <div className={`${styles.navLink} ${pathname === '/marketplace' && styles.activeNavLink}`}><Link to='/marketplace'> Marketplace </Link></div>
+                <div className={`${styles.navLink} ${pathname === '/transactions' && styles.activeNavLink}`}><Link to='/transactions'> Transactions </Link></div>
                 <div className={`${styles.navLink} ${pathname === '/create' && styles.activeNavLink}`}><Link to='/create'> Create </Link></div>
                 {account ? <ProfileIcon /> : <LoginButton web3Handler={web3Handler} /> }
             </div>

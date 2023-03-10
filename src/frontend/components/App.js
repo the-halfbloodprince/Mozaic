@@ -152,7 +152,7 @@ function App() {
         transactionId: currentTransaction.transactionCount,
         from: currentTransaction.from,
         to: currentTransaction.to,
-        amount : currentTransaction.amount,
+        amount : currentTransaction.amount / 1e18,
         timestamp: currentTransaction.timestamp,
         nftName:metadata.name,
         

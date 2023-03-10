@@ -1,0 +1,82 @@
+.transactionCard{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+    color: white;
+    /* border: 1px solid white; */
+    border-radius: 5px;
+    height: 3rem;
+    justify-content: space-between;
+    vertical-align: middle;
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    align-items: center;
+}
+.tamount, .tname{
+    font-weight: 600;
+    color: var(--green);
+    width: 5rem;
+}
+.tdate{
+    width: 8rem;
+}
+.tamount{
+    /* text-align: end; */
+    width: 6rem;
+}
+.tcardId{
+    width: 3rem;
+}
+.thash1, .thash2{
+    width: 10rem;
+    cursor: pointer;
+}
+.tname{
+    width: 15rem;
+}
+.myTransactions{
+    display: flex;
+    flex-direction: column;
+}
+ .myTransactions{
+    margin-bottom: 3rem;
+ }
+ .transactionCard{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+    color: white;
+    /* border: 1px solid white; */
+    border-radius: 5px;
+    height: 3rem;
+    justify-content: space-between;
+    vertical-align: middle;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    align-items: center;
+    font-weight: 600;
+    color: var(--green);
+    background-color: var(--dark-base);
+    padding: 0 1rem;
+ }
+ .trans__name{
+    width: 15rem;
+ }
+ .trans__hash1{
+    width: 10rem;
+ }
+ .trans__hash2{
+    width: 10rem;
+ }
+ .trans__date{
+    width: 8rem;
+ }
+ .trans__eth{
+    text-align: right;
+    width: 6rem;
+ }
+ .trans__id{
+    width: 3rem;
+ }

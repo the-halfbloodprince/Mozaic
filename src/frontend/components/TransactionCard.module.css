@@ -1,0 +1,54 @@
+.transactionCard{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+    color: white;
+    /* border: 1px solid white; */
+    border-radius: 5px;
+    height: 3rem;
+    justify-content: space-between;
+    vertical-align: middle;
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    align-items: center;
+}
+.tamount, .tname{
+    font-weight: 600;
+    color: var(--green);
+    width: 5rem;
+}
+.tdate{
+    width: 8rem;
+}
+.tamount{
+    /* text-align: end; */
+    width: 6rem;
+    text-align: right;
+}
+.tcardId{
+    width: 3rem;
+}
+.thash1, .thash2{
+    width: 10rem;
+    cursor: pointer;
+}
+
+.inner__hash {
+    padding: 0.1rem 0.7rem;
+    width: fit-content;
+    border-radius: 20px;
+    /* background: #eeeeee22; */
+}
+
+.inner__hash:hover {
+    background: #eeeeee22;
+}
+
+.tname{
+    width: 15rem;
+}
+.myTransactions{
+    display: flex;
+    flex-direction: column;
+}
