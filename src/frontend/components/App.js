@@ -23,18 +23,20 @@ import { Spinner } from 'react-bootstrap'
 import Footer from './Footer';
 import { ToastContainer  } from 'react-toastify';
 import styles from './App.module.css';
-import { accountContext, marketplaceContext, nftContext, NFTsContext, myNFTsContext, needrefreshContext, transactionsContext } from "../contexts/contexts";
+import { accountContext, marketplaceContext, nftContext, NFTsContext, myNFTsContext, needrefreshContext, transactionsContext, profileContext } from "../contexts/contexts";
 import NFTProductScreen from "./NFTProductScreen";
 import Loading from "./AwaitingConnection";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import CreatePage from "./CreatePage2";
 import SomethingWentWrong from "./SomethingWentWrong";
+import { SERVER_URL } from "../globals/variables";
 
 function App() {
 
   const [needRefresh, setNeedRefresh] = useContext(needrefreshContext)
   const [account, setAccount] = useContext(accountContext)
+  const [profile, setProfile] = useContext(profileContext)
   const [nft, setNFT] = useContext(nftContext)
   const [marketplace, setMarketplace] = useContext(marketplaceContext)
 
@@ -59,8 +61,20 @@ function App() {
       await web3Handler()
     })
     await loadContracts(signer)
-    // await loadMarketplaceItems()
-    setAccount(accounts[0])
+    try {
+
+      const recievedProfile = await axios.post(`${SERVER_URL}/login`, {
+          walletAddress: accounts[0]
+      })
+
+      setProfile(recievedProfile)
+      // await loadMarketplaceItems()
+      setAccount(accounts[0])
+
+    } catch (e) {
+        console.log("Couldn't retrieve profile information or create a new one")
+        console.log(e)
+    }
   }
 
   // load contracts

@@ -4,7 +4,7 @@ import './frontend/globals.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { MantineProvider } from '@mantine/core';
 import * as serviceWorker from './serviceWorker';
-import { accountContext,  NFTsContext, nftContext, marketplaceContext, myNFTsContext, needrefreshContext,transactionsContext } from './frontend/contexts/contexts'
+import { accountContext,  NFTsContext, nftContext, marketplaceContext, myNFTsContext, needrefreshContext, transactionsContext, profileContext } from './frontend/contexts/contexts'
 import React, { useState } from 'react'
 import { Notifications } from '@mantine/notifications';
 import { store } from "./frontend/redux/store";
@@ -24,6 +24,7 @@ const MainApp = () => {
     const [myNFTs, setMyNFTs] = useState([])
     const [needRefresh, setNeedRefresh] = useState(false)
     const [transactions, setTransactions] = useState([])
+    const [profile, setProfile] = useState(null)
 
     return (
         <Provider store={store}>
@@ -34,10 +35,12 @@ const MainApp = () => {
                             <NFTsContext.Provider value={[NFTs, setNFTs]}>
                                 <transactionsContext.Provider value = {[transactions, setTransactions]}>
                                     <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
-                                        <MantineProvider theme={{ colorScheme: 'dark' }}>
-                                            <Notifications />
-                                            <App />
-                                        </MantineProvider>
+                                        <profileContext.Provider value={[profile, setProfile]}>
+                                            <MantineProvider theme={{ colorScheme: 'dark' }}>
+                                                <Notifications />
+                                                <App />
+                                            </MantineProvider>
+                                        </profileContext.Provider>
                                     </myNFTsContext.Provider>
                                 </transactionsContext.Provider>
                             </NFTsContext.Provider>

@@ -6,3 +6,5 @@ export const categories = [
     'Cyberpunk',
     'Gaming'
 ]
+
+export const SERVER_URL = process.env.SERVER_URL
