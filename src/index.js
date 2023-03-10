@@ -7,6 +7,9 @@ import * as serviceWorker from './serviceWorker';
 import { accountContext,  NFTsContext, nftContext, marketplaceContext, myNFTsContext, needrefreshContext,transactionsContext } from './frontend/contexts/contexts'
 import React, { useState } from 'react'
 import { Notifications } from '@mantine/notifications';
+import axios from "axios";
+
+// axios.defaults.headers.common["x_client_token"] = "PEACE";
 
 const rootElement = document.getElementById("root");
 

@@ -2,6 +2,10 @@ import {
     Link, useLoaderData, useLocation
 } from "react-router-dom";
 
+import { useState ,useContext} from "react";
+import axios from "axios";
+import { NFTsContext } from "../contexts/contexts";
+
 import styles from "./Navbar.module.css";
 
 const ProfileIcon = () => (
@@ -18,14 +22,38 @@ const LoginButton = ({ web3Handler }) => (
 
 const NavBar = ({ web3Handler, account }) => {
 
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const [NFTs, setNFTs] = useContext(NFTsContext);
+    const [matchedUsers,setMatchedUsers] = useState([]);
+    const [matchedNFTs,setMatchedNFTs] = useState([]);
+
     const { pathname } = useLocation()
     console.log(pathname)
+
+    const handleSearch = async () => {
+        const term = searchTerm;
+        try {
+            const {data}  = await axios.get(`${process.env.REACT_APP_SERVER_URL}/search?term=${term}`);
+            setMatchedUsers(data);
+            console.log(data);
+            console.log(NFTs);
+            const foundNFTs = NFTs.filter((nft) => nft.name.includes(term));
+            setMatchedNFTs(foundNFTs);
+            console.log(foundNFTs);
+        } catch (e) {
+            console.log(e);
+        }
+        
+    }
+
 
     return (
         <div className={styles.nav}>
             <Link to='/'><div className={styles.navLogo}>Moziac</div></Link>
             <div>
-                <input className={styles.navSearch} type="text" placeholder="Search"></input>
+                <input className={styles.navSearch} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
+                <button onClick={handleSearch}>Search</button>
             </div>
             <div className={styles.navLinks}>
                 <div className={`${styles.navLink} ${pathname === '/' && styles.activeNavLink}`}><Link to='/'> Home </Link></div>
