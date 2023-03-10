@@ -2,12 +2,25 @@ import React, { useContext, useEffect } from 'react'
 import styles from "./NFTProductScreen.module.css"
 import { BiCartDownload as CartIcon } from "react-icons/bi";
 import { useMatches, useLoaderData, useParams, Link } from 'react-router-dom';
-import { NFTsContext } from '../contexts/contexts'
+import { accountContext, marketplaceContext, needrefreshContext, NFTsContext } from '../contexts/contexts'
 
 function NFTProduct ({ currentNFT }) {
+
+  const [account, setAccount] = useContext(accountContext)
+  const [marketplace, setMarketplace] = useContext(marketplaceContext)
+  const [needRefresh, setNeedRefresh] = useContext(needrefreshContext)
   
   const img = "https://res.cloudinary.com/dkoxgwtku/image/upload/v1677942841/A_cute_adorable_baby_engineer_robot_made_of_crysta_zcel22.jpg";
   
+  const buyItem = async (item) => {
+    
+    await (
+      await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
+    ).wait();
+
+    setNeedRefresh(true)
+  };
+
   return (
     <div className= {styles.Page}>
           <div className={styles.ImageContainer}>
@@ -17,7 +30,7 @@ function NFTProduct ({ currentNFT }) {
               <div className= {styles.Heading}>{currentNFT.name}</div>
               <div>{currentNFT.description}</div>
               <div className= {styles.Price}>Current price: {currentNFT.price.toString()} ETH</div>
-              <div className= {styles.Button}>Buy Now <CartIcon className={styles.CartIcon} /></div>
+              <div className= {`${styles.Button} ${(currentNFT.seller.toLowerCase() == account) && styles.disabledButton}`} onClick={(currentNFT.seller.toLowerCase() != account) && (() => buyItem(currentNFT.itemId))}>Buy Now <CartIcon className={styles.CartIcon} /></div>
               <div className= {styles.Heading2}>Details</div>
               <div className= {styles.Details}>ID: {currentNFT.itemId.toString()}</div>
               <div className= {styles.Details}><strong>Category: {currentNFT.category} </strong></div>

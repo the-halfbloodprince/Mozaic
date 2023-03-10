@@ -54,6 +54,10 @@
     justify-content: center;
 }
 
+.disabledButton {
+    background: gray;
+}
+
 .CartIcon{
     color: var(--base-black);
     font-size: 2rem;
