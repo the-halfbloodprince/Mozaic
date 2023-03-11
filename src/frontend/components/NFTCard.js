@@ -10,7 +10,6 @@ const NFTCard = ({ nft: {itemId, name, image, totalPrice, onSale, category}, act
     const navigate = useNavigate()
 
     return (
-        <Tilt glareEnable={true} glareMaxOpacity={.7} tiltMaxAngleX={10} tiltMaxAngleY={10}>
             <div className={styles.nftcard}>
                 { actionText && <div className={styles.action} onClick={actionFunc} > {actionText} </div> }
                 <div onClick={() => navigate(`/nft/${itemId}`)}>
@@ -22,7 +21,6 @@ const NFTCard = ({ nft: {itemId, name, image, totalPrice, onSale, category}, act
                     </div>
                 </div>
             </div>
-        </Tilt>    
     )
 }
 

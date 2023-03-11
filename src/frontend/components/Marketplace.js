@@ -3,11 +3,15 @@ import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import Loading from "./AwaitingConnection";
 import { HashLoader as LoaderAnim } from "react-spinners";
-import { categories } from '../globals/variables'
+import { categories, SERVER_URL } from '../globals/variables'
 import styles from "./marketplace.module.css";
 import NFTCard from "./NFTCard";
 import { accountContext, marketplaceContext, needrefreshContext, nftContext, NFTsContext } from "../contexts/contexts";
 import { useNavigate } from "react-router";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Rating } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import axios from "axios";
 
 const MarketPlaceMain = () => {
 
@@ -19,6 +23,29 @@ const MarketPlaceMain = () => {
   const [needRefresh, setNeedRefresh] = useContext(needrefreshContext)
 
   const  [activeCategory, setActiveCategory] = useState('All')
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const [rating, setRating] = useState(5)
+
+  const handleRatingSubmit = () => {
+
+    console.log('rating given: ', rating)
+
+      axios.post(`${SERVER_URL}/updateRating`, {
+          rating: rating,
+          walletAddress: account.toLowerCase()
+      })
+
+      notifications.show({
+          title: 'Thanks for the feedback!',
+          message: 'Thanks for your valuable feedback',
+          color: 'lime'
+      })
+
+      close()
+
+  }
+
 
   const allCategories = ['All', ...categories]
 
@@ -33,10 +60,20 @@ const MarketPlaceMain = () => {
     ).wait();
 
     setNeedRefresh(true)
+
+    open()
   };
 
   return (
     <div>
+      <Modal className={styles.Floating} opened={opened} onClose={close} title="Rate the seller" centered >
+          <div className={styles.modalContainer}>
+              <p className={styles.ratetext}>Rate the seller you just bought an NFT from. Your rating helps the platform be more reliable and safe.</p>
+              <Rating size={'xl'} fractions={2} className={styles.stars} value={rating} onChange={setRating} />
+              {/* <input className={styles.modalinput} type="number" value={rating} onChange={(e) => setPrice(e.target.value)} /> */}
+              <button className={styles.modalbutton} onClick={handleRatingSubmit}>Rate the seller!</button>
+          </div>
+      </Modal>
       <div className={styles.imgSection}>
         <div className={styles.Card}>
           <div className={styles.Card__number}>30+</div>

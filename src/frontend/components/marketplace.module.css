@@ -123,3 +123,36 @@
     color: white;
     text-align: center;
  }
+
+ .modalContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    height: 100%;
+ }
+
+ .ratetext {
+    color: gray;
+    font-size: 1.2rem;
+ }
+
+ .stars {
+    /* width: 100%; */
+    /* background: #ffffff22; */
+    margin: 0 auto;
+    transform: scale(2.2);
+ }
+
+ .modalbutton{
+    background-color: var(--green);
+    outline: none;
+    border: none;
+    padding: 1.4rem 0rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark-base);
+    border-radius: 0.5rem;
+    cursor: pointer;
+ }
