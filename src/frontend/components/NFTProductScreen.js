@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styles from "./NFTProductScreen.module.css"
 import { BiCartDownload as CartIcon } from "react-icons/bi";
 import { useMatches, useLoaderData, useParams, Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ function NFTProduct ({ currentNFT }) {
 
   const [rating, setRating] = useState(5)
 
-  let seller
+  const seller = useRef(null)
 
   const handleRatingSubmit = () => {
 
@@ -27,7 +27,7 @@ function NFTProduct ({ currentNFT }) {
 
       axios.post(`${SERVER_URL}/updateRating`, {
           rating: rating,
-          walletAddress: seller.toLowerCase()
+          walletAddress: seller.current.toLowerCase()
       })
 
       notifications.show({
@@ -44,7 +44,14 @@ function NFTProduct ({ currentNFT }) {
   
   const buyItem = async (item) => {
     
-    seller = item.seller
+    seller.current = item.seller
+    // console.log(item)
+    notifications.show({
+        title: 'Please approve the transaction via metamask',
+        message: 'Please approve the transaction via metamask',
+        loading: true,
+        color: 'lime'
+    })
     
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
@@ -72,7 +79,7 @@ function NFTProduct ({ currentNFT }) {
               <div className= {styles.Heading}>{currentNFT.name}</div>
               <div>{currentNFT.description}</div>
               <div className= {styles.Price}>Current price: {currentNFT.price.toString()} ETH</div>
-              <div className= {`${styles.Button} ${(currentNFT.seller.toLowerCase() == account) && styles.disabledButton}`} onClick={(currentNFT.seller.toLowerCase() != account) && (() => buyItem(currentNFT.itemId))}>Buy Now <CartIcon className={styles.CartIcon} /></div>
+              <div className= {`${styles.Button} ${(currentNFT.seller.toLowerCase() == account.toLowerCase()) && styles.disabledButton}`} onClick={(currentNFT.seller.toLowerCase() != account.toLowerCase()) && (() => buyItem(currentNFT))}>Buy Now <CartIcon className={styles.CartIcon} /></div>
               <div className= {styles.Heading2}>Details</div>
               <div className= {styles.Details}>ID: {currentNFT.itemId.toString()}</div>
               <div className= {styles.Details}><strong>Category: {currentNFT.category} </strong></div>
