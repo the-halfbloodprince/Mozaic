@@ -20,7 +20,11 @@ const Transactions = ({ which = null }) => {
         transactionsToShow = transactions.filter(t => ((t.from.toLowerCase() === which || t.to.toLowerCase() === which) && (t.from.toLowerCase() === account || t.to.toLowerCase() === account)))
     }
 
-    return (
+    return transactionsToShow.length === 0 ? (
+        <div className={styles.noTransactions}>
+            No Transactions
+        </div>
+    ) : (
         <div className={styles.transactions} >
             <div className={styles.transactionCard} >
                 <div className={`${styles.trans__heading} ${styles.trans__id}`}>Sl. No</div>

@@ -51,27 +51,32 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
     console.log('profileId............................')
     console.log(profileId)
 
-    // const [NFTsToShow, setNFTsToShow] = useState([])
+    const [NFTsToShow, setNFTsToShow] = useState([])
+    // setNFTsToShow(NFTs.filter(n => (n.seller.toLowerCase() === profileId.toLowerCase())))
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     setNFTsToShow(NFTs.filter(n => n.seller.toLowerCase() === profileId.toLowerCase()))
+        setNFTsToShow(NFTs.filter(n => n.seller.toLowerCase() === profileId.toLowerCase()))
 
-    // }, [profileId])
+    }, [profileId])
 
-    return (
+    return NFTsToShow.length === 0 ? (
+        <div className={styles.noNFTsContainer}>
+            No NFTs to show
+        </div>
+    ) : (
         <div className={styles.your_nfts}>
-            <div className={styles.your_nfts__heading}>
+            {/* <div className={styles.your_nfts__heading}>
                 <div className={styles.your_nfts__title}>
                     My NFTs
                 </div>
-            </div>
+            </div> */}
             <div className={styles.your_nfts__cards}>
                 {
                     // myNFTs
-                    NFTs
+                    NFTsToShow
                     // NFTsToShow
-                        .filter(n => (n.seller.toLowerCase() === profileId.toLowerCase()))
+                        // .filter(n => (n.seller.toLowerCase() === profileId.toLowerCase()))
                         // .slice(0, 4)
                         .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
                 }
@@ -218,7 +223,7 @@ const ProfilePage = () => {
 
         console.log('fetching profile')
 
-        // setActiveProfile(null)
+        setActiveProfile(null)
 
         let acttProfile 
 

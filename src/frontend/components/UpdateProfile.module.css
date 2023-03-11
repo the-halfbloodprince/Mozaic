@@ -1,5 +1,6 @@
 .dropzoneCover {
-    color: gray;
+    /* color: gray; */
+    color: white;
     background: var(--dark-base);
     border: solid 1px var(--black-base);
     display: grid;
@@ -9,6 +10,9 @@
     width: 100vw;
     height: 25vh;
     object-fit: cover;
+    background-size: cover !important;
+    background-position: center center !important;
+    /* filter: brightness(0.5); */
   }
 .dropzoneProfile {
     /* background: #ffffff33; */
@@ -24,7 +28,10 @@
     border-radius: 8px;
     border: solid white 1px;
     object-position: center;
-    color: gray;
+    /* color: gray; */
+    color: white;
+    background-size: cover !important;
+    /* background-position: center center; */
 }
 .dropzone__main {
     display: flex;
@@ -116,3 +123,18 @@
   justify-content: center;
   gap: 1rem;
 }
+
+
+.updateButton:disabled {
+    cursor: not-allowed;
+    background: #666;
+  }
+  
+  .updateButton:disabled:hover {
+    background: #666;
+    pointer-events: none;
+  }
+  
+  .updateButton:hover{
+    background-color: var(--hover-green);
+  }

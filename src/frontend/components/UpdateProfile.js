@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Dropzone } from '@mantine/dropzone'
 import styles from './UpdateProfile.module.css'
 import { MdOutlineImage as ImageIcon } from 'react-icons/md'
 import axios from "axios";
+import { PulseLoader as LoadingIcon } from 'react-spinners'
+import { notifications } from "@mantine/notifications";
+import { useNavigate } from "react-router";
+import { profileContext } from "../contexts/contexts";
 
 let coverImage, profileImage
 
 const UpdateProfile = ({ account }) => {
-    console.log(account);
+    
+  const [updating, setUpdating] = useState(false)
+  const [uploadedCoverImageURL, setUploadedCoverImageURL] = useState(null)
+  const [uploadedProfileImageURL, setUploadedProfileImageURL] = useState(null)
+
+  const [profile, setProfile] = useContext(profileContext)
+
+
   const [formParams, updateFormParams] = useState({
     name: "",
     description: "",
@@ -21,10 +32,12 @@ const UpdateProfile = ({ account }) => {
 
   const setCoverImage = (files) => {
       coverImage = files[0]
-  }
-
-  const setProfileImage = (files) => {
+      setUploadedCoverImageURL(URL.createObjectURL(coverImage))
+    }
+    
+    const setProfileImage = (files) => {
       profileImage = files[0]
+      setUploadedProfileImageURL(URL.createObjectURL(profileImage))
   }
 
   // category handler
@@ -46,9 +59,18 @@ const UpdateProfile = ({ account }) => {
     return res.url;
     };
 
+    const navigate = useNavigate()
+
     const update = async () => {
         console.log(profileImage)
         console.log(coverImage)
+        setUpdating(true)
+        notifications.show({
+          title: 'Updating Profile',
+          message: 'Updating profile...',
+          loading: true,
+          color: 'lime'
+        })
         try {
             const profileImageCloudinaryUrl = await imageUpload(profileImage);
             const coverImageCloudinaryUrl = await imageUpload(coverImage);
@@ -69,13 +91,22 @@ const UpdateProfile = ({ account }) => {
                 user = { ...user, websiteLink: formParams.websiteLink };
             // console.log(process.env.SERVER_URL);
             
-            const result = await axios.post(
+            console.log('updating .......')
+
+            const { data: updatedProfile } = await axios.post(
               `${process.env.REACT_APP_SERVER_URL}/update`,
               {
                 user,
               }
             );
-            console.log(result);
+            setProfile(updatedProfile)
+            setUpdating(false)
+            setTimeout(() => {
+
+                navigate(`/profile/${account}`)
+
+            }, 1000)
+            // console.log(result);
         } catch (e) {
             console.log(e);
         }
@@ -88,7 +119,7 @@ const UpdateProfile = ({ account }) => {
       {/* <h2>Update Profile</h2> */}
       {/* name */}
       {/* <Dropzone style={{ background: `url(${uploadedImageURL})` }} className={styles.dropzone} onDrop={OnChangeFile}> */}
-      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} >
+      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} style={{ background: `url(${uploadedCoverImageURL})` }} >
         <div className={styles.dropzone__main}>
             <ImageIcon className={styles.dropzone__cover__icon} />
             <div className={styles.dropzone__text}>
@@ -96,7 +127,7 @@ const UpdateProfile = ({ account }) => {
             </div>
         </div>
       </Dropzone>
-      <Dropzone className={styles.dropzoneProfile} onDrop={setProfileImage}>
+      <Dropzone className={styles.dropzoneProfile} onDrop={setProfileImage} style={{ background: `url(${uploadedProfileImageURL})` }} >
         <div className={styles.dropzone__main}>
             <ImageIcon className={styles.dropzone__profile__icon} />
             <div className={styles.dropzone__text}>
@@ -167,8 +198,14 @@ const UpdateProfile = ({ account }) => {
           <p>Update</p>
         </button>
       </div> */}
-      <div className={styles.center}>
+      {/* <div className={styles.center}>
         <button className={styles.updateButton} onClick={update}>Update</button>
+      </div> */}
+      <div className={styles.center}>
+          <button className={styles.updateButton} onClick={update} disabled={updating}>
+            <p>{ updating && <LoadingIcon size={10} className={styles.loadingIcon} /> }</p>
+            <p>{ updating ? 'Updating Profile' : 'Update Profile'}</p>
+          </button>
       </div>
     </div>
     </div>
