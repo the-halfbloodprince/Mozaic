@@ -328,8 +328,8 @@ const ProfilePage = () => {
             {/* <div className={styles.separator}></div> */}
 
             <div className={styles.toggleBtns}>
-                <button className={`${styles.toggleBtn} ${activeSection === 'Your NFTs' && styles.activeBtn}`} onClick={() => setActiveSection('Your NFTs')}>My NFTs</button>
-                <div className={`${styles.toggleBtn} ${activeSection === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveSection('Your Transactions')}>My Transactions</div>
+                <button className={`${styles.toggleBtn} ${activeSection === 'Your NFTs' && styles.activeBtn}`} onClick={() => setActiveSection('Your NFTs')}>{profileId.toLowerCase() === account.toLowerCase() ? 'My NFTs' : 'NFTs'}</button>
+                <div className={`${styles.toggleBtn} ${activeSection === 'Your Transactions' && styles.activeBtn}`} onClick={() => setActiveSection('Your Transactions')}>{profileId.toLowerCase() === account.toLowerCase() ? 'My Transactions' : 'Our Transactions'}</div>
             </div>
 
             {/* { activeSections[activeSection] } */}
