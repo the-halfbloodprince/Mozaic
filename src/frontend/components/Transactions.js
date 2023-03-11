@@ -15,9 +15,9 @@ const Transactions = ({ which = null }) => {
     if (!which) {
         transactionsToShow = transactions
     } else if (which === 'mine') {
-        transactionsToShow = transactions.filter(t => (t.from.toLowerCase() === account || t.to.toLowerCase() === account))
+        transactionsToShow = transactions.filter(t => (t.from.toLowerCase() === account.toLowerCase() || t.to.toLowerCase() === account.toLowerCase()))
     } else {
-        transactionsToShow = transactions.filter(t => ((t.from.toLowerCase() === which || t.to.toLowerCase() === which) && (t.from.toLowerCase() === account || t.to.toLowerCase() === account)))
+        transactionsToShow = transactions.filter(t => ((t.from.toLowerCase() === which.toLowerCase() || t.to.toLowerCase() === which.toLowerCase()) && (t.from.toLowerCase() === account || t.to.toLowerCase() === account)))
     }
 
     return transactionsToShow.length === 0 ? (
