@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import Loading from "./AwaitingConnection";
@@ -16,6 +16,8 @@ import axios from "axios";
 const MarketPlaceMain = () => {
 
   const navigate = useNavigate()
+  
+  const seller = useRef(null)
 
   const [account, setAccount] = useContext(accountContext)
   const [marketplace, setMarketplace] = useContext(marketplaceContext)
@@ -26,7 +28,6 @@ const MarketPlaceMain = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [rating, setRating] = useState(5)
-  let seller
 
   const handleRatingSubmit = () => {
 
@@ -34,18 +35,18 @@ const MarketPlaceMain = () => {
 
     console.log('rating given: ', rating)
 
-      axios.post(`${SERVER_URL}/updateRating`, {
-          rating: rating,
-          walletAddress: seller.toLowerCase()
-      })
+    axios.post(`${SERVER_URL}/updateRating`, {
+        rating: rating,
+        walletAddress: seller.current.toLowerCase()
+    })
 
-      notifications.show({
-          title: 'Thanks for the feedback!',
-          message: 'Thanks for your valuable feedback',
-          color: 'lime'
-      })
+    notifications.show({
+        title: 'Thanks for the feedback!',
+        message: 'Thanks for your valuable feedback',
+        color: 'lime'
+    })
 
-      close()
+    close()
 
   }
 
@@ -59,7 +60,8 @@ const MarketPlaceMain = () => {
 
   const buyItem = async (item) => {
     
-    seller = item.seller
+    seller.current = item.seller
+    console.log(item)
     notifications.show({
         title: 'Please approve the transaction via metamask',
         message: 'Please approve the transaction via metamask',
