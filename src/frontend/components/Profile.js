@@ -47,6 +47,7 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
 
     const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
     const [NFTs, setNFTs] = useContext(NFTsContext)
+    const [account, setAccount] = useContext(accountContext)
 
     console.log('profileId............................')
     console.log(profileId)
@@ -80,7 +81,7 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
                     // NFTsToShow
                         // .filter(n => (n.seller.toLowerCase() === profileId.toLowerCase()))
                         // .slice(0, 4)
-                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
+                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={(profileId.toLowerCase() === account.toLowerCase()) && (nft.onSale ? 'Unlist' : 'List for sale')} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
                 }
             </div>
         </div>
