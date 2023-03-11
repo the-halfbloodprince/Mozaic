@@ -18,9 +18,9 @@ import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { Modal, Text, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useParams } from 'react-router-dom'
-import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext } from '../contexts/contexts';
+import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext, profileContext } from '../contexts/contexts';
 import Transactions from './Transactions';
-import { HOST } from '../globals/variables';
+import { HOST, SERVER_URL } from '../globals/variables';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
@@ -42,10 +42,22 @@ const NoUserScreen = () => (
         Please log in to see your profile
     </div>
 )
+
 const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unlistFunc = null}) => {
 
     const [myNFTs, setMyNFTs] = useContext(myNFTsContext)
     const [NFTs, setNFTs] = useContext(NFTsContext)
+
+    console.log('profileId............................')
+    console.log(profileId)
+
+    // const [NFTsToShow, setNFTsToShow] = useState([])
+
+    // useEffect(() => {
+
+    //     setNFTsToShow(NFTs.filter(n => n.seller.toLowerCase() === profileId.toLowerCase()))
+
+    // }, [profileId])
 
     return (
         <div className={styles.your_nfts}>
@@ -58,8 +70,8 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
                 {
                     // myNFTs
                     NFTs
-                        .filter(n => n.seller.toLowerCase() === profileId)
-                        // .filter(n => n.)
+                    // NFTsToShow
+                        .filter(n => (n.seller.toLowerCase() === profileId.toLowerCase()))
                         // .slice(0, 4)
                         .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={nft.onSale ? 'Unlist' : 'List for sale'} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
                 }
@@ -94,7 +106,7 @@ const ProfilePage = () => {
     const [marketplace, setMarketplace] = useContext(marketplaceContext);
     const [account, setAccount] = useContext(accountContext);
     const [needRefresh, setNeedRefresh] = useContext(needrefreshContext);
-
+    const [profile, setProfile] = useContext(profileContext)
 
     
     // useEffect(() => {
@@ -185,17 +197,69 @@ const ProfilePage = () => {
     }
 
     const [activeSection, setActiveSection] = useState('Your NFTs')
+    const [activeProfile, setActiveProfile] = useState(null)
+    const [fetching, setFetching] = useState(true)
 
-    const name = 'Sagar Hitler Varade'
-    const walletAddress = profileId
+    // if (!activeProfile) {
+    // if (!activeProfile) {
+    //     return <Loading />
+    // }
 
-    const joined = moment(new Date())
-    const website = 'https://sexystuff.io'
+    // let coverImageUrl = 'coverImageUrl not specified'
+    // let profileImageUrl = 'profileImageUrl not specified'
+    // let name = 'name not specified'
+    // let walletAddress = 'walletAddress not specified'
+    // let description = 'description not specified'
+    // let joined = moment()
+    // let websiteLink = 'websiteLink not specified'
+    // let rating = 'rating not specified'
+    
+    const fetchProfile = async () => {
 
-    const rating = 4
+        console.log('fetching profile')
 
+        // setActiveProfile(null)
 
-    return (
+        let acttProfile 
+
+        if (profileId == account) {
+            acttProfile = profile
+        } else {
+            // show loading screen
+            // fetch profile
+            const { data: recievedProfile } = await axios.get(`${SERVER_URL}/profile?walletAddress=${profileId}`)
+            // set active profile
+            acttProfile = recievedProfile
+        }
+
+        console.log('nkm')
+        console.log(acttProfile)
+        
+        setActiveProfile(acttProfile)
+
+        // coverImageUrl = acttProfile.coverImageUrl
+        // profileImageUrl = acttProfile.profileImageUrl
+        // name = activeProfile ? activeProfile.name : 'nam'
+        // walletAddress = profileId
+        // description = acttProfile.description ? acttProfile.description : 'full poet possible mean hair quiet apartment factor sentence be shore leg chemical across circle boat specific nation perhaps talk possibly hello waste former'
+        // joined = moment(acttProfile.joined)
+        // websiteLink = acttProfile.websiteLink ? acttProfile.websiteLink : 'No website link provided'
+        // rating = acttProfile.rating.count === 0 ? null : Math.floor(acttProfile.rating.sum / acttProfile.rating.count)
+
+        setFetching(false)
+
+    }
+
+    useEffect(() => {
+
+        fetchProfile()
+
+    }, [profileId])
+
+    console.log('acttt')
+    console.log(activeProfile)
+
+    return activeProfile ? (
         <div>
             <Modal className={styles.Floating} opened={opened} onClose={close} title="List NFT for Sale" centered >
                 <div className={styles.modalContainer}>
@@ -210,25 +274,25 @@ const ProfilePage = () => {
                     <button className={styles.modalbutton} onClick={handlePriceSubmit}>Place For Sale!</button>
                 </div>
             </Modal>
-            <img className={styles.overlay} src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677944863/cinematic_1_m9jygb.jpg"/>
+            <img className={styles.overlay} src={activeProfile.coverImageUrl}/>
             <div className={styles.profileHeader}>
                 <div className={styles.info}>
-                    <img src="https://res.cloudinary.com/dkoxgwtku/image/upload/v1677942841/hitler_as_a_modern_hipster_evsecp.jpg" alt="" />
+                    <img src={activeProfile.profileImageUrl} alt="" />
                     <div className={styles.info__txt}>
-                        <div className={styles.name}> { name } </div>
-                        <CopyToClipboard text={walletAddress} onCopy={() => toast('Public Key copied to the clipboard')} >
+                        <div className={styles.name}> { activeProfile.name } </div>
+                        <CopyToClipboard text={profileId} onCopy={() => toast('Public Key copied to the clipboard')} >
                             <div className={styles.walletAddress}>
                                 <div className={styles.walletAddress__icon}><CopyIcon /></div>
-                                <div className={styles.walletAddress__addr}> { trim(walletAddress, MAX_LEN) } </div>
+                                <div className={styles.walletAddress__addr}> { trim(profileId, MAX_LEN) } </div>
                             </div>
                         </CopyToClipboard>
                         <div className={styles.joined}>
                             <div className={styles.joined__icon}><CalendarIcon /></div>
-                            <div className={styles.joined__txt}> Joined on {joined.format('MMMM YYYY')} </div>
+                            <div className={styles.joined__txt}> Joined on {moment(activeProfile.joined).format('MMMM YYYY')} </div>
                         </div>
                         <div className={styles.website}>
                             <div className={styles.website__icon}><LinkIcon /></div>
-                            <Link to={website} target='_blank'><div className={styles.website__txt}>{website}</div></Link>
+                            {/* <Link to={websiteLink} target='_blank'><div className={styles.website__txt}>{activeProfile.websiteLink ? activeProfile.websiteLink : 'Not specified'}</div></Link> */}
                         </div>
                     </div>
                 </div>
@@ -261,6 +325,8 @@ const ProfilePage = () => {
             {(activeSection === 'Your NFTs') ? (<YourNFTs tokens={NFTs} profileId={profileId ? profileId : account} listFunc={ handleListForSale } unlistFunc = {unlistNFT} />) : (<Transactions which={profileId === account ? 'mine' : profileId} />)}
             
         </div>
+    ) : (
+        <Loading loadingIcon={<LoaderAnim color='#B0F122' />} loadingText="Fetching profile data" />
     )
 
 }

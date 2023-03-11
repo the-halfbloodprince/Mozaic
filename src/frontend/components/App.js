@@ -63,15 +63,21 @@ function App() {
     await loadContracts(signer)
     try {
 
-      // const recievedProfile = await axios.post(`${SERVER_URL}/login`, {
-      //     walletAddress: accounts[0]
-      // })
+      const { data: recievedProfile } = await axios.post(`${SERVER_URL}/login`, {
+          walletAddress: accounts[0]
+      })
 
-      // setProfile(recievedProfile)
+      setProfile(recievedProfile)
+      console.log(recievedProfile)
       // await loadMarketplaceItems()
       setAccount(accounts[0])
 
     } catch (e) {
+      notifications.show({
+        title: "Couldn't retrieve profile",
+        message: "Couldn't retrieve profile information or create a new one",
+        color: "red"
+      })
         console.log("Couldn't retrieve profile information or create a new one")
         console.log(e)
     }
