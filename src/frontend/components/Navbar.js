@@ -4,14 +4,14 @@ import {
 
 import { useState ,useContext} from "react";
 import axios from "axios";
-import { NFTsContext } from "../contexts/contexts";
+import { NFTsContext, profileContext } from "../contexts/contexts";
 import { FaSearchDollar as SearchIcon } from 'react-icons/fa'
 
 import styles from "./Navbar.module.css";
 
-const ProfileIcon = ({ account }) => (
+const ProfileIcon = ({ account, profile }) => (
     <Link to={`/profile/${account}`}>
-        <div className={styles.profileIcon}>
+        <div className={styles.profileIcon} style={{ backgroundImage: `url("${profile.profileImageUrl}") center center` }}>
             {/* <img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=853&q=80" alt="" /> */}
         </div>
     </Link>
@@ -26,6 +26,7 @@ const NavBar = ({ web3Handler, account }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const [NFTs, setNFTs] = useContext(NFTsContext);
+    const [profile, setprofile] = useContext(profileContext);
     const [matchedUsers,setMatchedUsers] = useState([]);
     const [matchedNFTs,setMatchedNFTs] = useState([]);
 
@@ -87,7 +88,7 @@ const NavBar = ({ web3Handler, account }) => {
                 <div className={`${styles.navLink} ${pathname === '/marketplace' && styles.activeNavLink}`}><Link to='/marketplace'> Marketplace </Link></div>
                 <div className={`${styles.navLink} ${pathname === '/transactions' && styles.activeNavLink}`}><Link to='/transactions'> Transactions </Link></div>
                 <div className={`${styles.navLink} ${pathname === '/create' && styles.activeNavLink}`}><Link to='/create'> Create </Link></div>
-                {account ? <ProfileIcon account={account} /> : <LoginButton web3Handler={web3Handler} /> }
+                {account ? <ProfileIcon account={account} profile={profile} /> : <LoginButton web3Handler={web3Handler} /> }
             </div>
         </div>
         // <Navbar expand="lg" bg="secondary" variant="dark">
