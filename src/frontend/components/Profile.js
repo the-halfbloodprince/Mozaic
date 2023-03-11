@@ -292,7 +292,7 @@ const ProfilePage = () => {
                         </div>
                         <div className={styles.website}>
                             <div className={styles.website__icon}><LinkIcon /></div>
-                            {/* <Link to={websiteLink} target='_blank'><div className={styles.website__txt}>{activeProfile.websiteLink ? activeProfile.websiteLink : 'Not specified'}</div></Link> */}
+                            <Link to={activeProfile.websiteLink} target='_blank'><div className={styles.website__txt}>{activeProfile.websiteLink ? activeProfile.websiteLink : 'Not specified'}</div></Link>
                         </div>
                     </div>
                 </div>
@@ -300,7 +300,7 @@ const ProfilePage = () => {
                     <div className={styles.actions}>
                         <ShareIcon onClick={copyProfileLink} />
                         <SeeMoreIcon />
-                        <EditIcon className='disabled' />
+                        { (profileId.toLowerCase() === account) && <Link to="/update-profile"><EditIcon /></Link> }
                     </div>
                     {/* <div className={styles.rating}>
                         <div className={styles.rating__text}>Rating: </div>

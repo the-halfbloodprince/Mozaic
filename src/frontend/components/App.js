@@ -260,7 +260,7 @@ function App() {
                 <Route path="/transactions" element={
                   <Transactions />
                 }/>
-                <Route path="/updateProfile" element={
+                <Route path="/update-profile" element={
                   <UpdateProfile account={account} />
                 }/>
               </Routes>

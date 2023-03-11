@@ -1,5 +1,10 @@
 import { useState } from "react";
+import { Dropzone } from '@mantine/dropzone'
+import styles from './UpdateProfile.module.css'
+import { MdOutlineImage as ImageIcon } from 'react-icons/md'
 import axios from "axios";
+
+let coverImage, profileImage
 
 const UpdateProfile = ({ account }) => {
     console.log(account);
@@ -11,8 +16,16 @@ const UpdateProfile = ({ account }) => {
     coverImageUrl: "",
   });
 
-  const [profileImage, setProfileImage] = useState();
-  const [coverImage, setCoverImage] = useState();
+  // const [profileImage, setProfileImage] = useState();
+  // const [coverImage, setCoverImage] = useState();
+
+  const setCoverImage = (files) => {
+      coverImage = files[0]
+  }
+
+  const setProfileImage = (files) => {
+      profileImage = files[0]
+  }
 
   // category handler
 
@@ -70,76 +83,167 @@ const UpdateProfile = ({ account }) => {
         
     }
   return (
-    <div className="">
-      <div className="">
-        <h2>Update Profile</h2>
-        {/* name */}
-        <div className="">
-          <p className="">Name:</p>
-          <input
-            className=""
-            type="text"
-            placeholder="name"
-            value={formParams.name}
-            onChange={(e) =>
-              updateFormParams({ ...formParams, name: e.target.value })
-            }
-          />
-        </div>
-        {/* descr */}
-        <div className="">
-          <p className="">Description</p>
-          <p className="">Description</p>
-          <textarea
-            className=""
-            type="text"
-            placeholder=""
-            value={formParams.description}
-            onChange={(e) =>
-              updateFormParams({ ...formParams, description: e.target.value })
-            }
-          />
-        </div>
-        {/* websiteLink*/}
-        <div className="">
-          <p className="">Website Link:</p>
-          <input
-            className=""
-            type="text"
-            placeholder=""
-            value={formParams.websiteLink}
-            onChange={(e) =>
-              updateFormParams({ ...formParams, websiteLink: e.target.value })
-            }
-          />
-        </div>
-        {/* profile image */}
-        <div className="">
-          <p className="">Upload profile image</p>
-          <input
-            className=""
-            type="file"
-            onChange={(e) => setProfileImage(e.target.files[0])}
-          />
-        </div>
-        {/* cover image */}
-        <div className="">
-          <p className="">Upload cover image</p>
-          <input
-            className=""
-            type="file"
-            onChange={(e) => setCoverImage(e.target.files[0])}
-          />
-        </div>
 
-        {/* submit button */}
-        <div className="">
-          <button className="" onClick={update}>
-            <p>Update</p>
-          </button>
+    <div className="">
+      {/* <h2>Update Profile</h2> */}
+      {/* name */}
+      {/* <Dropzone style={{ background: `url(${uploadedImageURL})` }} className={styles.dropzone} onDrop={OnChangeFile}> */}
+      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} >
+        <div className={styles.dropzone__main}>
+            <ImageIcon className={styles.dropzone__cover__icon} />
+            <div className={styles.dropzone__text}>
+                <p className={styles.dropzone__line1}>Drag images here or click to upload</p>
+            </div>
         </div>
+      </Dropzone>
+      <Dropzone className={styles.dropzoneProfile} onDrop={setProfileImage}>
+        <div className={styles.dropzone__main}>
+            <ImageIcon className={styles.dropzone__profile__icon} />
+            <div className={styles.dropzone__text}>
+                <p className={styles.dropzone__line2}>Drag images here or click to upload</p>
+            </div>
+        </div>
+      </Dropzone>
+      <div className={styles.container} >
+      <div className={styles.row}>
+      <div className={styles.name}>
+        <p className={`${styles.name__label} ${styles.label}`}>Name:</p>
+        <input
+          className={styles.name__input}
+          type="text"
+          placeholder="name"
+          value={formParams.name}
+          onChange={(e) =>
+            updateFormParams({ ...formParams, name: e.target.value })
+          }
+        />
+      </div>
+      {/* descr */}
+      <div className={styles.descr}>
+        <p className={`${styles.descr__label} ${styles.label}`}>Description</p>
+        <textarea
+          className={styles.descr__input}
+          type="text"
+          placeholder=""
+          value={formParams.description}
+          onChange={(e) =>
+            updateFormParams({ ...formParams, description: e.target.value })
+          }
+        />
+      </div>
+      {/* websiteLink*/}
+      <div className={styles.name}>
+        <p className={`${styles.name__label} ${styles.label}`}>Website Link:</p>
+        <input
+          className={styles.name__input}
+          type="text"
+          placeholder=""
+          value={formParams.websiteLink}
+          onChange={(e) =>
+            updateFormParams({ ...formParams, websiteLink: e.target.value })
+          }
+        />
+      </div>
+  {/*
+      <div className="">
+        <p className="">Upload profile image</p>
+        <input
+          className=""
+          type="file"
+          onChange={(e) => setProfileImage(e.target.files[0])}
+        />
+      </div>
+      <div className="">
+        <p className="">Upload cover image</p>
+        <input
+          className=""
+          type="file"
+          onChange={(e) => setCoverImage(e.target.files[0])}
+        />
+      </div> */}
+      {/* submit button */}
+      {/* <div className="">
+        <button className="" onClick={update}>
+          <p>Update</p>
+        </button>
+      </div> */}
+      <div className={styles.center}>
+        <button className={styles.updateButton} onClick={update}>Update</button>
       </div>
     </div>
+    </div>
+  </div>
+
+    // <div className="">
+    //   <div className="">
+    //     <h2>Update Profile</h2>
+    //     {/* name */}
+    //     <div className="">
+    //       <p className="">Name:</p>
+    //       <input
+    //         className=""
+    //         type="text"
+    //         placeholder="name"
+    //         value={formParams.name}
+    //         onChange={(e) =>
+    //           updateFormParams({ ...formParams, name: e.target.value })
+    //         }
+    //       />
+    //     </div>
+    //     {/* descr */}
+    //     <div className="">
+    //       <p className="">Description</p>
+    //       <p className="">Description</p>
+    //       <textarea
+    //         className=""
+    //         type="text"
+    //         placeholder=""
+    //         value={formParams.description}
+    //         onChange={(e) =>
+    //           updateFormParams({ ...formParams, description: e.target.value })
+    //         }
+    //       />
+    //     </div>
+    //     {/* websiteLink*/}
+    //     <div className="">
+    //       <p className="">Website Link:</p>
+    //       <input
+    //         className=""
+    //         type="text"
+    //         placeholder=""
+    //         value={formParams.websiteLink}
+    //         onChange={(e) =>
+    //           updateFormParams({ ...formParams, websiteLink: e.target.value })
+    //         }
+    //       />
+    //     </div>
+    //     {/* profile image */}
+    //     <div className="">
+    //       <p className="">Upload profile image</p>
+    //       <input
+    //         className=""
+    //         type="file"
+    //         onChange={(e) => setProfileImage(e.target.files[0])}
+    //       />
+    //     </div>
+    //     {/* cover image */}
+    //     <div className="">
+    //       <p className="">Upload cover image</p>
+    //       <input
+    //         className=""
+    //         type="file"
+    //         onChange={(e) => setCoverImage(e.target.files[0])}
+    //       />
+    //     </div>
+
+    //     {/* submit button */}
+    //     <div className="">
+    //       <button className="" onClick={update}>
+    //         <p>Update</p>
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 
