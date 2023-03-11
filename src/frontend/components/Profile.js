@@ -122,23 +122,24 @@ const ProfilePage = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const [price, setPrice]  = useState(0.12)
 
-    const [nftId, setNftId] = useState(null)
+    const [NFT, setNFT] = useState(null)
 
     const handleListForSale = (nft) => {
         setSelectedNFT(nft)
         open()
-        setNftId(nft.itemId)
+        setNFT(nft)
     }
 
     const handlePriceSubmit = () => {
         close()
         // TODO: show loading
-        listNFT(price, nftId)
+        console.log(NFT)
+        listNFT(price, NFT)
     }
 
-    const listNFT = async (price, itemId) => {
+    const listNFT = async (price, NFT) => {
 
-    console.log(`${itemId} listed for sale`)
+    console.log(`${NFT.itemId} listed for sale`)
 
         // show modal
 
@@ -148,7 +149,13 @@ const ProfilePage = () => {
         // const id = await nft.tokenCount();
         const listingPrice = ethers.utils.parseEther(price.toString());
         console.log(listingPrice)
-        await (await marketplace.listItem(itemId, listingPrice)).wait();
+        console.log(NFT.reSale);
+        if(NFT.reSale)
+        {
+            await (await nft.approve(marketplace.address, NFT.itemId)).wait();
+        }
+        
+        await (await marketplace.listItem(NFT.itemId, listingPrice)).wait();
         setNeedRefresh(true)
         notifications.show({
             withCloseButton: true,

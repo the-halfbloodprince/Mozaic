@@ -26,14 +26,17 @@ const MarketPlaceMain = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [rating, setRating] = useState(5)
+  let seller
 
   const handleRatingSubmit = () => {
+
+    console.log('submitted')
 
     console.log('rating given: ', rating)
 
       axios.post(`${SERVER_URL}/updateRating`, {
           rating: rating,
-          walletAddress: account.toLowerCase()
+          walletAddress: seller.toLowerCase()
       })
 
       notifications.show({
@@ -52,10 +55,23 @@ const MarketPlaceMain = () => {
   const [NFTs, setNFTs] = useContext(NFTsContext);
 
   const NFTsToShow = NFTs.filter((n) => (activeCategory === 'All' || activeCategory === n.category))
+  
 
   const buyItem = async (item) => {
     
+    seller = item.seller
+    notifications.show({
+        title: 'Please approve the transaction via metamask',
+        message: 'Please approve the transaction via metamask',
+        loading: true,
+        color: 'lime'
+    })
+    // await (await nft.approve(marketplace.address, item.itemId)).wait();
+
+
+
     await (
+      
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
 

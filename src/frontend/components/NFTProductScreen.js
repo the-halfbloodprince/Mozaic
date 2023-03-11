@@ -19,13 +19,15 @@ function NFTProduct ({ currentNFT }) {
 
   const [rating, setRating] = useState(5)
 
+  let seller
+
   const handleRatingSubmit = () => {
 
     console.log('rating given: ', rating)
 
       axios.post(`${SERVER_URL}/updateRating`, {
           rating: rating,
-          walletAddress: account.toLowerCase()
+          walletAddress: seller.toLowerCase()
       })
 
       notifications.show({
@@ -42,10 +44,12 @@ function NFTProduct ({ currentNFT }) {
   
   const buyItem = async (item) => {
     
+    seller = item.seller
+    
     await (
       await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })
     ).wait();
-
+    
     open()
 
     setNeedRefresh(true)

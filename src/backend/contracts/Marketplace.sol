@@ -26,6 +26,7 @@ contract Marketplace is ReentrancyGuard {
         uint price;
         address payable seller;
         bool onSale;
+        bool reSale;
     }
 
     struct Transaction {
@@ -77,7 +78,8 @@ contract Marketplace is ReentrancyGuard {
         // increment itemCount
         itemCount ++;
         // transfer nft
-        _nft.transferFrom(msg.sender, address(this), _tokenId);
+        // _nft.approve(address(this),_tokenId);
+        // _nft.transferFrom(msg.sender, address(this), _tokenId);
         // add new item to items mapping
         items[itemCount] = Item (
             itemCount,
@@ -85,6 +87,7 @@ contract Marketplace is ReentrancyGuard {
             _tokenId,
             0,
             payable(msg.sender),
+            false,
             false
         );
         // emit Offered event
@@ -98,6 +101,7 @@ contract Marketplace is ReentrancyGuard {
     function listItem(uint id, uint _price) external nonReentrant {
         require(_price > 0, "Price must be greater > zero");
         require(msg.sender == items[id].seller,"You don't own the nft");
+        items[id].nft.transferFrom(msg.sender, address(this), id);
         items[id].price = _price;
         items[id].onSale = true;
         emit Offered(
@@ -143,10 +147,14 @@ contract Marketplace is ReentrancyGuard {
         feeAccount.transfer(_totalPrice - item.price);
         items[_itemId].seller = payable(msg.sender);
         items[_itemId].onSale = false;
+        items[_itemId].reSale = true;
         // update item to sold
         // item.sold = true;
         // transfer nft to buyer
-        item.nft.transferFrom(address(this), msg.sender, item.tokenId);
+        // item.nft.approve(msg.sender, item.tokenId);
+        
+        items[_itemId].nft.transferFrom(address(this), msg.sender, item.tokenId);
+        // item.nft.approve(address(this), item.tokenId);
         // emit Bought event
 
         
