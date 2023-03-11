@@ -51,6 +51,8 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
     console.log('profileId............................')
     console.log(profileId)
 
+    console.log(NFTs)
+
     const [NFTsToShow, setNFTsToShow] = useState([])
     // setNFTsToShow(NFTs.filter(n => (n.seller.toLowerCase() === profileId.toLowerCase())))
 
@@ -58,7 +60,7 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
 
         setNFTsToShow(NFTs.filter(n => n.seller.toLowerCase() === profileId.toLowerCase()))
 
-    }, [profileId])
+    }, [profileId, NFTs])
 
     return NFTsToShow.length === 0 ? (
         <div className={styles.noNFTsContainer}>

@@ -31,6 +31,7 @@ import { notifications } from "@mantine/notifications";
 import CreatePage from "./CreatePage2";
 import SomethingWentWrong from "./SomethingWentWrong";
 import { SERVER_URL } from "../globals/variables";
+import Search from "./Search";
 
 function App() {
 
@@ -147,6 +148,8 @@ function App() {
       items.push(item);
     }
 
+    console.log('reset nfts to')
+    console.log(items)
     setNFTs(items);
     setMyNFTs(myItems);
 
@@ -263,6 +266,9 @@ function App() {
                 }/>
                 <Route path="/update-profile" element={
                   <UpdateProfile account={account} />
+                }/>
+                <Route path="/search/:searchString" element={
+                  <Search />
                 }/>
               </Routes>
             {/* )} */}

@@ -1,5 +1,5 @@
 import {
-    Link, useLoaderData, useLocation
+    Link, useLoaderData, useLocation, useNavigate
 } from "react-router-dom";
 
 import { useState ,useContext} from "react";
@@ -32,22 +32,11 @@ const NavBar = ({ web3Handler, account }) => {
 
     const { pathname } = useLocation()
     console.log(pathname)
+    const navigate = useNavigate()
 
     const handleSearch = async () => {
-        const term = searchTerm;
-        try {
-            const {data}  = await axios.get(`${process.env.REACT_APP_SERVER_URL}/search?term=${term}`);
-            setMatchedUsers(data);
-            console.log(data);
-            console.log(NFTs);
-            const foundNFTs = NFTs.filter((nft) => nft.name.includes(term));
-            setMatchedNFTs(foundNFTs);
-            console.log(foundNFTs);
 
-            // navigate to search page with the states possibly
-        } catch (e) {
-            console.log(e);
-        }
+        navigate(`/search/${searchTerm}`)
         
     }
 
