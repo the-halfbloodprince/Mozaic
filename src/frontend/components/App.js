@@ -75,11 +75,11 @@ function App() {
       setAccount(accounts[0])
 
     } catch (e) {
-      notifications.show({
-        title: "Couldn't retrieve profile",
-        message: "Couldn't retrieve profile information or create a new one",
-        color: "red"
-      })
+      // notifications.show({
+      //   title: "Couldn't retrieve profile",
+      //   message: "Couldn't retrieve profile information or create a new one",
+      //   color: "red"
+      // })
         console.log("Couldn't retrieve profile information or create a new one")
         console.log(e)
     }
@@ -208,22 +208,22 @@ function App() {
   // })
 
   const refresh = async () => {
-      notifications.show({
-        id: 'fetching-nfts',
-        color: 'lime',
-        title: 'Fetching NFTs',
-        message: 'Fetching NFTs',
-        loading: true
-      })
+      // notifications.show({
+      //   id: 'fetching-nfts',
+      //   color: 'lime',
+      //   title: 'Fetching NFTs',
+      //   message: 'Fetching NFTs',
+      //   loading: true
+      // })
       setNeedRefresh(false)
       await loadMarketplaceItems()
       notifications.hide('fetching-nfts')
-      notifications.show({
-        color: 'lime',
-        title: 'Fetched NFTs',
-        message: 'Fetched NFTs',
-        // loading: true
-      })
+      // notifications.show({
+      //   color: 'lime',
+      //   title: 'Fetched NFTs',
+      //   message: 'Fetched NFTs',
+      //   // loading: true
+      // })
 
   }
 

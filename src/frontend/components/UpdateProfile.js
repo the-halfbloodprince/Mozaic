@@ -66,12 +66,12 @@ const UpdateProfile = ({ account }) => {
         console.log(profileImage)
         console.log(coverImage)
         setUpdating(true)
-        notifications.show({
-          title: 'Updating Profile',
-          message: 'Updating profile...',
-          loading: true,
-          color: 'lime'
-        })
+        // notifications.show({
+        //   title: 'Updating Profile',
+        //   message: 'Updating profile...',
+        //   loading: true,
+        //   color: 'lime'
+        // })
         try {
             const profileImageCloudinaryUrl = await imageUpload(profileImage);
             const coverImageCloudinaryUrl = await imageUpload(coverImage);

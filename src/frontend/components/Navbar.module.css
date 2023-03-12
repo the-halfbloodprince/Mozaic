@@ -112,6 +112,7 @@
     background-size: cover;
     border: solid var(--green) 2px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .profileIcon img {

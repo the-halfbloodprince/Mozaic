@@ -110,3 +110,7 @@
     border-radius: 0.5rem;
     cursor: pointer;
  }
+
+ .link {
+    text-decoration: underline;
+ }
