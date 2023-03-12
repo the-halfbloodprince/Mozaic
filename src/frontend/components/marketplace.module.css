@@ -120,6 +120,7 @@
  .nothingToShow__text {
     /* position: absolute; */
     font-size: 3rem;
+    font-weight: 600;
     color: white;
     text-align: center;
  }

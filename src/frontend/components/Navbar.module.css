@@ -106,11 +106,11 @@
 }
 
 .profileIcon {
-    width: 4vh;
-    height: 4vh;
-    border-radius: 2vh;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 2.5vh;
     background-size: cover;
-    border: solid white 3px;
+    border: solid var(--green) 2px;
     cursor: pointer;
 }
 
