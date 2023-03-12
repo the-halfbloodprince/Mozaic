@@ -9,13 +9,19 @@ import { FaSearchDollar as SearchIcon } from 'react-icons/fa'
 
 import styles from "./Navbar.module.css";
 
-const ProfileIcon = ({ account, profile }) => (
-    <Link to={`/profile/${account}`}>
-        <div className={styles.profileIcon} style={{ backgroundImage: `url("${profile.profileImageUrl}") !important` }}>
-            {/* <img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=853&q=80" alt="" /> */}
-        </div>
-    </Link>
-)
+const ProfileIcon = ({ account, profile }) => {
+
+    const bgImage = `url("${profile.profileImageUrl}") !important`
+
+    return (
+        <Link to={`/profile/${account}`}>
+            <div className={styles.profileIcon} style={{ background: bgImage }}>
+                <img src={profile.profileImageUrl} alt="" />
+            </div>
+        </Link>
+    )
+
+}
 
 const LoginButton = ({ web3Handler }) => (
     <div onClick={web3Handler} className={styles.navButton}>Login</div>
