@@ -9,13 +9,9 @@ import "hardhat/console.sol";
 
 contract Marketplace is ReentrancyGuard {
 
-    // Variables
-    // address payable public immutable feeAccount; // the account that receives fees
+   
     address payable private immutable feeAccount;
-    // uint public immutable feePercent; // the fee percentage on sales 
-    uint private immutable feePercent; // the fee percentage on sales 
-    // uint public itemCount; 
-    // uint public transactionCount;
+    uint private immutable feePercent;
     uint private itemCount; 
     uint private transactionCount;
 
@@ -26,7 +22,6 @@ contract Marketplace is ReentrancyGuard {
         uint price;
         address payable seller;
         bool onSale;
-        // bool reSale;
     }
 
     struct Transaction {
@@ -37,9 +32,7 @@ contract Marketplace is ReentrancyGuard {
         uint tokenId;
         uint timestamp;
     }
-    // itemId -> Item
-    // mapping(uint => Item) public items;
-    // mapping(uint => Transaction) public transactions;
+    
     mapping(uint => Item) private items;
     mapping(uint => Transaction) private transactions;
 
@@ -72,15 +65,10 @@ contract Marketplace is ReentrancyGuard {
         feePercent = _feePercent;
     }
 
-    // Make item to offer on the marketplace
+    
     function makeItem(IERC721 _nft, uint _tokenId) external nonReentrant {
-        // require(_price >= 0, "Price must be greater >= zero");
-        // increment itemCount
         itemCount ++;
-        // transfer nft
-        // _nft.approve(address(this),_tokenId);
-        // _nft.transferFrom(msg.sender, address(this), _tokenId);
-        // add new item to items mapping
+       
         items[itemCount] = Item (
             itemCount,
             _nft,
@@ -88,9 +76,8 @@ contract Marketplace is ReentrancyGuard {
             0,
             payable(msg.sender),
             false
-            // false
         );
-        // emit Offered event
+       
         emit Minted(
             itemCount,
             address(_nft),
@@ -117,8 +104,6 @@ contract Marketplace is ReentrancyGuard {
         items[_tokenId].onSale = false;
         
         items[_tokenId].nft.transferFrom(address(this), msg.sender, _tokenId);
-        // items[_tokenId].reSale = true;
-        // emit Offered event
         emit Unlisted(
             _tokenId,
             msg.sender
@@ -144,23 +129,15 @@ contract Marketplace is ReentrancyGuard {
             block.timestamp
 
         );
-        // require(!item.sold, "item already sold");
-        // pay seller and feeAccount
+       
         item.seller.transfer(item.price);
         feeAccount.transfer(_totalPrice - item.price);
         items[_itemId].seller = payable(msg.sender);
         items[_itemId].onSale = false;
-        // items[_itemId].reSale = true;
-        // update item to sold
-        // item.sold = true;
-        // transfer nft to buyer
-        // item.nft.approve(msg.sender, item.tokenId);
+    
         
         items[_itemId].nft.transferFrom(address(this), msg.sender, item.tokenId);
-        // item.nft.approve(address(this), item.tokenId);
-        // emit Bought event
-
-        
+      
         emit Bought(
             _itemId,
             address(item.nft),
@@ -188,7 +165,7 @@ contract Marketplace is ReentrancyGuard {
         { 
            tokens[i] = items[i+1];  
         }
-        //the array 'tokens' has the list of all NFTs in the marketplace
+    
         return tokens;
     }
 
