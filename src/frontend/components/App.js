@@ -133,7 +133,7 @@ function App() {
         image: imageURL,
         price: ethers.utils.formatEther(token.price),
         onSale: token.onSale,
-        reSale : token.reSale,
+        // reSale : token.reSale,
         totalPrice,
       };
       if (token.seller.toLowerCase() === account) {

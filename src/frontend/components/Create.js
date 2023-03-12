@@ -242,6 +242,7 @@ function CreateSignedIn({ nft, marketplace, account }) {
       await (await nft.mint(metadataURL)).wait();
       
       const id = await nft.tokenCount();
+      
       await (await nft.approve(marketplace.address, id)).wait();
 
       await (await marketplace.makeItem(nft.address, id)).wait();

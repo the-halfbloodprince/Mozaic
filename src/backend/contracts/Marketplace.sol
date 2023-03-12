@@ -26,7 +26,7 @@ contract Marketplace is ReentrancyGuard {
         uint price;
         address payable seller;
         bool onSale;
-        bool reSale;
+        // bool reSale;
     }
 
     struct Transaction {
@@ -87,8 +87,8 @@ contract Marketplace is ReentrancyGuard {
             _tokenId,
             0,
             payable(msg.sender),
-            false,
             false
+            // false
         );
         // emit Offered event
         emit Minted(
@@ -115,6 +115,9 @@ contract Marketplace is ReentrancyGuard {
         require(msg.sender == items[_tokenId].seller,"You don't own this nft");
         items[_tokenId].price = 0;
         items[_tokenId].onSale = false;
+        
+        items[_tokenId].nft.transferFrom(address(this), msg.sender, _tokenId);
+        // items[_tokenId].reSale = true;
         // emit Offered event
         emit Unlisted(
             _tokenId,
@@ -147,7 +150,7 @@ contract Marketplace is ReentrancyGuard {
         feeAccount.transfer(_totalPrice - item.price);
         items[_itemId].seller = payable(msg.sender);
         items[_itemId].onSale = false;
-        items[_itemId].reSale = true;
+        // items[_itemId].reSale = true;
         // update item to sold
         // item.sold = true;
         // transfer nft to buyer
