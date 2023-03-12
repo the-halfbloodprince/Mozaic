@@ -151,3 +151,7 @@ select:-webkit-autofill:focus {
   color: white;
   -webkit-text-fill-color: var(--green);
 }
+
+.mantine-Dropzone-root, .mantine-Dropzone-inner {
+    background: var(--dark-base);
+}

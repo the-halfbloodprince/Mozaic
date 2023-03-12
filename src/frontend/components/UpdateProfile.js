@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Dropzone } from '@mantine/dropzone'
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import styles from './UpdateProfile.module.css'
 import { MdOutlineImage as ImageIcon } from 'react-icons/md'
 import axios from "axios";
@@ -7,6 +7,7 @@ import { PulseLoader as LoadingIcon } from 'react-spinners'
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router";
 import { profileContext } from "../contexts/contexts";
+import { IconUpload, IconX } from "@tabler/icons-react";
 
 let coverImage, profileImage
 
@@ -113,13 +114,35 @@ const UpdateProfile = ({ account }) => {
         
         
     }
+
+    const coverImageBg = uploadedCoverImageURL === null ? 'var(--dark-base) !important' : `url(${uploadedCoverImageURL})`
+    const profileImageBg = uploadedProfileImageURL === null ? 'var(--dark-base) !important' : `url(${uploadedProfileImageURL})`
+
   return (
 
     <div className="">
       {/* <h2>Update Profile</h2> */}
       {/* name */}
       {/* <Dropzone style={{ background: `url(${uploadedImageURL})` }} className={styles.dropzone} onDrop={OnChangeFile}> */}
-      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} style={{ background: uploadedCoverImageURL ? '#0B1F21 !important' : `url(${uploadedCoverImageURL})` }} >
+      <Dropzone accept={IMAGE_MIME_TYPE} className={styles.dropzoneCover} onDrop={setCoverImage} style={{ background: coverImageBg }} >
+      <Dropzone.Accept>
+          <IconUpload
+            size="3.2rem"
+            stroke={1.5}
+            // color={theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]}
+          />
+        </Dropzone.Accept>
+        <Dropzone.Reject>
+          <IconX
+            size="3.2rem"
+            stroke={1.5}
+            color="red"
+            // color={theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]}
+          />
+        </Dropzone.Reject>
+        <Dropzone.Idle>
+          {/* <IconPhot size="3.2rem" stroke={1.5} /> */}
+        </Dropzone.Idle>
         <div className={styles.dropzone__main}>
             <ImageIcon className={styles.dropzone__cover__icon} />
             <div className={styles.dropzone__text}>
@@ -127,7 +150,26 @@ const UpdateProfile = ({ account }) => {
             </div>
         </div>
       </Dropzone>
-      <Dropzone className={styles.dropzoneProfile} onDrop={setProfileImage} style={{ background: `url(${uploadedProfileImageURL})` }} >
+      {/* profile */}
+      <Dropzone className={styles.dropzoneProfile} onDrop={setProfileImage} style={{ background: profileImageBg }} >
+        <Dropzone.Accept>
+          <IconUpload
+            size="3.2rem"
+            stroke={1.5}
+            // color={theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]}
+          />
+        </Dropzone.Accept>
+        <Dropzone.Reject>
+          <IconX
+            size="3.2rem"
+            stroke={1.5}
+            color="red"
+            // color={theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]}
+          />
+        </Dropzone.Reject>
+        <Dropzone.Idle>
+          {/* <IconPhot size="3.2rem" stroke={1.5} /> */}
+        </Dropzone.Idle>
         <div className={styles.dropzone__main}>
             <ImageIcon className={styles.dropzone__profile__icon} />
             <div className={styles.dropzone__text}>
@@ -138,15 +180,24 @@ const UpdateProfile = ({ account }) => {
       <div className={styles.container} >
       <div className={styles.row}>
       <div className={styles.name}>
+        <p className={styles.updateTitle}>Update your profile</p>
         <p className={`${styles.name__label} ${styles.label}`}>Name:</p>
         <input
           className={styles.name__input}
           type="text"
-          placeholder="name"
+          placeholder="Jiraiya Sensei"
           value={formParams.name}
           onChange={(e) =>
             updateFormParams({ ...formParams, name: e.target.value })
           }
+        />
+        <p className={`${styles.name__label} ${styles.label}`}>Wallet Address:</p>
+        <input
+          className={styles.wallet__input}
+          type="text"
+          // placeholder="name"
+          value={account}
+          disabled={true}
         />
       </div>
       {/* descr */}

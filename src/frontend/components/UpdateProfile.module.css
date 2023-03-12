@@ -1,7 +1,15 @@
+.updateTitle {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+}
+
 .dropzoneCover {
     /* color: gray; */
     color: white;
-    background: var(--dark-base);
+    /* background: var(--dark-base) !important; */
     border: solid 1px var(--black-base);
     display: grid;
     place-items: center;
@@ -10,8 +18,9 @@
     width: 100vw;
     height: 25vh;
     object-fit: cover;
-    background-size: cover !important;
     background-position: center center !important;
+    /* border: solid var(--green) 2px ; */
+    border-bottom: solid var(--green) 2px ;
     /* filter: brightness(0.5); */
   }
 .dropzoneProfile {
@@ -26,7 +35,7 @@
     object-fit: cover;
     margin-left: 6rem;
     border-radius: 8px;
-    border: solid white 1px;
+    border: solid var(--green) 1px;
     object-position: center;
     /* color: gray; */
     color: white;
@@ -87,6 +96,20 @@
     color: white;
     outline: none;
     border: none;
+    background-color: var(--dark-base);
+    font-family: monospace;
+    padding: 0.7rem;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.wallet__input {
+    color: gray;
+    outline: none;
+    border: none;
+    cursor: not-allowed;
     background-color: var(--dark-base);
     font-family: monospace;
     padding: 0.7rem;
