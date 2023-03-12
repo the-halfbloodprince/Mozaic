@@ -22,6 +22,7 @@ import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, 
 import Transactions from './Transactions';
 import { Rating } from '@mantine/core'
 import { HOST, SERVER_URL } from '../globals/variables';
+import { FetchingProfile, NoAccount } from './LoadingComponents';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
@@ -228,11 +229,6 @@ const ProfilePage = () => {
     const [activeProfile, setActiveProfile] = useState(null)
     const [fetching, setFetching] = useState(true)
 
-    // if (!activeProfile) {
-    // if (!activeProfile) {
-    //     return <Loading />
-    // }
-
     // let coverImageUrl = 'coverImageUrl not specified'
     // let profileImageUrl = 'profileImageUrl not specified'
     // let name = 'name not specified'
@@ -359,7 +355,7 @@ const ProfilePage = () => {
             
         </div>
     ) : (
-        <Loading loadingIcon={<LoaderAnim color='#B0F122' />} loadingText="Fetching profile data" />
+        <FetchingProfile />
     )
 
 }
@@ -368,7 +364,9 @@ const Profile = ({ nft, marketplace, account }) => {
 
     return account ? (
         <ProfilePage nft={nft} marketplace={marketplace} account={account} />        
-    ) : <Loading loadingText='Login to see your profile' loadingIcon={<LoaderAnim color='#B0F122'/>} />
+    ) : (
+        <NoAccount />
+    )
   }
   
   export default Profile
