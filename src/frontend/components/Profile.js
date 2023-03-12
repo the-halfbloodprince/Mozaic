@@ -315,7 +315,7 @@ const ProfilePage = () => {
                 <div className={styles.options}>
                     <div className={styles.actions}>
                         <ShareIcon onClick={copyProfileLink} />
-                        <SeeMoreIcon />
+                        {/* <SeeMoreIcon /> */}
                         { (profileId.toLowerCase() === account) && <Link to="/update-profile"><EditIcon /></Link> }
                     </div>
                     <div className={styles.rating}>

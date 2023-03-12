@@ -90,10 +90,16 @@
    text-decoration: underline;
 }
 
+.actions {
+   display: flex;
+   justify-content: right;
+   gap: 1rem;
+}
+
 .actions > * {
    cursor: pointer;
    font-size: 1.8rem;
-   margin-left: 1.3rem;
+   /* margin-left: 1.3rem; */
 }
 
 .actions > *:hover {
