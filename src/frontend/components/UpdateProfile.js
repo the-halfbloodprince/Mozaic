@@ -119,7 +119,7 @@ const UpdateProfile = ({ account }) => {
       {/* <h2>Update Profile</h2> */}
       {/* name */}
       {/* <Dropzone style={{ background: `url(${uploadedImageURL})` }} className={styles.dropzone} onDrop={OnChangeFile}> */}
-      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} style={{ background: `url(${uploadedCoverImageURL})` }} >
+      <Dropzone className={styles.dropzoneCover} onDrop={setCoverImage} style={{ background: uploadedCoverImageURL ? '#0B1F21 !important' : `url(${uploadedCoverImageURL})` }} >
         <div className={styles.dropzone__main}>
             <ImageIcon className={styles.dropzone__cover__icon} />
             <div className={styles.dropzone__text}>
