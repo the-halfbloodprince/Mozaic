@@ -197,6 +197,12 @@ function App() {
   }, [marketplace, nft, account])
 
   // useEffect(() => {
+  
+  //     setAccountChanged(true)
+
+  // })
+
+  // useEffect(() => {
   //   loadTokens()
   // })
 

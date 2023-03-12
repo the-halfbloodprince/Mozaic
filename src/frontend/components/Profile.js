@@ -141,6 +141,8 @@ const ProfilePage = () => {
         listNFT(price, NFT)
     }
 
+    const accountDiff = account.toLowerCase() !== profileId.toLowerCase()
+
     const listNFT = async (price, NFT) => {
 
     console.log(`${NFT.itemId} listed for sale`)
@@ -287,6 +289,14 @@ const ProfilePage = () => {
 
     return activeProfile ? (
         <div>
+            {/* {
+                accountDiff && ( */}
+                    <div className={styles.accountChangedPrompt} style={{ transform: `scaleY(${accountDiff ? 1 : 0})` }}>
+                        You are on someone else's profile.
+                        <Link to={`/profile/${account}`} className={styles.accountChangedPrompt__link}> Switch to your profile</Link>
+                    </div>
+            {/* //     )
+            // } */}
             <Modal className={styles.Floating} opened={opened} onClose={close} title="List NFT for Sale" centered >
                 <div className={styles.modalContainer}>
                     <Title order={1} color="white">{ selectedNFT ? selectedNFT.name : 'NFT' }</Title>
