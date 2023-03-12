@@ -10,6 +10,7 @@ import { Radio } from "@mantine/core";
 import { useNavigate } from 'react-router-dom'
 import { Dropzone } from '@mantine/dropzone'
 import { MdOutlineImage as ImageIcon } from 'react-icons/md'
+import { NoAccount } from "./LoadingComponents";
 
 // read the API key from an environment variable. You'll need to set this before running the example!
 const API_KEY = process.env.REACT_APP_NFT_STORAGE_KEY;
@@ -25,7 +26,7 @@ const CreateNFT = ({ nft, marketplace }) => {
 
   // console.log("Working", process.env);
   
-  return account ? <CreateSignedIn account={account} nft={nft} marketplace={marketplace} /> : <Loading loadingText="Sign in to launch your NFT!" loadingIcon={HashLoader} />;
+  return account ? <CreateSignedIn account={account} nft={nft} marketplace={marketplace} /> : <NoAccount />;
 }
 // export default CreateNFT
 

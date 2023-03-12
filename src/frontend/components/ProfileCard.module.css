@@ -1,0 +1,95 @@
+.profileCard {
+    --border-radius: 10px;
+    width: 12rem;
+    height: 18rem;
+    margin-right: 0.6rem;
+    position: relative;
+    border-radius: var(--border-radius);
+    background: var(--dark-base) !important;
+    /* overflow: hidden; */
+    transition: all .3s ease;
+    cursor: pointer;
+    margin-bottom: 3rem;
+    /* display: flex;
+    flex-wrap: wrap; */
+}
+.profileCard:hover {
+    transform: scale(1.02);
+}
+.img {
+    position: absolute;
+    margin-bottom: 0 !important;
+    width: 10rem;
+    height: 10rem;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: solid var(--green);
+    /* height: 18rem; */
+    object-fit: cover;
+    z-index: 2 !important;
+}
+.info {
+    background: #ffffffaa;
+    color: black;
+    z-index: 3 !important;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.3rem 1rem;
+    position: absolute;
+    bottom: 0rem;
+    /* border: solid red 2px; */
+    /* transform: translateY(-100%); */
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+.info .name {
+    font-weight: 800;
+    cursor: text;
+}
+.info .price {
+    font-size: 1rem;
+    color: #616161;
+    width: 100%;
+    cursor: text;
+}
+/* .rating {
+    font-size: 0.8rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    z-index: 5;
+    color: var(--base-black);
+    width: fit-content;
+    border-radius: 1rem;
+    padding: 0.1rem 0.7rem;
+} */
+.action {
+    text-align: center;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    /* z-index: 10; */
+    width: 100%;
+    padding: .6rem 1rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    font-weight: 700;
+    background: var(--green);
+    color: black;
+    z-index: 1 !important;
+    /* opacity: 0; */
+    transform: translateY(-100%);
+    transition: all .3s ease;
+}
+/* .profileCard:hover .info {
+    border-radius: 0;
+} */
+/* .profileCard:hover .img {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+} */
+/* .profileCard:hover .action {
+    transform: translateY(100%);
+    z-index: 2; /*added by kai*/

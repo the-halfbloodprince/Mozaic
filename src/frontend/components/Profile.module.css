@@ -90,10 +90,17 @@
    text-decoration: underline;
 }
 
+.actions {
+   display: flex;
+   justify-content: right;
+   align-items: center;
+   gap: 1rem;
+}
+
 .actions > * {
    cursor: pointer;
    font-size: 1.8rem;
-   margin-left: 1.3rem;
+   /* margin-left: 1.3rem; */
 }
 
 .actions > *:hover {
@@ -227,6 +234,24 @@
    place-items: center;
    font-weight: 600;
 }
+
+.accountChangedPrompt {
+   background: var(--green);
+   text-align: center;
+   font-weight: 500;
+   position: absolute;
+   width: 100%;
+   padding: .3rem 0;
+   transform: scaleY(0);
+   transform-origin: top center;
+   transition: all .5s ease;
+}
+
+.accountChangedPrompt__link {
+   font-weight: 700;
+   text-decoration: underline;
+}
+
 /* .your_nfts {
    width: 100vw;
    padding: 2rem;

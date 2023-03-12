@@ -12,6 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Rating } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import axios from "axios";
+import { NoAccount } from "./LoadingComponents";
 
 const MarketPlaceMain = () => {
 
@@ -163,10 +164,7 @@ const Marketplace = () => {
   return account ? (
     <MarketPlaceMain />
   ) : (
-    <Loading
-      loadingText="Connect to Wallet for access"
-      loadingIcon={<LoaderAnim color="#B0F122" />}
-    />
+    <NoAccount />
   );
   // connection ? (
   //   <h1>Awaiting Connection</h1>

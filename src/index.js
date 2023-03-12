@@ -10,6 +10,7 @@ import { Notifications } from '@mantine/notifications';
 import { store } from "./frontend/redux/store";
 import { Provider } from "react-redux";
 import axios from "axios";
+import AppErrorBoundary from './frontend/components/AppErrorBoundary'
 
 // axios.defaults.headers.common["x_client_token"] = "PEACE";
 
@@ -27,28 +28,30 @@ const MainApp = () => {
     const [profile, setProfile] = useState(null)
 
     return (
-        <Provider store={store}>
-            <needrefreshContext.Provider value={[needRefresh, setNeedRefresh]}>
-                <accountContext.Provider value={[account, setAccount]}>
-                    <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
-                        <nftContext.Provider value={[nft, setnft]}>
-                            <NFTsContext.Provider value={[NFTs, setNFTs]}>
-                                <transactionsContext.Provider value = {[transactions, setTransactions]}>
-                                    <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
-                                        <profileContext.Provider value={[profile, setProfile]}>
-                                            <MantineProvider theme={{ colorScheme: 'dark' }}>
-                                                <Notifications />
-                                                <App />
-                                            </MantineProvider>
-                                        </profileContext.Provider>
-                                    </myNFTsContext.Provider>
-                                </transactionsContext.Provider>
-                            </NFTsContext.Provider>
-                        </nftContext.Provider>
-                    </marketplaceContext.Provider>
-                </accountContext.Provider>
-            </needrefreshContext.Provider>
-        </Provider>
+        <AppErrorBoundary>
+            <Provider store={store}>
+                <needrefreshContext.Provider value={[needRefresh, setNeedRefresh]}>
+                    <accountContext.Provider value={[account, setAccount]}>
+                        <marketplaceContext.Provider value={[marketplace, setMarketplace]}>
+                            <nftContext.Provider value={[nft, setnft]}>
+                                <NFTsContext.Provider value={[NFTs, setNFTs]}>
+                                    <transactionsContext.Provider value = {[transactions, setTransactions]}>
+                                        <myNFTsContext.Provider value={[myNFTs, setMyNFTs]}>
+                                            <profileContext.Provider value={[profile, setProfile]}>
+                                                <MantineProvider theme={{ colorScheme: 'dark' }}>
+                                                    <Notifications />
+                                                    <App />
+                                                </MantineProvider>
+                                            </profileContext.Provider>
+                                        </myNFTsContext.Provider>
+                                    </transactionsContext.Provider>
+                                </NFTsContext.Provider>
+                            </nftContext.Provider>
+                        </marketplaceContext.Provider>
+                    </accountContext.Provider>
+                </needrefreshContext.Provider>
+            </Provider>
+        </AppErrorBoundary>
     )
 }
 

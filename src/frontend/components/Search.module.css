@@ -1,0 +1,34 @@
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 2rem 3rem;
+    box-sizing: border-box;
+
+    color: white;
+}
+
+.searchString {
+    /* text-decoration: underline; */
+    font-weight: 700;
+    color: var(--green);
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    /* text-decoration: underline;
+    text-decoration-color: var(--green); */
+}
+
+.section__title {
+    /* margin-top: 1.5rem; */
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 12rem);
+    margin-bottom: 1rem;
+}

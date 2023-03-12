@@ -11,7 +11,7 @@ import styles from "./Navbar.module.css";
 
 const ProfileIcon = ({ account, profile }) => (
     <Link to={`/profile/${account}`}>
-        <div className={styles.profileIcon} style={{ backgroundImage: `url("${profile.profileImageUrl}") center center` }}>
+        <div className={styles.profileIcon} style={{ backgroundImage: `url("${profile.profileImageUrl}") !important` }}>
             {/* <img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=853&q=80" alt="" /> */}
         </div>
     </Link>
@@ -47,7 +47,7 @@ const NavBar = ({ web3Handler, account }) => {
                 <input className={styles.search__input} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
                 <div className={styles.search__icon} onClick={handleSearch}><SearchIcon /></div>
             
-                <div className={styles.searchResults}>
+                {/* <div className={styles.searchResults}>
                     <div className={styles.searchResults__users}>
                         {
                             matchedUsers
@@ -69,7 +69,7 @@ const NavBar = ({ web3Handler, account }) => {
                                 ))
                         }   
                     </div>
-                </div>
+                </div> */}
             
             </div>
             <div className={styles.navLinks}>

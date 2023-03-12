@@ -32,6 +32,7 @@ import CreatePage from "./CreatePage2";
 import SomethingWentWrong from "./SomethingWentWrong";
 import { SERVER_URL } from "../globals/variables";
 import Search from "./Search";
+import { NoAccount } from "./LoadingComponents";
 
 function App() {
 
@@ -131,7 +132,7 @@ function App() {
         description: metadata.description,
         category: metadata.category,
         image: imageURL,
-        price: token.price / 1e18,
+        price: ethers.utils.formatEther(token.price),
         onSale: token.onSale,
         // reSale : token.reSale,
         totalPrice,
@@ -178,7 +179,7 @@ function App() {
         transactionId: currentTransaction.transactionCount,
         from: currentTransaction.from,
         to: currentTransaction.to,
-        amount : currentTransaction.amount / 1e18,
+        amount : ethers.utils.formatEther(currentTransaction.amount),
         timestamp: currentTransaction.timestamp,
         nftName:metadata.name,
         
@@ -195,6 +196,12 @@ function App() {
       loadMarketplaceItems()
 
   }, [marketplace, nft, account])
+
+  // useEffect(() => {
+  
+  //     setAccountChanged(true)
+
+  // })
 
   // useEffect(() => {
   //   loadTokens()
@@ -281,7 +288,7 @@ function App() {
             />
           </main>
           ) : (
-            <Loading />
+            <NoAccount />
           )
         }
         <Footer/>

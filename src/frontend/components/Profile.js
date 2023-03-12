@@ -10,7 +10,6 @@ import { FaShareAlt as ShareIcon, FaEllipsisH as SeeMoreIcon } from 'react-icons
 import { MdContentCopy as CopyIcon, MdDateRange as CalendarIcon, MdModeEditOutline as EditIcon } from 'react-icons/md'
 import { BiLinkAlt as LinkIcon } from 'react-icons/bi'
 import Loading from './AwaitingConnection';
-import { PuffLoader as LoaderAnim } from 'react-spinners'
 import { toast } from 'react-toastify';
 import { ethers } from "ethers";
 import axios from "axios";
@@ -20,7 +19,9 @@ import { notifications } from '@mantine/notifications';
 import { useParams } from 'react-router-dom'
 import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext, profileContext } from '../contexts/contexts';
 import Transactions from './Transactions';
+import { Rating } from '@mantine/core'
 import { HOST, SERVER_URL } from '../globals/variables';
+import { FetchingProfile, NoAccount } from './LoadingComponents';
 // import { Text } from '@mantine/core';
 
 // import { BsCalendar2DateFill as DateIcon } from 'react-icons/bs'
@@ -140,6 +141,8 @@ const ProfilePage = () => {
         listNFT(price, NFT)
     }
 
+    const accountDiff = account.toLowerCase() !== profileId.toLowerCase()
+
     const listNFT = async (price, NFT) => {
 
     console.log(`${NFT.itemId} listed for sale`)
@@ -225,11 +228,6 @@ const ProfilePage = () => {
     const [activeProfile, setActiveProfile] = useState(null)
     const [fetching, setFetching] = useState(true)
 
-    // if (!activeProfile) {
-    // if (!activeProfile) {
-    //     return <Loading />
-    // }
-
     // let coverImageUrl = 'coverImageUrl not specified'
     // let profileImageUrl = 'profileImageUrl not specified'
     // let name = 'name not specified'
@@ -286,6 +284,14 @@ const ProfilePage = () => {
 
     return activeProfile ? (
         <div>
+            {/* {
+                accountDiff && ( */}
+                    <div className={styles.accountChangedPrompt} style={{ transform: `scaleY(${accountDiff ? 1 : 0})` }}>
+                        You are on someone else's profile.
+                        <Link to={`/profile/${account}`} className={styles.accountChangedPrompt__link}> Switch to your profile</Link>
+                    </div>
+            {/* //     )
+            // } */}
             <Modal className={styles.Floating} opened={opened} onClose={close} title="List NFT for Sale" centered >
                 <div className={styles.modalContainer}>
                     <Title order={1} color="white">{ selectedNFT ? selectedNFT.name : 'NFT' }</Title>
@@ -324,16 +330,13 @@ const ProfilePage = () => {
                 <div className={styles.options}>
                     <div className={styles.actions}>
                         <ShareIcon onClick={copyProfileLink} />
-                        <SeeMoreIcon />
+                        {/* <SeeMoreIcon /> */}
                         { (profileId.toLowerCase() === account) && <Link to="/update-profile"><EditIcon /></Link> }
                     </div>
-                    {/* <div className={styles.rating}>
-                        <div className={styles.rating__text}>Rating: </div>
-                        <div className={styles.rating__icons}>
-                            {Array(rating).fill(0).map(() => (<span>F</span>))}
-                            {Array(MAX_RATING - rating).fill(0).map(() => (<span>L</span>))}
-                        </div>
-                    </div> */}
+                    <div className={styles.rating}>
+                        {/* <div className={styles.rating__text}>Rating: </div> */}
+                        <Rating size='lg' value={activeProfile.rating.count === 0 ? 0 : (activeProfile.rating.sum / activeProfile.rating.count)} fractions={2} readOnly />
+                    </div>
                 </div>
             </div>
 
@@ -351,7 +354,7 @@ const ProfilePage = () => {
             
         </div>
     ) : (
-        <Loading loadingIcon={<LoaderAnim color='#B0F122' />} loadingText="Fetching profile data" />
+        <FetchingProfile />
     )
 
 }
@@ -360,7 +363,9 @@ const Profile = ({ nft, marketplace, account }) => {
 
     return account ? (
         <ProfilePage nft={nft} marketplace={marketplace} account={account} />        
-    ) : <Loading loadingText='Login to see your profile' loadingIcon={<LoaderAnim color='#B0F122'/>} />
+    ) : (
+        <NoAccount />
+    )
   }
   
   export default Profile
