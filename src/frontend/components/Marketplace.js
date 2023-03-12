@@ -129,7 +129,7 @@ const MarketPlaceMain = () => {
                           NFTs.filter(n => n.onSale).filter(n => (activeCategory === 'All' || activeCategory === n.category)).length === 0 ? (
                             <div className={styles.nothingToShow__container}>
                                 <div className={styles.nothingToShow__text}>No NFTs listed yet</div>
-                                <iframe className={styles.nothingToShow} src="https://giphy.com/embed/KKOMG9EB7VqBq" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                                {/* <iframe className={styles.nothingToShow} src="https://giphy.com/embed/KKOMG9EB7VqBq" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe> */}
                             </div>
                           ) : (NFTs
                             .filter(n => n.onSale)
