@@ -18,12 +18,12 @@
 
 ### 2. Install Dependencies:
 ```
-$ cd nft_marketplace
+$ cd Mozaic
 $ npm install
 ```
 ### 3. Boot up local development blockchain
 ```
-$ cd nft_marketplace
+$ cd Mozaic
 $ npx hardhat node
 ```
 
@@ -36,10 +36,19 @@ $ npx hardhat node
 ### 5. Migrate Smart Contracts
 `npx hardhat run src/backend/scripts/deploy.js --network localhost`
 
-### 6. Run Tests
-`$ npx hardhat test`
+### 6. Clone this repository
+https://github.com/Hiwatari-Kai/Mozaic-API
 
-### 7. Launch Frontend
+### 7. Install dependencies
+```
+$ cd Mozaic-API
+$ npm install
+```
+
+### 8. Launch backend
+`$ node src/index.js`
+
+### 9. Launch Frontend
 `$ npm run start`
 
 License
