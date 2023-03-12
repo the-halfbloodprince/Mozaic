@@ -170,15 +170,15 @@ const ProfilePage = () => {
             withCloseButton: true,
             loading: false,
             color: 'lime',
-            title: 'NFT Listed',
-            message: 'Successfully listed your NFT!'
+            title: 'NFT listed',
+            message: 'Successfully listed your NFT to the marketplace!'
           })
     } catch (e) {
-        notifications.show({
-            color: 'red',
-            title: 'Upload error',
-            message: e
-          })
+        // notifications.show({
+        //     color: 'red',
+        //     title: 'Upload error',
+        //     message: e
+        //   })
         }
     };
 
@@ -202,11 +202,11 @@ const ProfilePage = () => {
                 message: 'Successfully unlisted your NFT!'
               })
         } catch (e) {
-            notifications.show({
-                color: 'red',
-                title: 'Upload error',
-                message: e
-              })
+            // notifications.show({
+            //     color: 'red',
+            //     title: 'Upload error',
+            //     message: e
+            //   })
         }
     }
 

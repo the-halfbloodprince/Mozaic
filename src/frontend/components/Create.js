@@ -214,11 +214,11 @@ function CreateSignedIn({ nft, marketplace, account }) {
       console.log("Metadata URI: ", metadata.url);
       return metadata.url;
     } catch (e) {
-      notifications.show({
-        color: 'red',
-        title: 'error uploading JSON metadata',
-        message: e
-      })
+      // notifications.show({
+      //   color: 'red',
+      //   title: 'error uploading JSON metadata',
+      //   message: e
+      // })
       console.log("error uploading JSON metadata:", e);
     }
   }
@@ -228,13 +228,13 @@ function CreateSignedIn({ nft, marketplace, account }) {
     setLoading(true)
     console.log(formParams)
 
-    notifications.show({
-      withCloseButton: true,
-      loading: true,
-      color: 'lime',
-      title: 'Creating your NFT!',
-      message: 'Creating your NFT!'
-    })
+    // notifications.show({
+    //   withCloseButton: true,
+    //   loading: true,
+    //   color: 'lime',
+    //   title: 'Creating your NFT!',
+    //   message: 'Creating your NFT!'
+    // })
 
     //Upload data to IPFS
     try {
@@ -255,8 +255,8 @@ function CreateSignedIn({ nft, marketplace, account }) {
         withCloseButton: true,
         loading: false,
         color: 'lime',
-        title: 'NFT Minted',
-        message: 'Successfully minted your NFT. You will be redirected to your profile page in 3 seconds'
+        title: 'NFT created',
+        message: 'Successfully created your NFT. You can now list it on the marketplace.'
       })
     } catch (e) {
       navigate('/something-went-wrong')
