@@ -131,7 +131,7 @@ function App() {
         description: metadata.description,
         category: metadata.category,
         image: imageURL,
-        price: token.price / 1e18,
+        price: ethers.utils.formatEther(token.price),
         onSale: token.onSale,
         reSale : token.reSale,
         totalPrice,
@@ -178,7 +178,7 @@ function App() {
         transactionId: currentTransaction.transactionCount,
         from: currentTransaction.from,
         to: currentTransaction.to,
-        amount : currentTransaction.amount / 1e18,
+        amount : ethers.utils.formatEther(currentTransaction.amount),
         timestamp: currentTransaction.timestamp,
         nftName:metadata.name,
         
