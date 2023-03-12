@@ -29,7 +29,7 @@ function Search() {
 
     useEffect(() => {
         searchUsers()
-    }, [])
+    }, [searchString])
     // const [matchedNFTs, setMatchedNFTs] = useState([])
     
     // const foundNFTs = NFTs.filter((nft) => nft.name.includes(searchString));
@@ -45,7 +45,7 @@ function Search() {
             <div className={styles.results}>
                 {
                     NFTs
-                        .filter((nft) => (nft.name.includes(searchString)))
+                        .filter((nft) => (nft.name.toLowerCase().includes(searchString.toLocaleLowerCase())))
                         // .length
                         .map((n) => <NFTCard nft={n} key={n.itemId} />)
                 }
