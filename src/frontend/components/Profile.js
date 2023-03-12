@@ -10,7 +10,6 @@ import { FaShareAlt as ShareIcon, FaEllipsisH as SeeMoreIcon } from 'react-icons
 import { MdContentCopy as CopyIcon, MdDateRange as CalendarIcon, MdModeEditOutline as EditIcon } from 'react-icons/md'
 import { BiLinkAlt as LinkIcon } from 'react-icons/bi'
 import Loading from './AwaitingConnection';
-import { PuffLoader as LoaderAnim } from 'react-spinners'
 import { toast } from 'react-toastify';
 import { ethers } from "ethers";
 import axios from "axios";

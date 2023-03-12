@@ -32,7 +32,7 @@ import CreatePage from "./CreatePage2";
 import SomethingWentWrong from "./SomethingWentWrong";
 import { SERVER_URL } from "../globals/variables";
 import Search from "./Search";
-import { HashLoader } from "react-spinners";
+import { NoAccount } from "./LoadingComponents";
 
 function App() {
 
