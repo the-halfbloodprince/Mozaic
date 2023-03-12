@@ -36,30 +36,46 @@ function Search() {
     // setMatchedNFTs(foundNFTs);
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles.title}>Search results for <span className={styles.searchString}>{ searchString }</span>: </h1>
-            {/* {
+      <div className={styles.container}>
+        <h1 className={styles.title}>
+          Search results for{" "}
+          <span className={styles.searchString}>{searchString}</span>:{" "}
+        </h1>
+        {/* {
                 matchedNFTs.map((n) => <NFTCard nft={n} key={n.itemId}actionText={null} actionFunc={null} />)
             } */}
-            <h2 className={styles.section__title}>NFTs</h2>
-            <div className={styles.results}>
-                {
-                    NFTs
-                        .filter((nft) => (nft.name.toLowerCase().includes(searchString.toLocaleLowerCase())))
-                        // .length
-                        .map((n) => <NFTCard nft={n} key={n.itemId} />)
-                }
+        <h2 className={styles.section__title}>NFTs</h2>
+        <div className={styles.results}>
+          {NFTs.filter((nft) =>
+            nft.name.toLowerCase().includes(searchString.toLocaleLowerCase())
+          ).length === 0 ? (
+            <div className={styles.nothingToShow__container}>
+              <div className={styles.nothingToShow__text}>
+                No NFTs found
+              </div>
             </div>
-            <h2 className={styles.section__title}>Users</h2>
-            <div className={styles.results}>
-                {
-                    matchedUsers
-                        // .length
-                        .map((p) => <ProfileCard profile={p} />)
-                }
-            </div>
+          ) : (
+            NFTs.filter((nft) =>
+              nft.name.toLowerCase().includes(searchString.toLocaleLowerCase())
+            ).map((n) => <NFTCard nft={n} key={n.itemId} />)
+          )}
         </div>
-    )
+        <h2 className={styles.section__title}>Users</h2>
+        <div className={styles.results}>
+          {matchedUsers.length === 0 ? (
+            <div className={styles.nothingToShow__container}>
+              <div className={styles.nothingToShow__text}>
+                No Users found
+              </div>
+            </div>
+          ) : (
+            matchedUsers
+              // .length
+              .map((p) => <ProfileCard profile={p} />)
+          )}
+        </div>
+      </div>
+    );
 }
 
 export default Search
