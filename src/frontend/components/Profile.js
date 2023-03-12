@@ -81,7 +81,7 @@ const YourNFTs = ({ tokens: yourNFTList, profileId, showCount = 4, listFunc,unli
                     // NFTsToShow
                         // .filter(n => (n.seller.toLowerCase() === profileId.toLowerCase()))
                         // .slice(0, 4)
-                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={(profileId.toLowerCase() === account.toLowerCase()) && (nft.onSale ? 'Unlist' : 'List for sale')} actionFunc={ nft.onSale ? (() => unlistFunc(nft.itemId)) : (() => listFunc(nft)) } />)
+                        .map((nft, idx) => <NFTCard key={nft.itemId} nft={nft} actionText={(profileId.toLowerCase() === account.toLowerCase()) && (nft.onSale ? 'Unlist' : 'List for sale')} actionFunc={ nft.onSale ? (() => unlistFunc(nft)) : (() => listFunc(nft)) } />)
                 }
             </div>
         </div>
@@ -152,8 +152,11 @@ const ProfilePage = () => {
         // const id = await nft.tokenCount();
         const listingPrice = ethers.utils.parseEther(price.toString());
         console.log(listingPrice)
-        console.log(NFT.reSale);
-        if(NFT.reSale)
+            // console.log(NFT.reSale);
+            console.log("----------------*-----");
+            // console.log(nft.ownerOf(NFT.itemId));
+        const currentOwner = await nft.ownerOf(NFT.itemId);
+        if(currentOwner != marketplace.address)
         {
             await (await nft.approve(marketplace.address, NFT.itemId)).wait();
         }
@@ -176,10 +179,17 @@ const ProfilePage = () => {
         }
     };
 
-    const unlistNFT = async (itemId)=>{
+    const unlistNFT = async (_nft)=>{
         try {
+            const currentOwner = await nft.ownerOf(_nft.itemId);
+            if (currentOwner != marketplace.address)
+            {
+                await (
+                  await nft.approve(marketplace.address, _nft.itemId)
+                ).wait();
+            }
             
-            await (await marketplace.unlistItem(itemId)).wait();
+            await (await marketplace.unlistItem(_nft.itemId)).wait();
             setNeedRefresh(true)
             notifications.show({
                 withCloseButton: true,

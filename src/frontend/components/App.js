@@ -133,7 +133,7 @@ function App() {
         image: imageURL,
         price: token.price / 1e18,
         onSale: token.onSale,
-        reSale : token.reSale,
+        // reSale : token.reSale,
         totalPrice,
       };
       if (token.seller.toLowerCase() === account) {
