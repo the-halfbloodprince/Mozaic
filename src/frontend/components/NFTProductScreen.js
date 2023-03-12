@@ -79,13 +79,13 @@ function NFTProduct ({ currentNFT }) {
               <div className= {styles.Heading}>{currentNFT.name}</div>
               <div>{currentNFT.description}</div>
               <div className= {styles.Price}>Current price: {currentNFT.price.toString()} ETH</div>
-              <div className= {`${styles.Button} ${(currentNFT.seller.toLowerCase() == account.toLowerCase()) && styles.disabledButton}`} onClick={(currentNFT.seller.toLowerCase() != account.toLowerCase()) && (() => buyItem(currentNFT))}>Buy Now <CartIcon className={styles.CartIcon} /></div>
+              { (currentNFT.seller.toLowerCase() !== account.toLowerCase()) && <div className= {`${styles.Button} ${(currentNFT.seller.toLowerCase() == account.toLowerCase()) && styles.disabledButton}`} onClick={(currentNFT.seller.toLowerCase() != account.toLowerCase()) && (() => buyItem(currentNFT))}>Buy Now <CartIcon className={styles.CartIcon} /></div> }
               <div className= {styles.Heading2}>Details</div>
               <div className= {styles.Details}>ID: {currentNFT.itemId.toString()}</div>
               <div className= {styles.Details}><strong>Category: {currentNFT.category} </strong></div>
               {/* <div className= {styles.Details}><strong>Creator:</strong> {currentNFTseller} </div> */}
               {/* <div className= {styles.Details}><strong>Current Owner:</strong> {currentNFT} </div> */}
-              <Link to={`/profile/${currentNFT.seller}`}><div className= {styles.Details}><strong>Seller:</strong> {currentNFT.seller} </div></Link>
+              <Link to={`/profile/${currentNFT.seller}`}><div className= {`${styles.Details} `}><strong>Seller:</strong> <span className={styles.link}> {currentNFT.seller} </span> </div></Link>
               <div className= {styles.Details}><strong>Created on:</strong> 04-03-2022</div>
           </div>
       </div>
