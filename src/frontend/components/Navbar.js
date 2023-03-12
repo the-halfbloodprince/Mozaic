@@ -46,11 +46,18 @@ const NavBar = ({ web3Handler, account }) => {
         
     }
 
+    const handleKeyPress = (e) => {
+        if (e.charCode == 13) {
+            handleSearch()
+        }
+            // handleSearch()
+    }
+
     return (
         <div className={styles.nav}>
             <Link to='/'><div className={styles.navLogo}>Moziac</div></Link>
             <div className={styles.search}>
-                <input className={styles.search__input} type="text" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)}></input>
+                <input className={styles.search__input} type="text" placeholder="Search" onKeyPress={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)}></input>
                 <div className={styles.search__icon} onClick={handleSearch}><SearchIcon /></div>
             
                 {/* <div className={styles.searchResults}>
