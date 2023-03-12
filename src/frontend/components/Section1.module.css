@@ -62,3 +62,43 @@
     width: auto;
     height: 95vh;
 }
+
+@media only screen and (max-width: 1200px)  {
+    .subheading{
+    font-size: 1.2rem;
+    font-weight: 600;
+
+}
+
+.heading{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--green);
+}
+
+
+.para{
+    /* width: 30vw; */
+    font-size: 0.9rem;
+    padding: 1rem 0rem;
+}
+
+.button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--green);
+    padding: 1rem;
+    color: var(--dark-base);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.buttonText{
+    padding-right: 1rem;
+    
+}
+
+}

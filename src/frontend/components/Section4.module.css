@@ -71,3 +71,32 @@
     opacity: 0.5;
     
 }
+
+@media only screen and (max-width: 1200px){
+    .Card1{
+    width: 14rem;
+    height: 22rem;
+    border-radius: 8px;
+}
+.Card1 img{
+    border-radius: 8px;
+    width: 14rem;
+}
+
+.CardHeading{
+    font-size: 1.2rem;
+    font-weight: 700;
+
+}
+.CardSub{
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+.CardOwner{
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.5;
+    
+}
+}
