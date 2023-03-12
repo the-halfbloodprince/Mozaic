@@ -20,6 +20,7 @@ import { notifications } from '@mantine/notifications';
 import { useParams } from 'react-router-dom'
 import { accountContext, marketplaceContext, myNFTsContext, needrefreshContext, nftContext, NFTsContext, profileContext } from '../contexts/contexts';
 import Transactions from './Transactions';
+import { Rating } from '@mantine/core'
 import { HOST, SERVER_URL } from '../globals/variables';
 // import { Text } from '@mantine/core';
 
@@ -317,13 +318,10 @@ const ProfilePage = () => {
                         <SeeMoreIcon />
                         { (profileId.toLowerCase() === account) && <Link to="/update-profile"><EditIcon /></Link> }
                     </div>
-                    {/* <div className={styles.rating}>
-                        <div className={styles.rating__text}>Rating: </div>
-                        <div className={styles.rating__icons}>
-                            {Array(rating).fill(0).map(() => (<span>F</span>))}
-                            {Array(MAX_RATING - rating).fill(0).map(() => (<span>L</span>))}
-                        </div>
-                    </div> */}
+                    <div className={styles.rating}>
+                        {/* <div className={styles.rating__text}>Rating: </div> */}
+                        <Rating size='lg' value={activeProfile.rating.count === 0 ? 0 : (activeProfile.rating.sum / activeProfile.rating.count)} fractions={2} readOnly />
+                    </div>
                 </div>
             </div>
 
