@@ -1,4 +1,4 @@
-# NFT Marketplace
+# [NFT Marketplace](https://mozaic-akatsuki.vercel.app/)
 
 Mozaic is a Web 3.0 NFT marketplace securely deployed on Goerli testnet, with NFT metadata stored on IPFS and profile details stored on mongoDB where
 
@@ -20,7 +20,9 @@ Mozaic is a Web 3.0 NFT marketplace securely deployed on Goerli testnet, with NF
 
 • Users can also provide rating to other users.
 
-# Technology Stack & Tools
+## Check the deployed URL [here](https://mozaic-akatsuki.vercel.app/)
+
+## Technology Stack & Tools
 
 - [Solidity](https://soliditylang.org/) - Smart Contracts
 - [React](https://reactjs.org/) - JavaScript library for building User Interfaces
@@ -45,36 +47,55 @@ Mozaic is a Web 3.0 NFT marketplace securely deployed on Goerli testnet, with NF
 - ### Set up the Backend
 
   - ### Clone/Download the Backend Repository for profiles here: [Mozaic API](https://github.com/Hiwatari-Kai/Mozaic-API)
-    ```
+    ``` bash
     $ git clone https://github.com/Hiwatari-Kai/Mozaic-API
     ```
 
   - ### Install dependencies
-    ```
+    ``` bash
     $ cd Mozaic-API
     $ npm install
     ```
 
-  - ### Run the server
+  - ### Add a .env and fill the MONGO_URL with your MONGO connection string
+    ``` js
+    .env
+    -------------------
+    MONGODB_URL = 'your mongo connection string'
     ```
+
+  - ### Run the server
+    ``` bash
     $ npm start
     ```
 
 - ### Set up the Frontend
 
   - ### Clone/Download the main repository
-    ```
+    ``` bash
     $ git clone https://github.com/the-halfbloodprince/Mozaic
     ```
 
   - ### Install Dependencies:
-      ```
+      ``` bash
       $ cd Mozaic
       $ npm install
       ```
 
-  - ### Boot up local development blockchain
+  - ### Add `.env` and fill it with the following (see the .env.example)
+    ``` js
+    .env
+    -------------------
+    REACT_APP_PUBLIC_URL = 'http://localhost:3000'
+    REACT_APP_NFT_STORAGE_KEY = 'nft.storage API key'
+    REACT_APP_CLOUD_NAME = 'your cloudinary cloud name'
+    REACT_APP_SERVER_URL = 'http://localhost:8000'
+    PRIVATE_KEY = 'private key of your account on goerli testnet'
+    GOERLI_URL = 'alchemy HTTPS URL of your app'
     ```
+
+  - ### Boot up local development blockchain
+    ``` bash
     $ npx hardhat node
     ```
 
@@ -85,12 +106,12 @@ Mozaic is a Web 3.0 NFT marketplace securely deployed on Goerli testnet, with NF
 
 
   - ### Migrate Smart Contracts
-    ```
+    ``` bash
     npx hardhat run src/backend/scripts/deploy.js --network localhost
     ```
 
   - ### Launch Frontend
-    ```
+    ``` bash
     $ npm run start
     ```
 
